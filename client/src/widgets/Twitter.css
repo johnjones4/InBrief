@@ -1,0 +1,38 @@
+.widget-twitter {
+  order: 1;
+}
+
+.twitter-feed {
+  width: 50%;
+  float: left;
+  padding-right: 0.5em;
+  margin-bottom: 1em;
+}
+
+.twitter-feed-tweet {
+  color: #ccc;
+  clear: both;
+  height: 50px;
+  padding: 0.5em;
+  box-sizing: content-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.twitter-feed-tweet a {
+  color: inherit;
+}
+
+.twitter-feed-tweet-profile-image {
+  float: left;
+  display: block;
+  width: 50px;
+  height: 50px;
+  margin-right: 0.5em;
+}
+
+.twitter-feed-tweet-date {
+  font-size: 0.75em;
+  margin-top: 5px;
+  color: #888;
+}

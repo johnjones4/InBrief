@@ -1,0 +1,42 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: #111;
+  color: white;
+  font-size: 12px;
+}
+
+.dashboard-primary, .dashboard-secondary {
+  position: fixed;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  display: flex;
+}
+
+.dashboard-primary {
+  width: 70%;
+  left: 0;
+  flex-direction: row;
+}
+
+.dashboard-secondary {
+  width: 30%;
+  right: 0;
+  flex-direction: column;
+}
+
+.widget-tasks {
+  order: 0;
+}
+
+.widget-email {
+  order: 1;
+}
+
+.widget-calendar {
+  order: 2;
+}

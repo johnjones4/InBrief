@@ -18,14 +18,20 @@ class Twitter extends Service {
       if (i < this.config.lists.length) {
         return this.queryList(i)
           .then((tweets) => {
-            tweetStreams.push(tweets);
+            tweetStreams.push({
+              'title': this.config.lists[i].title,
+              'tweets': tweets
+            });
             return this.thenSleep(null,100);
           })
           .then(() => {
             return start(i + 1);
           })
       } else {
-        return tweetStreams;
+        return {
+          'type': 'twitter',
+          'data': tweetStreams
+        };
       }
     }
     return start(0);
@@ -38,7 +44,6 @@ class Twitter extends Service {
         'slug': this.config.lists[i].slug
       };
       this.client.get('lists/statuses',params,(err,tweets) => {
-        console.log(err)
         if (err) {
           reject(err);
         } else {

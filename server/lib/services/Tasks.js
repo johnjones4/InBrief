@@ -66,7 +66,7 @@ class Tasks extends Service {
               'project_id': project.id
             })
               .then((data) => {
-                return this.thenSleep(data,100);
+                return this.thenSleep(data,500);
               });
           })
         )

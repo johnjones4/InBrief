@@ -67,7 +67,13 @@ class RSS extends Service {
             }
           })
       })
-    );
+    )
+      .then((data) => {
+        return {
+          'type': 'rss',
+          data
+        };
+      })
   }
 }
 

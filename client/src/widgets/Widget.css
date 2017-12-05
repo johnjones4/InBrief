@@ -1,0 +1,95 @@
+.widget {
+  background-color: #212121;
+  flex-grow: 1;
+  margin-right: 1em;
+  position: relative;
+}
+
+.widget-title {
+  padding: 0.5rem;
+  font-size: 16px;
+  background: #333;
+  font-weight: bold;
+}
+
+.widget-body {
+  padding: 0.5rem;
+  position: absolute;
+  top: 3em;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.widget-rss,
+.widget-twitter {
+  width: 50%;
+}
+
+.widget-tasks,
+.widget-email,
+.widget-calendar {
+  margin-right: 0;
+}
+
+.widget-tasks,
+.widget-email {
+  margin-bottom: 1em;
+}
+
+.widget-tasks,
+.widget-email {
+  height: 160px;
+  flex-grow: 0;
+}
+
+.widget-scroll .widget-body {
+  overflow: scroll;
+}
+
+.widget-subhead {
+  font-size: 14px;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+}
+
+.striped {
+  background: #262626;
+}
+
+.striped:nth-child(even) {
+  background: #2c2c2c;
+}
+
+.widget-big-numbers {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.widget-big-numbers-group {
+  flex-grow: 1;
+  flex-basis: 0;
+  text-align: center;
+  background: #2c2c2c;
+  margin: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.widget-big-numbers-number {
+  font-size: 6em;
+  font-weight: bold;
+  line-height: 0.9em;
+}
+
+.widget-big-numbers-label {
+  color: #aaa;
+  line-height: 2em;
+}

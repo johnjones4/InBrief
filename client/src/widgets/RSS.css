@@ -1,0 +1,25 @@
+.widget-rss {
+  order: 0;
+}
+
+.rss-feed {
+  margin-bottom: 1em;
+}
+
+.rss-feed-item {
+  display: block;
+  color: #ccc;
+  padding: 0.5em;
+}
+
+.rss-feed-item:visited {
+  color: #555;
+}
+
+.rss-feed-item:hover {
+  background: #444;
+}
+
+.rss-feed-item-date {
+  float: right;
+}
