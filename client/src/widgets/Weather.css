@@ -13,12 +13,6 @@
   align-items: stretch;
 }
 
-.weather-now,
-.weather-forecast {
-  flex-grow: 1;
-  flex-basis: 1;
-}
-
 .weather-now {
   width: 200px;
 }
