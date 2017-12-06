@@ -11,10 +11,15 @@
   display: flex;
   flex-direction: row;
   align-items: stretch;
+  justify-content: space-around;
 }
 
 .weather-now {
-  width: 200px;
+  flex: 0 0 150px;
+}
+
+.weather-forecast {
+  flex: 0 0 1;
 }
 
 .weather-value-label {
