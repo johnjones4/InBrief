@@ -20,7 +20,7 @@ app.get('/api/service/:service',(req,res,next) => {
     return service.name === req.params.service;
   });
   if (service) {
-    service.exec()
+    service.getCachedOrExec()
       .then((data) => {
         res.send(data);
       })

@@ -4,6 +4,7 @@ const request = require('request-promise-native');
 class Weather extends Service {
   constructor(config) {
     super('weather',config);
+    this.intervalDelay = 172800;
   }
 
   exec() {

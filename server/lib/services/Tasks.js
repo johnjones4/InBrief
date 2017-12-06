@@ -5,6 +5,7 @@ const asana = require('asana');
 class Tasks extends Service {
   constructor(config) {
     super('tasks',config);
+    this.intervalDelay = 60000;
   }
 
   exec() {

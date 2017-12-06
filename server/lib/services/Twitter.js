@@ -10,6 +10,7 @@ class Twitter extends Service {
       'access_token_key': this.config.credentials.access.token,
       'access_token_secret': this.config.credentials.access.tokenSecret
     });
+    this.intervalDelay = 10000;
   }
 
   exec() {

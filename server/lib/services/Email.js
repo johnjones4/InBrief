@@ -6,6 +6,7 @@ const Imap = require('imap');
 class Email extends Service {
   constructor(config) {
     super('email',config);
+    this.intervalDelay = 300000;
   }
 
   exec() {
