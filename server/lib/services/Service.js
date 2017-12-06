@@ -8,6 +8,10 @@ class Service {
     throw new Error('Must override!');
   }
 
+  handleSubError(err) {
+    console.error(err);
+  }
+
   thenSleep(data,time) {
     return new Promise((resolve) => {
       setTimeout(() => {

@@ -9,7 +9,8 @@ import {
   Email,
   RSS,
   Tasks,
-  Twitter
+  Twitter,
+  Weather
 } from './widgets';
 
 class App extends Component {
@@ -56,6 +57,8 @@ class App extends Component {
                   return (<Email key={i} />);
                 case 'tasks':
                   return (<Tasks key={i} />);
+                case 'weather':
+                  return (<Weather key={i} />);
                 default:
                   return null;
               }

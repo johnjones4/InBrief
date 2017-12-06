@@ -11,7 +11,8 @@ class Email extends Service {
   exec() {
     return Promise.all(
       this.config.mailboxes.map((mailbox) => {
-        return this.fetchMail(mailbox);
+        return this.fetchMail(mailbox)
+          .catch((err) => this.handleSubError(err));
       })
     ).then((data) => {
       const totals = {
@@ -19,8 +20,8 @@ class Email extends Service {
         'flagged': 0
       };
       data.forEach((item) => {
-        totals.unread += item.unread;
-        totals.flagged += item.flagged;
+        if (item && item.unread) totals.unread += item.unread;
+        if (item && item.flagged) totals.flagged += item.flagged;
       })
       return {
         'type': 'email',

@@ -1,6 +1,9 @@
 import React from 'react';
 import Widget from './Widget';
 import './Twitter.css';
+import {
+  formatDate
+} from '../util';
 
 export default class Twitter extends Widget {
   constructor(props) {
@@ -43,7 +46,7 @@ export default class Twitter extends Widget {
                   <img className="twitter-feed-tweet-profile-image" alt={'Twitter profile image for ' + tweet.user.screen_name} src={tweet.user.profile_image_url_https} />
                   <div className="twitter-feed-tweet-text" dangerouslySetInnerHTML={{__html: this.prepareTweetText(tweet)}}></div>
                   <div className="twitter-feed-tweet-date">
-                    {new Date(tweet.created_at).toLocaleString()}
+                    {formatDate(tweet.created_at)}
                   </div>
                 </div>
               )

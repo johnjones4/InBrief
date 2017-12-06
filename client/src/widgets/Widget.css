@@ -1,5 +1,5 @@
 .widget {
-  background-color: #212121;
+  background-color: #222226;
   flex-grow: 1;
   margin-right: 1em;
   position: relative;
@@ -8,17 +8,13 @@
 .widget-title {
   padding: 0.5rem;
   font-size: 16px;
-  background: #333;
+  background: #333336;
   font-weight: bold;
 }
 
 .widget-body {
-  padding: 0.5rem;
-  position: absolute;
-  top: 3em;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  padding: 0.25rem;
+  color: #ccc;
 }
 
 .widget-rss,
@@ -26,12 +22,14 @@
   width: 50%;
 }
 
+.widget-weather,
 .widget-tasks,
 .widget-email,
 .widget-calendar {
   margin-right: 0;
 }
 
+.widget-weather,
 .widget-tasks,
 .widget-email {
   margin-bottom: 1em;
@@ -45,38 +43,39 @@
 
 .widget-scroll .widget-body {
   overflow: scroll;
+  position: absolute;
+  top: 3em;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
 .widget-subhead {
   font-size: 14px;
   margin-bottom: 0.5em;
   font-weight: bold;
+  color: #fff;
 }
 
 .striped {
-  background: #262626;
+  background: #262629;
 }
 
 .striped:nth-child(even) {
-  background: #2c2c2c;
+  background: #2a2a2d;
 }
 
 .widget-big-numbers {
   display: flex;
   flex-direction: row;
   align-items: stretch;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
 }
 
 .widget-big-numbers-group {
   flex-grow: 1;
   flex-basis: 0;
   text-align: center;
-  background: #2c2c2c;
+  background: #2a2a2d;
   margin: 1em;
   display: flex;
   flex-direction: column;
@@ -90,6 +89,6 @@
 }
 
 .widget-big-numbers-label {
-  color: #aaa;
+  color: #aab;
   line-height: 2em;
 }

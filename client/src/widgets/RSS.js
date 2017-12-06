@@ -1,6 +1,9 @@
 import React from 'react';
 import Widget from './Widget';
 import './RSS.css';
+import {
+  formatDate
+} from '../util';
 
 export default class RSS extends Widget {
   constructor(props) {
@@ -36,7 +39,7 @@ export default class RSS extends Widget {
                     {item.title}
                   </span>
                   <span className="rss-feed-item-date">
-                    {new Date(item.date).toLocaleString()}
+                    {formatDate(item.date)}
                   </span>
                 </a>
               )

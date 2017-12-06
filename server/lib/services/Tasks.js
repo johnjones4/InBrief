@@ -16,7 +16,8 @@ class Tasks extends Service {
     }
     return Promise.all(
       this.config.apis.map((api) => {
-        return this.fetchApi(dates,api);
+        return this.fetchApi(dates,api)
+          .catch((err) => this.handleSubError(err));
       })
     ).then((data) => {
       const totals = {
@@ -24,8 +25,8 @@ class Tasks extends Service {
         'total': 0
       };
       data.forEach((item) => {
-        totals.today += item.today;
-        totals.total += item.total;
+        if (item && item.today) totals.today += item.today;
+        if (item && item.total) totals.total += item.total;
       })
       return {
         'type': 'tasks',

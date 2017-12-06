@@ -19,6 +19,17 @@ export default class Widget extends Component {
   }
 
   componentDidMount() {
+    this.doRequest();
+    this.interval = setInterval(() => {
+      this.doRequest();
+    },10000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  doRequest() {
     fetchServiceData(this.name)
       .then(({data}) => {
         this.setState({

@@ -27,6 +27,7 @@ class Twitter extends Service {
           .then(() => {
             return start(i + 1);
           })
+          .catch((err) => this.handleSubError(err));
       } else {
         return {
           'type': 'twitter',

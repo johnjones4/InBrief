@@ -8,8 +8,13 @@
 
 .rss-feed-item {
   display: block;
-  color: #ccc;
+  color: inherit;
   padding: 0.5em;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  text-decoration: none;
 }
 
 .rss-feed-item:visited {
@@ -20,6 +25,13 @@
   background: #444;
 }
 
+.rss-feed-item-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  justify-content: space-between;
+}
+
 .rss-feed-item-date {
-  float: right;
+  white-space: nowrap;
 }

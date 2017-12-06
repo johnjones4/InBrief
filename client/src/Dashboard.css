@@ -4,7 +4,7 @@
 
 body {
   font-family: 'Open Sans', sans-serif;
-  background: #111;
+  background: #111116;
   color: white;
   font-size: 12px;
 }
@@ -30,13 +30,13 @@ body {
 }
 
 .widget-tasks {
-  order: 0;
-}
-
-.widget-email {
   order: 1;
 }
 
-.widget-calendar {
+.widget-email {
   order: 2;
+}
+
+.widget-calendar {
+  order: 3;
 }

@@ -1,0 +1,68 @@
+.widget-weather {
+  order: 0;
+  flex-grow: 0;
+}
+
+.widget-weather .widget-body {
+  position: static;
+}
+
+.weather-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.weather-now {
+  width: 40%;
+}
+
+.weather-value-label {
+  font-weight: bold;
+}
+
+.weather-now .weather-icon {
+  width: 70%;
+  height: auto;
+  display: block;
+  margin: auto;
+}
+
+.weather-now-content {
+  text-align: center;
+  line-height: 1.25em;
+  font-size: 1.25em;
+  padding: 0.25rem;
+}
+
+.weather-label {
+  font-weight: bold;
+  padding: 3px;
+  background: #2a2a2d;
+}
+
+.weather-forecast-item {
+  clear: both;
+  line-height: 1.25em;
+}
+
+.weather-forecast-item .weather-content {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+  margin-top: 0;
+}
+
+.weather-forecast-item .weather-text {
+  flex-grow: 1;
+  margin-left: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.weather-forecast-item .weather-high,
+.weather-forecast-item .weather-low {
+  float: left;
+  margin-right: 0.5em;
+  font-size: 0.9em;
+}

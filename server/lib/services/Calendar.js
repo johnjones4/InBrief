@@ -19,7 +19,8 @@ class Calendar extends Service {
     }
     return Promise.all(
       this.config.calendars.map((calendar) => {
-        return this.fetchEvents(dates,calendar);
+        return this.fetchEvents(dates,calendar)
+          .catch((err) => this.handleSubError(err));
       })
     ).then((arraysOfEvents) => {
       const allEvents = [];
