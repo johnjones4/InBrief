@@ -13,9 +13,10 @@ class Calendar extends Service {
 
   exec() {
     const now = new Date();
+    const thisMorning = new Date(now.getFullYear(),now.getMonth(),now.getDate(),0,0,0,0);
     const tonight = new Date(now.getFullYear(),now.getMonth(),now.getDate(),23,59,59,999);
     const dates = {
-      now,
+      thisMorning,
       tonight
     }
     return Promise.all(
@@ -49,13 +50,13 @@ class Calendar extends Service {
     }
   }
 
-  fetchICSEvents({now,tonight},calendar) {
+  fetchICSEvents({thisMorning,tonight},calendar) {
     return request(calendar.url)
       .then((icsData) => {
         const events = _.values(ical.parseICS(icsData));
         return events
           .filter((event) => {
-            return event.start && event.end && event.end.getTime() > now.getTime() && event.start.getTime() < tonight.getTime();
+            return event.start && event.end && event.end.getTime() > thisMorning.getTime() && event.start.getTime() < tonight.getTime();
           })
           .map((event) => {
             return {
@@ -67,10 +68,10 @@ class Calendar extends Service {
       })
   }
 
-  fetchExchangeEvents({now,tonight},calendar) {
+  fetchExchangeEvents({thisMorning,tonight},calendar) {
     const exch = ewsFactory.init(calendar.credentials);
     const view = new ews.CalendarView();
-    view.StartDate = now.toISOString();
+    view.StartDate = thisMorning.toISOString();
     view.EndDate = tonight.toISOString();
     return exch.FindAppointments(ews.WellKnownFolderName.Calendar,view)
       .then((results) => {
