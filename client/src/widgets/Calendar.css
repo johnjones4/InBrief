@@ -31,3 +31,7 @@
   left: 0;
   right: 0;
 }
+
+.calendar-item-timespan-start:after {
+  content: ' - ';
+}
