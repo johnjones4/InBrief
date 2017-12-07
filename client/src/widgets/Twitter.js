@@ -25,10 +25,17 @@ export default class Twitter extends Widget {
   }
 
   prepareTweetText(tweet) {
-    var text = tweet.text;
-    tweet.entities.urls.forEach((url) => {
-      text = text.replace(url.url,'<a target="_blank" href="' + url.url + '">' + url.display_url + '</a>');
-    });
+    let text = tweet.text;
+    if (tweet.entities && tweet.entities.urls) {
+      tweet.entities.urls.forEach((url) => {
+        text = text.replace(url.url,'<a target="_blank" href="' + url.url + '">' + url.display_url + '</a>');
+      });
+    }
+    if (tweet.extended_entities && tweet.extended_entities.media) {
+      tweet.extended_entities.media.forEach((url) => {
+        text = text.replace(url.url,'<a target="_blank" href="' + url.url + '">' + url.display_url + '</a>');
+      });
+    }
     return text;
   }
 
@@ -44,10 +51,16 @@ export default class Twitter extends Widget {
               return (
                 <div className="twitter-feed-tweet striped" key={j}>
                   <img className="twitter-feed-tweet-profile-image" alt={'Twitter profile image for ' + tweet.user.screen_name} src={tweet.user.profile_image_url_https} />
-                  <div className="twitter-feed-tweet-text" dangerouslySetInnerHTML={{__html: this.prepareTweetText(tweet)}}></div>
-                  <div className="twitter-feed-tweet-date">
-                    {formatDate(tweet.created_at)}
+                  <div className="twitter-feed-tweet-header">
+                    <span className="twitter-feed-tweet-name">
+                      {tweet.user.name}
+                    </span>
+                    <span className="twitter-feed-tweet-date">
+                      {formatDate(tweet.created_at)}
+                    </span>
                   </div>
+                  <div className="twitter-feed-tweet-text" dangerouslySetInnerHTML={{__html: this.prepareTweetText(tweet)}}></div>
+
                 </div>
               )
             })

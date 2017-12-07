@@ -33,7 +33,6 @@
 
 .twitter-feed-tweet-date {
   font-size: 0.75em;
-  margin-top: 5px;
   color: #888;
 }
 
@@ -42,4 +41,13 @@
     width: auto;
     float: none;
   }
+}
+
+.twitter-feed-tweet-name {
+  font-weight: bold;
+  margin-right: 0.5em;
+}
+
+.twitter-feed-tweet-header {
+  padding-bottom: 3px;
 }

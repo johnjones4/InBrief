@@ -13,7 +13,7 @@ export default class Weather extends Widget {
         <div className="weather-now">
           <div className="weather-label">Now</div>
           <div className="weather-now-content">
-            <img src={'https://icons.wxug.com/i/c/h/' + this.state.data.now.icon + '.gif'} className="weather-icon" />
+            <img src={'https://icons.wxug.com/i/c/h/' + this.state.data.now.icon + '.gif'} alt={this.state.data.now.weather} className="weather-icon" />
             <div className="weather-description">
               {this.state.data.now.weather}
             </div>
@@ -33,13 +33,13 @@ export default class Weather extends Widget {
         </div>
         <div className="weather-forecast">
           {
-            this.state.data.forecast.map((item) => {
+            this.state.data.forecast.map((item,i) => {
               return (
-                <div className="weather-forecast-item">
+                <div className="weather-forecast-item" key={i}>
                   <div className="weather-label">{item.label}</div>
                   <div className="weather-content">
                     <div className="weather-icon-wrapper">
-                      <img src={'https://icons.wxug.com/i/c/h/' + item.icon + '.gif'} className="weather-icon" />
+                      <img src={'https://icons.wxug.com/i/c/h/' + item.icon + '.gif'} className="weather-icon" alt={item.forecast} />
                     </div>
                     <div className="weather-text">
                       <div className="weather-description">

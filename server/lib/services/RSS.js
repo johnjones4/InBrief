@@ -81,7 +81,9 @@ class RSS extends Service {
                 return {
                   'title': item.title,
                   'date': item.pubDate,
-                  'link': item.link
+                  'link': item.link,
+                  'website': url.parse(item.link).hostname.replace('www.',''),
+                  'author': item.author
                 };
               })
             }

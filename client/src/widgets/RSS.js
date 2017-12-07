@@ -36,7 +36,15 @@ export default class RSS extends Widget {
               return (
                 <a href={item.link} target="_blank" className="rss-feed-item striped" key={j}>
                   <span className="rss-feed-item-title">
-                    {item.title}
+                    <span className="rss-feed-item-headeline">
+                      {item.title}
+                    </span>
+                    { item.author && (<span className="rss-feed-item-author">
+                      {item.author}
+                    </span>)}
+                    <span className="rss-feed-item-website">
+                      {item.website}
+                    </span>
                   </span>
                   <span className="rss-feed-item-date">
                     {formatDate(item.date)}
