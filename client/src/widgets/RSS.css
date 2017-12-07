@@ -44,6 +44,11 @@
   color: #888;
 }
 
+.rss-feed-item:visited .rss-feed-item-author,
+.rss-feed-item:visited .rss-feed-item-website {
+  color: #555;
+}
+
 .rss-feed-item-author:after {
   content: ' /';
 }
