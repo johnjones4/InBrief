@@ -59,50 +59,32 @@ class Tasks extends Service {
     }
     return todoistRequest('https://todoist.com/api/v7/sync',{
       'sync_token': '*',
-      'resource_types': JSON.stringify(['projects'])
+      'resource_types': JSON.stringify(['items'])
     })
       .then((body) => {
-        return Promise.all(
-          body.projects.map((project) => {
-            return todoistRequest('https://todoist.com/api/v7/projects/get_data',{
-              'project_id': project.id
-            })
-              .then((data) => {
-                return this.thenSleep(data,500);
-              });
-          })
-        )
-      })
-      .then((projects) => {
-        projects.forEach((project) => {
-          project.items.forEach((item) => {
-            if (item.due_date_utc !== null) {
-              item.dueDate = new Date(item.due_date_utc);
-            } else {
-              item.dueDate = null;
-            }
-          })
-        })
+        body.items.forEach((item) => {
+          if (item.due_date_utc !== null) {
+            item.dueDate = new Date(item.due_date_utc);
+          } else {
+            item.dueDate = null;
+          }
+        });
 
-        const today = projects.reduce((total,project) => {
-          return project.items.reduce((subtotal,item) => {
-            if (item.dueDate) {
-              return subtotal + (item.dueDate.getTime() <= tonight.getTime() ? 1 : 0);
-            } else {
-              return subtotal;
-            }
-          },total);
+        const today = body.items.reduce((subtotal,item) => {
+          if (item.dueDate) {
+            return subtotal + (item.dueDate.getTime() <= tonight.getTime() ? 1 : 0);
+          } else {
+            return subtotal;
+          }
         },0);
 
-        const total = projects.reduce((total,project) => {
-          return total + project.items.length;
-        },0);
+        const total = body.items.length;
 
         return {
           today,
           total
         };
-      });
+      })
   }
 
   fetchAsana({now,tonight},api) {
