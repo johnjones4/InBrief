@@ -3,6 +3,7 @@
   flex-grow: 1;
   margin-right: 1em;
   position: relative;
+  perspective: 800px;
 }
 
 .widget-title {
@@ -12,10 +13,77 @@
   font-weight: bold;
 }
 
+.widget-title-edit {
+  border: none;
+  outline: none;
+  display: inline-block;
+  padding: 0;
+  margin: 2px 0 0 0;
+  background: none;
+  color: white;
+  font-size: 0.75em;
+  float: right;
+  cursor: pointer;
+}
+
+.widget-title-edit:hover {
+  text-decoration: underline;
+}
+
 .widget-body {
   padding: 0.25rem;
   color: #ccc;
+  transform: rotate3d(0, 1, 0, 0);
+  backface-visibility: hidden;
+  transition: transform 1s;
+  position: relative;
+  z-index: 1;
 }
+
+.widget-edit {
+  position: absolute;
+  top: 31px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform: rotate3d(0, 1, 0, 180deg);
+  backface-visibility: hidden;
+  transition: transform 1s;
+  z-index: 0;
+  background: #eee;
+  color: #111;
+  padding: 1em;
+  overflow: scroll;
+}
+
+.widget-edit-save-container {
+  margin-top: 1em;
+}
+
+.widget-edit-save {
+  border: none;
+  outline: none;
+  background: #444;
+  color: #fff;
+  font-weight: bold;
+  padding: 0.5em 1em;
+  cursor: pointer;
+}
+
+.widget-edit-save:hover {
+  text-decoration: underline;
+}
+
+.widget-editing .widget-body {
+  transform: rotate3d(0, 1, 0, -180deg);
+  z-index: 0;
+}
+
+.widget-editing .widget-edit {
+  transform: rotate3d(0, 1, 0, 0);
+  z-index: 1;
+}
+  
 
 .widget-rss,
 .widget-twitter {
@@ -91,4 +159,45 @@
 .widget-big-numbers-label {
   color: #aab;
   line-height: 2em;
+}
+
+.widget-form-field {
+  margin-bottom: 1em;
+  clear: both;
+}
+
+.widget-form-field:last-child {
+  margin-bottom: 0;
+}
+
+.widget-input-label {
+  font-weight: bold;
+  display: block;
+  clear: both;
+}
+
+.widget-input {
+  width: 100%;
+  border: solid 1px #333;
+  background: white;
+  outline: none;
+  display: block;
+  clear: both;
+  font-size: 1em;
+  padding: 0.5em;
+  margin-top: 0.5em;
+}
+
+.widget-input:focus {
+  box-shadow: 0 0 5x rgba(0,0,0,0.5);
+}
+
+.widget-settings-section {
+  padding: 0.5em;
+  border: solid 1px #888;
+}
+
+.widget-settings-section legend {
+  font-weight: bold;
+  font-size: 1.25em;
 }

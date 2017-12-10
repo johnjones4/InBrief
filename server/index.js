@@ -3,11 +3,13 @@ const express = require('express');
 const logger = require('morgan');
 const serviceLoader = require('./lib/util/serviceLoader');
 const path = require('path');
+const bodyParser = require('body-parser')
 
 //TODO security
 serviceLoader.load()
   .then((services) => {
   const app = express();
+  app.use(bodyParser.json({'extended':true}));
   app.use(express.static(path.join(__dirname, 'build')));
   app.use(logger('combined'));
 

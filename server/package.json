@@ -11,6 +11,7 @@
   "dependencies": {
     "asana": "^0.15.0",
     "bluebird": "^3.5.1",
+    "body-parser": "^1.18.2",
     "dotenv": "^4.0.0",
     "ews-javascript-api": "^0.9.2",
     "express": "^4.16.2",

@@ -1,6 +1,8 @@
-export const serverRequest = (path) => {
-  return fetch(path)
-    .then((response) => response.json());
+export const serverRequest = (path,method='GET',body) => {
+  return fetch(path,{
+    'method': method,
+    'body': body ? JSON.stringify(body) : null
+  }).then((response) => response.json());
 }
 
 export const fetchServiceNames = () => {
@@ -19,4 +21,12 @@ export const formatDate = (dateStr) => {
   } else {
     return date.toLocaleDateString();
   }
+}
+
+export const fetchSettings = (service) => {
+  return serverRequest('/api/service/' + service + '/config');
+}
+
+export const saveSettings = (service,data) => {
+  return serverRequest('/api/service/' + service + '/config','POST',data);
 }

@@ -21,35 +21,42 @@ class Twitter extends Service {
   }
 
   exec() {
-    this.client = new TwitterClient({
-      'consumer_key': this.config.credentials.consumer.key,
-      'consumer_secret': this.config.credentials.consumer.secret,
-      'access_token_key': this.config.credentials.access.token,
-      'access_token_secret': this.config.credentials.access.tokenSecret
-    });
-    const tweetStreams = [];
-    const start = (i) => {
-      if (i < this.config.lists.length) {
-        return this.queryList(i)
-          .then((tweets) => {
-            tweetStreams.push({
-              'title': this.config.lists[i].title,
-              'tweets': tweets
-            });
-            return this.thenSleep(null,100);
-          })
-          .then(() => {
-            return start(i + 1);
-          })
-          .catch((err) => this.handleSubError(err));
-      } else {
-        return {
-          'type': 'twitter',
-          'data': tweetStreams
-        };
+    if (this.config.lists.length > 0) {
+      this.client = new TwitterClient({
+        'consumer_key': this.config.credentials.consumer.key,
+        'consumer_secret': this.config.credentials.consumer.secret,
+        'access_token_key': this.config.credentials.access.token,
+        'access_token_secret': this.config.credentials.access.tokenSecret
+      });
+      const tweetStreams = [];
+      const start = (i) => {
+        if (i < this.config.lists.length) {
+          return this.queryList(i)
+            .then((tweets) => {
+              tweetStreams.push({
+                'title': this.config.lists[i].title,
+                'tweets': tweets
+              });
+              return this.thenSleep(null,100);
+            })
+            .then(() => {
+              return start(i + 1);
+            })
+            .catch((err) => this.handleSubError(err));
+        } else {
+          return {
+            'type': 'twitter',
+            'data': tweetStreams
+          };
+        }
       }
+      return start(0);
+    } else {
+      return Promise.resolve({
+        'type': 'twitter',
+        'data': []
+      });
     }
-    return start(0);
   }
 
   queryList(i) {

@@ -57,4 +57,43 @@ export default class RSS extends Widget {
       </div>
     )
   }
+
+  renderWidgetEditor() {
+    return this.state.settings && (
+      <div>
+        <fieldset className="widget-settings-section">
+          <legend>Overall Settings</legend>
+          <div className="widget-form-field">
+            <label className="widget-input-label">Max Stories</label>
+            <input className="widget-input" type="number" value={this.state.settings.max} />
+          </div>
+        </fieldset>
+        {
+          this.state.settings.sets.map((feedSet,i) => {
+            return (
+              <fieldset className="widget-settings-section" key={i}>
+                <legend>Feed Set</legend>
+                <div className="widget-form-field">
+                  <label className="widget-input-label">Title</label>
+                  <input className="widget-input" type="text" value={feedSet.title} />
+                </div>
+                <fieldset className="widget-settings-section" key={i}>
+                  <legend>Feeds</legend>
+                  {
+                    feedSet.feeds.map((feed,j) => {
+                      return (
+                        <div className="widget-form-field" key={j}>
+                          <input className="widget-input" type="text" value={feed} />
+                        </div>
+                      );
+                    })
+                  }
+                </fieldset>
+              </fieldset>
+            );
+          })
+        }
+      </div>
+    );
+  }
 }
