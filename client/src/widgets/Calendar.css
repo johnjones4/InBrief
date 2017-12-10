@@ -1,9 +1,10 @@
 .calendar-items {
   position: absolute;
-  top: 0;
+  top: 3em;
   bottom: 0;
   right: 0;
   left: 0;
+  overflow: hidden;
 }
 
 .calendar-item {
