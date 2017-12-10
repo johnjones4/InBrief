@@ -4,9 +4,12 @@ const Service = require('./Service');
 const Imap = require('imap');
 
 class Email extends Service {
-  constructor(config) {
-    super('email',config);
+  constructor(configStore) {
+    super('email',configStore);
     this.intervalDelay = 300000;
+    this.config = {
+      'mailboxes': []
+    };
   }
 
   exec() {

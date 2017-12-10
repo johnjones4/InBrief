@@ -4,8 +4,12 @@ const FeedParser = require('feedparser');
 const url = require('url');
 
 class RSS extends Service {
-  constructor(config) {
-    super('rss',config);
+  constructor(configStore) {
+    super('rss',configStore);
+    this.config = {
+      'sets': [],
+      'max': 10
+    };
   }
 
   exec() {

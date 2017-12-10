@@ -3,9 +3,12 @@ const request = require('request-promise-native');
 const asana = require('asana');
 
 class Tasks extends Service {
-  constructor(config) {
-    super('tasks',config);
+  constructor(configStore) {
+    super('tasks',configStore);
     this.intervalDelay = 60000;
+    this.config = {
+      'apis': []
+    };
   }
 
   exec() {

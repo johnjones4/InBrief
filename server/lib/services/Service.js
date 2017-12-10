@@ -1,7 +1,7 @@
 class Service {
-  constructor(name,config) {
+  constructor(name,configStore) {
     this.name = name;
-    this.config = config;
+    this.configStore = configStore;
     this.intervalDelay = 60000;
     this.cachedResponse = null;
   }
@@ -31,6 +31,7 @@ class Service {
   }
 
   begin() {
+    this.end();
     this.executor();
     this.interval = setInterval(() => {
       this.executor();
@@ -65,6 +66,24 @@ class Service {
         }
       })
     })
+  }
+
+  loadConfig() {
+    return this.configStore.get(this.name)
+      .then((config) => {
+        if (config) {
+          this.config = config;
+          this.begin();
+        }
+      });
+  }
+
+  updateConfig(config) {
+    this.config = config;
+    return this.configStore.set(this.name,this.config)
+      .then(() => {
+        this.begin();
+      })
   }
 }
 

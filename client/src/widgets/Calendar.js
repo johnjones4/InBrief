@@ -15,7 +15,7 @@ export default class Calendar extends Widget {
     const minutesIntoDay = (start.getHours() * 60) + start.getMinutes();
     const offsetFromStart = minutesIntoDay - MIN_MINUTES;
     const percent = offsetFromStart / (MAX_MINUTES - MIN_MINUTES);
-    return percent;
+    return Math.max(percent,0);
   }
 
   estimateHeight(event) {

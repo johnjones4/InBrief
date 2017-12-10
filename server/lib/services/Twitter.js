@@ -2,18 +2,31 @@ const Service = require('./Service');
 const TwitterClient = require('twitter');
 
 class Twitter extends Service {
-  constructor(config) {
-    super('twitter',config);
+  constructor(configStore) {
+    super('twitter',configStore);
+    this.intervalDelay = 10000;
+    this.config = {
+      'lists': [],
+      'credentials': {
+        'consumer': {
+          'key': '',
+          'secret': ''
+        },
+        'access': {
+          'token': '',
+          'tokenSecret': ''
+        }
+      }
+    };
+  }
+
+  exec() {
     this.client = new TwitterClient({
       'consumer_key': this.config.credentials.consumer.key,
       'consumer_secret': this.config.credentials.consumer.secret,
       'access_token_key': this.config.credentials.access.token,
       'access_token_secret': this.config.credentials.access.tokenSecret
     });
-    this.intervalDelay = 10000;
-  }
-
-  exec() {
     const tweetStreams = [];
     const start = (i) => {
       if (i < this.config.lists.length) {
