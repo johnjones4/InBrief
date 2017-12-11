@@ -8,7 +8,7 @@ build:
 	docker build -t ${NAME} ./
 	docker tag ${NAME} ${LOGIN_SERVER}/${NAME}:v${VERSION}
 
-deploy: fetchconfig login
+deploy: build fetchconfig login
 	docker push ${LOGIN_SERVER}/${NAME}:v${VERSION}
 	az container create --name ${NAME} -e TZ="America/New_York" --image ${LOGIN_SERVER}/${NAME}:v${VERSION} --cpu 1 --memory 0.5 --registry-password ${REGISTRY_PASSWORD} --ip-address public --ports 8080 -g ${NAME}
 	az container show --name ${NAME} --resource-group ${NAME} --query instanceView.state
