@@ -50,4 +50,18 @@
 
 .twitter-feed-tweet-header {
   padding-bottom: 3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.twitter-feed-tweet-header a {
+  text-decoration: none;
+}
+
+.twitter-feed-tweet-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 3.1em;
+  position: relative;
 }

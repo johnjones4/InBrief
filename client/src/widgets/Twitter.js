@@ -39,6 +39,10 @@ export default class Twitter extends Widget {
     return text;
   }
 
+  tweetLink(tweet) {
+    return 'https://twitter.com/' + tweet.user.screen_name + '/status/' + tweet.id_str;
+  }
+
   renderTweets(tweets,i) {
     return (
       <div className="twitter-feed" key={i}>
@@ -50,14 +54,18 @@ export default class Twitter extends Widget {
             tweets.tweets.slice(0,10).map((tweet,j) => {
               return (
                 <div className="twitter-feed-tweet striped" key={j}>
-                  <img className="twitter-feed-tweet-profile-image" alt={'Twitter profile image for ' + tweet.user.screen_name} src={tweet.user.profile_image_url_https} />
+                  <a href={this.tweetLink(tweet)} target="_blank">
+                    <img className="twitter-feed-tweet-profile-image" alt={'Twitter profile image for ' + tweet.user.screen_name} src={tweet.user.profile_image_url_https} />
+                  </a>
                   <div className="twitter-feed-tweet-header">
-                    <span className="twitter-feed-tweet-name">
-                      {tweet.user.name}
-                    </span>
-                    <span className="twitter-feed-tweet-date">
-                      {formatDate(tweet.created_at)}
-                    </span>
+                    <a href={this.tweetLink(tweet)} target="_blank">
+                      <span className="twitter-feed-tweet-name">
+                        {tweet.user.name}
+                      </span>
+                      <span className="twitter-feed-tweet-date">
+                        {formatDate(tweet.created_at)}
+                      </span>
+                    </a>
                   </div>
                   <div className="twitter-feed-tweet-text" dangerouslySetInnerHTML={{__html: this.prepareTweetText(tweet)}}></div>
 
