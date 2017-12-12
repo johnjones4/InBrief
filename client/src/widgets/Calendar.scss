@@ -1,3 +1,9 @@
+@import '../vars_mixins.scss';
+
+.widget-calendar {
+  order: 3;
+}
+
 .calendar-items {
   position: absolute;
   top: 3em;
@@ -10,25 +16,25 @@
 .calendar-item {
   position: absolute;
   padding: 0.5em;
-  background: #2a2a2d;
+  background: $foreground_highlight_color;
   left: 0;
   right: 0;
 }
 
 .calendar-item-name {
-  font-weight: bold;
+  // font-weight: bold;
 }
 
 .calendar-item-timespan {
   font-size: 0.75em;
-  color: #888;
+  color: $deemphasized_text;
   margin-top: 3px;
 }
 
 .calendar-now {
   position: absolute;
   height: 1px;
-  background: #779;
+  background: $strong_highlight;
   left: 0;
   right: 0;
 }

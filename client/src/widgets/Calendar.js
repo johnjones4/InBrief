@@ -1,6 +1,6 @@
 import React from 'react';
 import Widget from './Widget';
-import './Calendar.css';
+import './Calendar.scss';
 
 const MIN_MINUTES = 8 * 60;
 const MAX_MINUTES = 19 * 60;

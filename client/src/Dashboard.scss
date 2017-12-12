@@ -1,31 +1,42 @@
+@import 'vars_mixins.scss';
+
 * {
   box-sizing: border-box;
 }
 
 body {
   font-family: 'Open Sans', sans-serif;
-  background: #111116;
+  background: $page_background;
+  background-size: cover;
   color: white;
   font-size: 12px;
 }
 
+.dashboard {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background: $page_background_overlay;
+}
+
 .dashboard-primary, .dashboard-secondary {
   position: fixed;
-  height: 100%;
-  top: 0;
-  bottom: 0;
+  top: 1em;
+  bottom: 1em;
   display: flex;
 }
 
 .dashboard-primary {
-  width: 70%;
-  left: 0;
+  width: calc(70% - 1em);
+  left: 1em;
   flex-direction: row;
 }
 
 .dashboard-secondary {
-  width: 30%;
-  right: 0;
+  width: calc(30% - 1em);
+  right: 1em;
   flex-direction: column;
 }
 
@@ -35,8 +46,4 @@ body {
 
 .widget-email {
   order: 2;
-}
-
-.widget-calendar {
-  order: 3;
 }

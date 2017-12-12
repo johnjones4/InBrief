@@ -1,6 +1,6 @@
 import React from 'react';
 import Widget from './Widget';
-import './Weather.css';
+import './Weather.scss';
 
 export default class Weather extends Widget {
   constructor(props) {
@@ -13,7 +13,7 @@ export default class Weather extends Widget {
         <div className="weather-now">
           <div className="weather-label">Now</div>
           <div className="weather-now-content">
-            <img src={'https://icons.wxug.com/i/c/h/' + this.state.data.now.icon + '.gif'} alt={this.state.data.now.weather} className="weather-icon" />
+            <img src={'/weather/' + this.state.data.now.icon + '.svg'} alt={this.state.data.now.weather} className="weather-icon" />
             <div className="weather-description">
               {this.state.data.now.weather}
             </div>
@@ -39,7 +39,7 @@ export default class Weather extends Widget {
                   <div className="weather-label">{item.label}</div>
                   <div className="weather-content">
                     <div className="weather-icon-wrapper">
-                      <img src={'https://icons.wxug.com/i/c/h/' + item.icon + '.gif'} className="weather-icon" alt={item.forecast} />
+                      <img src={'/weather/' + item.icon + '.svg'} className="weather-icon" alt={item.forecast} />
                     </div>
                     <div className="weather-text">
                       <div className="weather-description">

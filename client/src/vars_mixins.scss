@@ -1,0 +1,25 @@
+$page_background: url(./background.jpg) no-repeat;
+$page_background_overlay: rgba(0,0,0,0.6);
+$widget_background: rgba(0,0,0,0.15);
+$widget_stripe: rgba(150,150,150,0.2);
+$widget_title_background: rgba(0,0,0,0);
+$widget_body_text_color: #CCD;
+$widget_body_strong_text_color: #EEF;
+
+$foreground_highlight_color: rgba(20,20,20,0.4);
+
+$stripe_background_odd: lighten($foreground_highlight_color,7%);
+$stripe_background_even: $foreground_highlight_color;
+$stripe_background_hover: lighten($foreground_highlight_color,35%);
+
+$deemphasized_text: darken(desaturate($widget_body_text_color,40%),40%);
+$double_deemphasized_text: darken(desaturate($widget_body_text_color,50%),50%);
+
+$strong_highlight: #779;
+
+@mixin heading_font_styles {
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 300;
+  color: $widget_body_strong_text_color;
+}

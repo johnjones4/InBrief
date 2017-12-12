@@ -1,20 +1,33 @@
+@import '../vars_mixins.scss';
+
 .widget {
-  background-color: #222226;
+  background: $widget_background;
   flex-grow: 1;
   margin-right: 1em;
   position: relative;
+  border-left: solid 4px $widget_stripe;
+  transition: opacity 0.5s;
+  opacity: 1;
+}
+
+.widget-not-ready {
+  opacity: 0;
 }
 
 .widget-title {
   padding: 0.5rem;
   font-size: 16px;
-  background: #333336;
-  font-weight: bold;
+  background: $widget_title_background;
+  @include heading_font_styles;
+
+  .spinner {
+    float: right;
+  }
 }
 
 .widget-body {
-  padding: 0.25rem;
-  color: #ccc;
+  padding: 0.25rem 0.25rem 0.25rem 0.5rem;
+  color: $widget_body_text_color;
 }
 
 .widget-rss,
@@ -51,18 +64,22 @@
 }
 
 .widget-subhead {
-  font-size: 14px;
+  font-size: 13px;
   margin-bottom: 0.5em;
-  font-weight: bold;
-  color: #fff;
+  text-transform: uppercase;
+  @include heading_font_styles;
 }
 
 .striped {
-  background: #262629;
+  background: $stripe_background_odd;
 }
 
 .striped:nth-child(even) {
-  background: #2a2a2d;
+  background: $stripe_background_even;
+}
+
+.striped-hover:hover {
+  background: $stripe_background_hover
 }
 
 .widget-big-numbers {
@@ -75,7 +92,7 @@
   flex-grow: 1;
   flex-basis: 0;
   text-align: center;
-  background: #2a2a2d;
+  background: $foreground_highlight_color;
   margin: 1em;
   display: flex;
   flex-direction: column;
@@ -84,11 +101,17 @@
 
 .widget-big-numbers-number {
   font-size: 6em;
-  font-weight: bold;
   line-height: 0.9em;
+  color: $widget_body_strong_text_color;
 }
 
 .widget-big-numbers-label {
-  color: #aab;
   line-height: 2em;
+  @include heading_font_styles;
+  color: $deemphasized_text;
+}
+
+.weather-forecast-item .weather-icon {
+  width: 50px;
+  height: auto;
 }

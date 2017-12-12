@@ -1,6 +1,6 @@
 import React from 'react';
 import Widget from './Widget';
-import './RSS.css';
+import './RSS.scss';
 import {
   formatDate
 } from '../util';
@@ -34,7 +34,7 @@ export default class RSS extends Widget {
           {
             feed.items.slice(0,10).map((item,j) => {
               return (
-                <a href={item.link} target="_blank" className="rss-feed-item striped" key={j}>
+                <a href={item.link} target="_blank" className="rss-feed-item striped striped-hover" key={j}>
                   <span className="rss-feed-item-title">
                     <span className="rss-feed-item-headeline">
                       {item.title}

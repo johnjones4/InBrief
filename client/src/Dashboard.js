@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './reset.css';
-import './Dashboard.css';
+import './Dashboard.scss';
 import {
   fetchServiceNames
 } from './util';

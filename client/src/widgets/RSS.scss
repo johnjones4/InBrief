@@ -1,3 +1,5 @@
+@import '../vars_mixins.scss';
+
 .widget-rss {
   order: 0;
 }
@@ -17,11 +19,7 @@
 }
 
 .rss-feed-item:visited {
-  color: #555;
-}
-
-.rss-feed-item:hover {
-  background: #444;
+  color: $double_deemphasized_text;
 }
 
 .rss-feed-item-title {
@@ -35,18 +33,19 @@
 .rss-feed-item-date {
   padding: 0.5em;
   white-space: nowrap;
+  color: $deemphasized_text;
 }
 
 .rss-feed-item-author,
 .rss-feed-item-website {
   margin-left: 0.5em;
   font-size: 0.75em;
-  color: #888;
+  color: $deemphasized_text;
 }
 
 .rss-feed-item:visited .rss-feed-item-author,
 .rss-feed-item:visited .rss-feed-item-website {
-  color: #555;
+  color: $double_deemphasized_text;
 }
 
 .rss-feed-item-author:after {

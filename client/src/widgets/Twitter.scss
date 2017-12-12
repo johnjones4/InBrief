@@ -1,3 +1,5 @@
+@import '../vars_mixins.scss';
+
 .widget-twitter {
   order: 1;
 }
@@ -10,7 +12,6 @@
 }
 
 .twitter-feed-tweet {
-  color: #ccc;
   clear: both;
   height: 50px;
   padding: 0.5em;
@@ -33,7 +34,7 @@
 
 .twitter-feed-tweet-date {
   font-size: 0.75em;
-  color: #888;
+  color: $deemphasized_text;
 }
 
 @media (max-width: 1900px) {
@@ -44,8 +45,8 @@
 }
 
 .twitter-feed-tweet-name {
-  font-weight: bold;
   margin-right: 0.5em;
+  color: $widget_body_strong_text_color;
 }
 
 .twitter-feed-tweet-header {

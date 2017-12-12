@@ -1,3 +1,5 @@
+@import '../vars_mixins.scss';
+
 .widget-weather {
   order: 0;
   flex-grow: 0;
@@ -22,10 +24,6 @@
   flex: 0 0 1;
 }
 
-.weather-value-label {
-  font-weight: bold;
-}
-
 .weather-now .weather-icon {
   width: 70%;
   height: auto;
@@ -41,9 +39,9 @@
 }
 
 .weather-label {
-  font-weight: bold;
   padding: 3px;
-  background: #2a2a2d;
+  color: $widget_body_strong_text_color;
+  @include heading_font_styles;
 }
 
 .weather-forecast-item {
@@ -70,4 +68,5 @@
   float: left;
   margin-right: 0.5em;
   font-size: 0.9em;
+  color: $deemphasized_text;
 }
