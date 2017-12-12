@@ -25,6 +25,9 @@ export default class Widget extends Component {
     if (!this.isReady()) {
       classes.push('widget-not-ready');
     }
+    if (this.state.loading) {
+      classes.push('widget-loading');
+    }
     return classes;
   }
 
@@ -57,12 +60,10 @@ export default class Widget extends Component {
       <div className={this.getMainClassNames().join(' ')}>
         <div className="widget-title">
           {this.title}
-          { this.state.loading && (
-            <div class="spinner">
-              <div class="double-bounce1"></div>
-              <div class="double-bounce2"></div>
-            </div>
-          ) }
+          <div className="spinner">
+            <div className="double-bounce1"></div>
+            <div className="double-bounce2"></div>
+          </div>
         </div>
         <div className="widget-body">
           {this.renderWidget()}

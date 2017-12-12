@@ -8,10 +8,19 @@
   border-left: solid 4px $widget_stripe;
   transition: opacity 0.5s;
   opacity: 1;
+  .spinner {
+    opacity: 0;
+  }
 }
 
 .widget-not-ready {
   opacity: 0;
+}
+
+.widget-loading {
+  .spinner {
+    opacity: 1;
+  }
 }
 
 .widget-title {
@@ -50,8 +59,10 @@
 
 .widget-tasks,
 .widget-email {
-  height: 160px;
   flex-grow: 0;
+  .widget-body {
+    padding: 0;
+  }
 }
 
 .widget-scroll .widget-body {
@@ -85,22 +96,27 @@
 .widget-big-numbers {
   display: flex;
   flex-direction: row;
-  align-items: stretch;
+  justify-content: space-evenly;
+  // margin: -20px 0 0 0;
+  width: 100%;
 }
 
 .widget-big-numbers-group {
-  flex-grow: 1;
-  flex-basis: 0;
+  flex-grow: 0;
   text-align: center;
-  background: $foreground_highlight_color;
-  margin: 1em;
+  border-right: solid 3px $foreground_highlight_color;
+  border-left: solid 3px $foreground_highlight_color;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  border-radius: 100%;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 0.5rem;
 }
 
 .widget-big-numbers-number {
-  font-size: 6em;
+  font-size: 5em;
   line-height: 0.9em;
   color: $widget_body_strong_text_color;
 }
@@ -109,9 +125,4 @@
   line-height: 2em;
   @include heading_font_styles;
   color: $deemphasized_text;
-}
-
-.weather-forecast-item .weather-icon {
-  width: 50px;
-  height: auto;
 }
