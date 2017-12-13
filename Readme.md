@@ -25,3 +25,7 @@ Each widget on the app's screen draws its data via various APIs, and InBrief is 
 3. Copy `config.sample.json` to `config.json` within the `server` folder. The `config.json` file is organized as a map of widget class names to configuration parameters.
 4. Update the properties in `config.json` to meet your configuration needs. If you do not want to use a particular widget, delete that section of `config.json`.
 5. Start the server by running `node index.js` within the `server` folder. Express will begin listening at port 8080. (Set the `PORT` environment variable to listen on another port.)
+
+## Deploying With Docker
+
+You can deploy this via Docker by running `docker build ./`. There is also a Makefile included that builds and deploys InBrief to a Microsoft Azure Container Instance.
