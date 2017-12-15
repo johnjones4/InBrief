@@ -19,10 +19,10 @@ export default class Tasks extends Widget {
         </div>
         <div className="widget-big-numbers-group">
           <div className="widget-big-numbers-number">
-            {this.state.data.total}
+            {this.state.data.endOfWeek}
           </div>
           <div className="widget-big-numbers-label">
-            Total
+            By Friday
           </div>
         </div>
       </div>

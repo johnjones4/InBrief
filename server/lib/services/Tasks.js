@@ -11,9 +11,12 @@ class Tasks extends Service {
   exec() {
     const now = new Date();
     const tonight = new Date(now.getFullYear(),now.getMonth(),now.getDate(),23,59,59,999);
+    const dayOfWeek = tonight.getDay();
+    const friday = new Date(tonight.getTime() + ((5 - dayOfWeek) * (1000 * 60 * 60 * 24)));
     const dates = {
       now,
-      tonight
+      tonight,
+      friday
     }
     return Promise.all(
       this.config.apis.map((api) => {
@@ -23,11 +26,11 @@ class Tasks extends Service {
     ).then((data) => {
       const totals = {
         'today': 0,
-        'total': 0
+        'endOfWeek': 0
       };
       data.forEach((item) => {
         if (item && item.today) totals.today += item.today;
-        if (item && item.total) totals.total += item.total;
+        if (item && item.endOfWeek) totals.endOfWeek += item.endOfWeek;
       })
       return {
         'type': 'tasks',
@@ -47,7 +50,7 @@ class Tasks extends Service {
     }
   }
 
-  fetchTodoist({now,tonight},api) {
+  fetchTodoist({now,tonight,friday},api) {
     const todoistRequest = (uri,params) => {
       params.token = api.token;
       return request({
@@ -78,16 +81,22 @@ class Tasks extends Service {
           }
         },0);
 
-        const total = body.items.length;
+        const endOfWeek = body.items.reduce((subtotal,item) => {
+          if (item.dueDate) {
+            return subtotal + (item.dueDate.getTime() <= friday.getTime() ? 1 : 0);
+          } else {
+            return subtotal;
+          }
+        },0);
 
         return {
           today,
-          total
+          endOfWeek
         };
       })
   }
 
-  fetchAsana({now,tonight},api) {
+  fetchAsana({now,tonight,friday},api) {
     const client = asana.Client.create().useAccessToken(api.token);
     return client.users.me()
       .then(function(me) {
@@ -120,13 +129,19 @@ class Tasks extends Service {
           },total);
         },0);
 
-        const total = workspaceTasks.reduce((total,workspace) => {
-          return total + workspace.data.length;
+        const endOfWeek = workspaceTasks.reduce((total,workspace) => {
+          return workspace.data.reduce((subtotal,task) => {
+            if (task.dueDate) {
+              return subtotal + (task.due_on.getTime() <= friday.getTime() ? 1 : 0);
+            } else {
+              return subtotal;
+            }
+          },total);
         },0);
 
         return {
           today,
-          total
+          endOfWeek
         };
       })
   }
