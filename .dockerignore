@@ -11,3 +11,6 @@ server/*.sqlite
 */.DS_Store
 */.git
 .env
+config.json
+*/config.json
+config/*
