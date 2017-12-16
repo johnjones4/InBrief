@@ -28,4 +28,4 @@ Each widget on the app's screen draws its data via various APIs, and InBrief is 
 
 ## Deploying With Docker
 
-You can deploy this via Docker by running `docker build ./`. There is also a Makefile included that builds and deploys InBrief to a Microsoft Azure Container Instance.
+You can deploy this via Docker by running `docker build ./`. There is also a Makefile included that builds and deploys InBrief to a server running Docker.
