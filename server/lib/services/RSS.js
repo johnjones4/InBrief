@@ -9,48 +9,12 @@ class RSS extends Service {
   }
 
   exec() {
-    return Promise.all(
-      this.config.sets.map((set) => {
-        return Promise.all(
-          set.feeds.map((feed) => {
-            return new Promise((resolve,reject) => {
-              const items = [];
-              const req = request({
-                'uri': feed,
-                'timeout': 5000
-              })
-              const feedparser = new FeedParser();
-              req.on('error',(err) => reject(err));
-              feedparser.on('error',(err) => reject(err));
-              req.on('response', function(res) {
-                var stream = this;
-                if (res.statusCode === 200) {
-                  stream.pipe(feedparser);
-                } else {
-                  resolve([]);
-                }
-              });
-              feedparser.on('readable',function() {
-                var stream = this;
-                var item;
-                while (item = stream.read()) {
-                  items.push(item);
-                }
-              });
-              feedparser.on('end',function() {
-                resolve(items);
-              });
-            })
-              .catch((err) => this.handleSubError(err));
-          })
-        )
-          .then((unmergedItems) => {
-            const items = [];
-            unmergedItems.forEach((_items) => {
-              if (_items) {
-                _items.forEach((item) => items.push(item));
-              }
-            });
+    const outputData = [];
+    const fetchNextFeedSet = (index) => {
+      if (index < this.config.sets.length) {
+        const set = this.config.sets[index];
+        return this.fetchArrayOfFeeds(set.feeds)
+          .then((items) => {
             const parsedUrls = {};
             items.forEach((item) => {
               parsedUrls[item.link] = url.parse(item.link);
@@ -75,7 +39,7 @@ class RSS extends Service {
                 return 0;
               }
             });
-            return {
+            outputData.push({
               'title': set.title,
               'items': items.slice(0,this.config.max).map((item) => {
                 return {
@@ -86,16 +50,68 @@ class RSS extends Service {
                   'author': item.author
                 };
               })
-            }
-          })
-      })
-    )
+            });
+            return fetchNextFeedSet(index + 1);
+          });
+      } else {
+        return Promise.resolve(outputData);
+      }
+    }
+    return fetchNextFeedSet(0)
       .then((data) => {
         return {
           'type': 'rss',
           data
         };
       })
+  }
+
+  fetchArrayOfFeeds(feeds) {
+    return Promise.all(
+      feeds.map((feed) => {
+        return this.fetchSingleFeed(feed)
+      })
+    ).then((arraysOfItems) => {
+      const items = [];
+      arraysOfItems.forEach((_items) => {
+        _items.forEach((item) => items.push(item));
+      });
+      return items;
+    });
+  }
+
+  fetchSingleFeed(feed) {
+    return new Promise((resolve,reject) => {
+      const items = [];
+      const req = request({
+        'uri': feed,
+        'timeout': 5000
+      })
+      const feedparser = new FeedParser();
+      feedparser.on('error',(err) => {
+        console.log('Error on ' + feed);
+        console.log(err);
+        resolve([]);
+      });
+      req.on('response', function(res) {
+        var stream = this;
+        if (res.statusCode === 200) {
+          stream.pipe(feedparser);
+        } else {
+          resolve([]);
+        }
+      });
+      feedparser.on('readable',function() {
+        var stream = this;
+        var item;
+        while (item = stream.read()) {
+          items.push(item);
+        }
+      });
+      feedparser.on('end',function() {
+        resolve(items);
+      });
+    })
   }
 }
 
