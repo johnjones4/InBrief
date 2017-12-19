@@ -1,71 +1,71 @@
 class Service {
-  constructor(name,config) {
-    this.name = name;
-    this.config = config;
-    this.intervalDelay = 60000;
-    this.cachedResponse = null;
+  constructor (name, config) {
+    this.name = name
+    this.config = config
+    this.intervalDelay = 60000
+    this.cachedResponse = null
   }
 
-  exec() {
-    throw new Error('Must override!');
+  exec () {
+    throw new Error('Must override!')
   }
 
-  getCachedOrExec() {
+  getCachedOrExec () {
     if (this.cachedResponse) {
-      return new Promise((resolve) => resolve(this.cachedResponse));
+      return new Promise((resolve) => resolve(this.cachedResponse))
     } else {
-      console.log('No cached response available');
-      return this.exec();
+      console.log('No cached response available')
+      return this.exec()
     }
   }
 
-  executor() {
-    console.log('Fetching updates for ' + this.name);
+  executor () {
+    console.log('Fetching updates for ' + this.name)
     this.exec()
       .then((response) => {
-        this.cachedResponse = response;
+        this.cachedResponse = response
       })
       .catch((err) => {
-        console.error(err);
+        console.error(err)
       })
   }
 
-  begin() {
-    this.executor();
+  begin () {
+    this.executor()
     this.interval = setInterval(() => {
-      this.executor();
-    },this.intervalDelay);
+      this.executor()
+    }, this.intervalDelay)
   }
 
-  end() {
+  end () {
     if (this.interval) {
-      clearInterval(this.interval);
+      clearInterval(this.interval)
     }
   }
 
-  handleSubError(err) {
-    console.error(err);
+  handleSubError (err) {
+    console.error(err)
   }
 
-  thenSleep(data,time) {
+  thenSleep (data, time) {
     return new Promise((resolve) => {
       setTimeout(() => {
-        resolve(data);
-      },time);
+        resolve(data)
+      }, time)
     })
   }
 
-  promiseIfy(op) {
-    return new Promise((resolve,reject) => {
-      op((err,data) => {
+  promiseIfy (op) {
+    return new Promise((resolve, reject) => {
+      op((err, data) => {
         if (err) {
-          reject(err);
+          reject(err)
         } else {
-          resolve(data);
+          resolve(data)
         }
       })
     })
   }
 }
 
-module.exports = Service;
+module.exports = Service
