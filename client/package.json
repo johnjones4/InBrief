@@ -14,7 +14,6 @@
     "chalk": "1.1.3",
     "css-loader": "0.28.7",
     "dotenv": "4.0.0",
-    "eslint": "4.10.0",
     "eslint-config-react-app": "^2.0.1",
     "eslint-loader": "1.9.0",
     "eslint-plugin-flowtype": "2.39.1",
@@ -44,10 +43,17 @@
     "webpack-manifest-plugin": "1.3.2",
     "whatwg-fetch": "2.0.3"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^4.10.0",
+    "eslint-config-standard": "^11.0.0-beta.0",
+    "eslint-config-standard-react": "^5.0.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "standard": "^10.0.3"
+  },
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js && mv -f build ../server/build",
+    "lint": "eslint .",
     "test": "node scripts/test.js --env=jsdom"
   },
   "proxy": "http://localhost:8080",
@@ -89,8 +95,5 @@
     "presets": [
       "react-app"
     ]
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   }
 }
