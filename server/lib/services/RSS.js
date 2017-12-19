@@ -82,35 +82,44 @@ class RSS extends Service {
 
   fetchSingleFeed(feed) {
     return new Promise((resolve,reject) => {
-      const items = [];
-      const req = request({
-        'uri': feed,
-        'timeout': 5000
-      })
-      const feedparser = new FeedParser();
-      feedparser.on('error',(err) => {
-        console.log('Error on ' + feed);
-        console.log(err);
-        resolve([]);
-      });
-      req.on('response', function(res) {
-        var stream = this;
-        if (res.statusCode === 200) {
-          stream.pipe(feedparser);
-        } else {
+      try {
+        const items = [];
+        const req = request({
+          'uri': feed,
+          'timeout': 5000,
+          'agent': false,
+          'pool': {
+            'maxSockets': 1000
+          }
+        })
+        const feedparser = new FeedParser();
+        feedparser.on('error',(err) => {
+          console.log('Error on ' + feed);
+          console.log(err);
           resolve([]);
-        }
-      });
-      feedparser.on('readable',function() {
-        var stream = this;
-        var item;
-        while (item = stream.read()) {
-          items.push(item);
-        }
-      });
-      feedparser.on('end',function() {
-        resolve(items);
-      });
+        });
+        req.on('response', function(res) {
+          var stream = this;
+          if (res.statusCode === 200) {
+            stream.pipe(feedparser);
+          } else {
+            resolve([]);
+          }
+        });
+        feedparser.on('readable',function() {
+          var stream = this;
+          var item;
+          while (item = stream.read()) {
+            items.push(item);
+          }
+        });
+        feedparser.on('end',function() {
+          resolve(items);
+        });
+      } catch(e) {
+        console.error(e);
+        resolve([]);
+      }
     })
   }
 }
