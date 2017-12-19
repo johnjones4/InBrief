@@ -1,9 +1,9 @@
-import Calendar from './Calendar';
-import Email from './Email';
-import RSS from './RSS';
-import Tasks from './Tasks';
-import Twitter from './Twitter';
-import Weather from './Weather';
+import Calendar from './Calendar'
+import Email from './Email'
+import RSS from './RSS'
+import Tasks from './Tasks'
+import Twitter from './Twitter'
+import Weather from './Weather'
 
 export {
   Calendar,
@@ -12,4 +12,4 @@ export {
   Tasks,
   Twitter,
   Weather
-};
+}

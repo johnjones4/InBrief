@@ -81,14 +81,17 @@ class Email extends Service {
       'unread': 0,
       'flagged': 0
     }
+    const openMailbox = (name) => {
+      return this.promiseIfy((cb) => {
+        imap.openBox(name, true, cb)
+      })
+    }
     const imap = new Imap(mailbox.credentials)
     const p = new Promise((resolve, reject) => {
       imap.once('error', (err) => reject(err))
       imap.once('ready', () => {
         const execFlagSearch = () => {
-          return this.promiseIfy((cb) => {
-            imap.openBox(mailbox.flagMailboxName, true, cb)
-          })
+          return openMailbox(mailbox.flagMailboxName)
             .then(() => {
               return this.promiseIfy((cb) => {
                 imap.search([['FLAGGED', true]], cb)
@@ -100,9 +103,7 @@ class Email extends Service {
         }
 
         const execUnreadSearch = () => {
-          return this.promiseIfy((cb) => {
-            imap.openBox(mailbox.unreadMailboxName, true, cb)
-          })
+          return openMailbox(mailbox.unreadMailboxName)
             .then(() => {
               return this.promiseIfy((cb) => {
                 imap.search([['UNSEEN', true]], cb)

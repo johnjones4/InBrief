@@ -73,21 +73,19 @@ class Tasks extends Service {
           }
         })
 
-        const today = body.items.reduce((subtotal, item) => {
-          if (item.dueDate) {
-            return subtotal + (item.dueDate.getTime() <= tonight.getTime() ? 1 : 0)
-          } else {
-            return subtotal
+        const reducer = (limitDate) => {
+          return (subtotal, item) => {
+            if (item.dueDate) {
+              return subtotal + (item.dueDate.getTime() <= limitDate.getTime() ? 1 : 0)
+            } else {
+              return subtotal
+            }
           }
-        }, 0)
+        }
 
-        const endOfWeek = body.items.reduce((subtotal, item) => {
-          if (item.dueDate) {
-            return subtotal + (item.dueDate.getTime() <= friday.getTime() ? 1 : 0)
-          } else {
-            return subtotal
-          }
-        }, 0)
+        const today = body.items.reduce(reducer(tonight), 0)
+
+        const endOfWeek = body.items.reduce(reducer(friday), 0)
 
         return {
           today,
@@ -119,25 +117,21 @@ class Tasks extends Service {
           })
         })
 
-        const today = workspaceTasks.reduce((total, workspace) => {
-          return workspace.data.reduce((subtotal, task) => {
-            if (task.dueDate) {
-              return subtotal + (task.due_on.getTime() <= tonight.getTime() ? 1 : 0)
-            } else {
-              return subtotal
-            }
-          }, total)
-        }, 0)
+        const reducer = (limitDate) => {
+          return (total, workspace) => {
+            return workspace.data.reduce((subtotal, task) => {
+              if (task.dueDate) {
+                return subtotal + (task.due_on.getTime() <= limitDate.getTime() ? 1 : 0)
+              } else {
+                return subtotal
+              }
+            }, total)
+          }
+        }
 
-        const endOfWeek = workspaceTasks.reduce((total, workspace) => {
-          return workspace.data.reduce((subtotal, task) => {
-            if (task.dueDate) {
-              return subtotal + (task.due_on.getTime() <= friday.getTime() ? 1 : 0)
-            } else {
-              return subtotal
-            }
-          }, total)
-        }, 0)
+        const today = workspaceTasks.reduce(reducer(tonight), 0)
+
+        const endOfWeek = workspaceTasks.reduce(reducer(friday), 0)
 
         return {
           today,
