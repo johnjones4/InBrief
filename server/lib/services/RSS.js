@@ -15,42 +15,7 @@ class RSS extends Service {
         const set = this.config.sets[index]
         return this.fetchArrayOfFeeds(set.feeds)
           .then((items) => {
-            const parsedUrls = {}
-            items.forEach((item) => {
-              parsedUrls[item.link] = url.parse(item.link)
-            })
-            for (let i = 0; i < items.length; i++) {
-              const item = items[i]
-              const j = items.findIndex((_item) => {
-                return parsedUrls[item.link].hostname === parsedUrls[_item.link].hostname && item.title === _item.title
-              })
-              if (j >= 0 && j !== i) {
-                items.splice(j, 1)
-              }
-            }
-            items.sort((a, b) => {
-              if (a.pubDate && b.pubDate) {
-                return b.pubDate.getTime() - a.pubDate.getTime()
-              } else if (a.pubDate) {
-                return -1
-              } else if (b.pubDate) {
-                return 1
-              } else {
-                return 0
-              }
-            })
-            outputData.push({
-              'title': set.title,
-              'items': items.slice(0, this.config.max).map((item) => {
-                return {
-                  'title': item.title,
-                  'date': item.pubDate,
-                  'link': item.link,
-                  'website': url.parse(item.link).hostname.replace('www.', ''),
-                  'author': item.author
-                }
-              })
-            })
+            outputData.push(processRSSItems(items))
             return fetchNextFeedSet(index + 1)
           })
       } else {
@@ -64,6 +29,45 @@ class RSS extends Service {
           data
         }
       })
+  }
+
+  processRSSItems (items) {
+    const parsedUrls = {}
+    items.forEach((item) => {
+      parsedUrls[item.link] = url.parse(item.link)
+    })
+    for (let i = 0; i < items.length; i++) {
+      const item = items[i]
+      const j = items.findIndex((_item) => {
+        return parsedUrls[item.link].hostname === parsedUrls[_item.link].hostname && item.title === _item.title
+      })
+      if (j >= 0 && j !== i) {
+        items.splice(j, 1)
+      }
+    }
+    items.sort((a, b) => {
+      if (a.pubDate && b.pubDate) {
+        return b.pubDate.getTime() - a.pubDate.getTime()
+      } else if (a.pubDate) {
+        return -1
+      } else if (b.pubDate) {
+        return 1
+      } else {
+        return 0
+      }
+    })
+    return {
+      'title': set.title,
+      'items': items.slice(0, this.config.max).map((item) => {
+        return {
+          'title': item.title,
+          'date': item.pubDate,
+          'link': item.link,
+          'website': url.parse(item.link).hostname.replace('www.', ''),
+          'author': item.author
+        }
+      })
+    }
   }
 
   fetchArrayOfFeeds (feeds) {
