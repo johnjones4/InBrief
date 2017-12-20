@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import {
-  fetchServiceData
-} from '../util'
 import './Widget.scss'
 import '../spinner.scss'
+const {ipcRenderer} = window.require('electron')
 
 export default class Widget extends Component {
   constructor (title, name, props) {
@@ -46,13 +44,13 @@ export default class Widget extends Component {
     this.setState({
       'loading': true
     })
-    fetchServiceData(this.name)
-      .then(({data}) => {
-        this.setState({
-          data,
-          'loading': false
-        })
+    ipcRenderer.on(this.name, (event, data) => {
+      this.setState({
+        data,
+        loading: false
       })
+    })
+    ipcRenderer.send(this.name)
   }
 
   render () {

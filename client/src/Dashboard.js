@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import './reset.css'
 import './Dashboard.scss'
 import {
-  fetchServiceNames
-} from './util'
-import {
   Calendar,
   Email,
   RSS,
@@ -12,6 +9,7 @@ import {
   Twitter,
   Weather
 } from './widgets'
+const {ipcRenderer} = window.require('electron')
 
 class App extends Component {
   constructor (props) {
@@ -22,12 +20,12 @@ class App extends Component {
   }
 
   componentDidMount () {
-    fetchServiceNames()
-      .then((services) => {
-        this.setState({
-          services
-        })
+    ipcRenderer.on('services', (event, services) => {
+      this.setState({
+        services
       })
+    })
+    ipcRenderer.send('services')
   }
 
   render () {
