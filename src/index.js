@@ -1,7 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Dashboard from './Dashboard'
-import registerServiceWorker from './registerServiceWorker'
+import Dashboard from './ui/Dashboard'
 
 ReactDOM.render(<Dashboard />, document.getElementById('root'))
-registerServiceWorker()

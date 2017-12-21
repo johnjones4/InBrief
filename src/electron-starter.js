@@ -1,13 +1,19 @@
 const electron = require('electron')
-const {app, BrowserWindow, ipcMain} = electron
+const {app, BrowserWindow, ipcMain, Menu} = electron
 const path = require('path')
 const url = require('url')
 const serviceLoader = require('./lib/util/serviceLoader')
 
 let mainWindow
 
+// Menu.setApplicationMenu(new Menu())
+
 function createWindow () {
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({
+    width: 1440,
+    height: 900,
+    title: 'InBrief'
+  })
 
   const startUrl = process.env.ELECTRON_START_URL || url.format({
     pathname: path.join(__dirname, '/../build/index.html'),
@@ -53,11 +59,15 @@ serviceLoader.load().then((services) => {
       mainWindow.webContents.send(type, data)
     })
     ipcMain.on(service.name, (event) => {
-      service.getCachedOrExec()
-        .then(({type, data}) => {
-          mainWindow.webContents.send(type, data)
-        })
-        .catch((error) => console.error(error))
+      if (service.getData()) {
+        const {type, data} = service.getData()
+        mainWindow.webContents.send(type, data)
+      }
     })
+    if (service.getData()) {
+      const {type, data} = service.getData()
+      mainWindow.webContents.send(type, data)
+    }
   })
 })
+  .catch((err) => console.error(err))

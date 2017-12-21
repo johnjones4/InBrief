@@ -4,6 +4,7 @@ import './Twitter.scss'
 import {
   formatDate
 } from '../util'
+const {shell} = window.require('electron')
 
 export default class Twitter extends Widget {
   constructor (props) {
@@ -26,7 +27,7 @@ export default class Twitter extends Widget {
 
   prepareTweetText (tweet) {
     const hrefize = (text, url) => {
-      return text.replace(url.url, '<a target="_blank" href="' + url.url + '">' + url.display_url + '</a>')
+      return text.replace(url.url, '<span class="faux-link in-tweet-link" onClick="window.require(\'electron\').shell.openExternal(\'' + url.url + '\'); return false">' + url.display_url + '</span>')
     }
 
     let text = tweet.text
@@ -58,21 +59,20 @@ export default class Twitter extends Widget {
             tweets.tweets.slice(0, 10).map((tweet, j) => {
               return (
                 <div className='twitter-feed-tweet striped' key={j}>
-                  <a href={this.tweetLink(tweet)} target='_blank'>
+                  <span className='faux-link' onClick={() => shell.openExternal(this.tweetLink(tweet))}>
                     <img className='twitter-feed-tweet-profile-image' alt={'Twitter profile image for ' + tweet.user.screen_name} src={tweet.user.profile_image_url_https} />
-                  </a>
+                  </span>
                   <div className='twitter-feed-tweet-header'>
-                    <a href={this.tweetLink(tweet)} target='_blank'>
+                    <span className='faux-link' onClick={() => shell.openExternal(this.tweetLink(tweet))}>
                       <span className='twitter-feed-tweet-name'>
                         {tweet.user.name}
                       </span>
                       <span className='twitter-feed-tweet-date'>
                         {formatDate(tweet.created_at)}
                       </span>
-                    </a>
+                    </span>
                   </div>
                   <div className='twitter-feed-tweet-text' dangerouslySetInnerHTML={{__html: this.prepareTweetText(tweet)}} />
-
                 </div>
               )
             })

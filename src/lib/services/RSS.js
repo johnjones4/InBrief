@@ -2,20 +2,26 @@ const Service = require('./Service')
 const request = require('request')
 const FeedParser = require('feedparser')
 const url = require('url')
+const Queue = require('promise-queue')
 
 class RSS extends Service {
   constructor (config) {
     super('rss', config)
+    this.requestQueue = new Queue(5, Infinity)
   }
 
-  exec () {
-    const outputData = []
+  exec (dataEmitter) {
+    const outputData = this.cachedResponse ? this.cachedResponse.data : []
     const fetchNextFeedSet = (index) => {
       if (index < this.config.sets.length) {
         const set = this.config.sets[index]
         return this.fetchArrayOfFeeds(set.feeds)
           .then((items) => {
-            outputData.push(this.processRSSItems(set, items))
+            outputData[index] = this.processRSSItems(set, items)
+            dataEmitter({
+              'type': 'rss',
+              'data': outputData
+            })
             return fetchNextFeedSet(index + 1)
           })
       } else {
@@ -23,10 +29,10 @@ class RSS extends Service {
       }
     }
     return fetchNextFeedSet(0)
-      .then((data) => {
+      .then(() => {
         return {
           'type': 'rss',
-          data
+          'data': outputData
         }
       })
   }
@@ -58,7 +64,7 @@ class RSS extends Service {
     })
     return {
       'title': set.title,
-      'items': items.slice(0, this.config.max).map((item) => {
+      'items': items.map((item) => {
         return {
           'title': item.title,
           'date': item.pubDate,
@@ -73,7 +79,9 @@ class RSS extends Service {
   fetchArrayOfFeeds (feeds) {
     return Promise.all(
       feeds.map((feed) => {
-        return this.fetchSingleFeed(feed)
+        return this.requestQueue.add(() => {
+          return this.fetchSingleFeed(feed)
+        })
       })
     ).then((arraysOfItems) => {
       const items = []
@@ -85,6 +93,7 @@ class RSS extends Service {
   }
 
   fetchSingleFeed (feed) {
+    const _this = this
     return new Promise((resolve, reject) => {
       try {
         const items = []
@@ -102,6 +111,11 @@ class RSS extends Service {
           console.log(err)
           resolve([])
         })
+        req.on('err', (err) => {
+          console.log('Error on ' + feed)
+          console.log(err)
+          resolve([])
+        })
         req.on('response', function (res) {
           var stream = this
           if (res.statusCode === 200) {
@@ -114,7 +128,9 @@ class RSS extends Service {
           var stream = this
           var item
           while ((item = stream.read()) !== null) {
-            items.push(item)
+            if (items.length < _this.config.max) {
+              items.push(item)
+            }
           }
         })
         feedparser.on('end', function () {

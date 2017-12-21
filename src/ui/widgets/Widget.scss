@@ -96,7 +96,7 @@
 .widget-big-numbers {
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-around;
   // margin: -20px 0 0 0;
   width: 100%;
 }
@@ -125,4 +125,8 @@
   line-height: 2em;
   @include heading_font_styles;
   color: $deemphasized_text;
+}
+
+.faux-link {
+  cursor: pointer;
 }

@@ -1,26 +1,25 @@
-// see reference implementation in ews-javascript-api_repo@github\test\MockXHRApi.ts, this one is transpiled JS
-//  -----   Updated to process errors in ntlm library gracefully
-var httpntlm = require('httpntlm')
-var ntlmXHRApi = (function () {
+const httpntlm = require('httpntlm')
+
+const NTLMXHRAPI = (function () {
   function ntlmXHRApi (user, password) {
     this.userName = user
     this.password = password
   }
   ntlmXHRApi.prototype.xhr = function (xhroptions) {
-    var _this = this
-    var userName = _this.userName
-    var domain = ''
+    const _this = this
+    let userName = _this.userName
+    let domain = ''
     if (userName.indexOf('\\') >= 0) {
-      var usersplit = userName.split('\\', 2)
+      const usersplit = userName.split('\\', 2)
       userName = usersplit[1]
       domain = usersplit[0]
     }
-    var headers = xhroptions.headers
+    const headers = xhroptions.headers
 
     if (headers['Authorization']) {
       delete headers['Authorization']
     }
-    var xhr = {
+    const xhr = {
       url: xhroptions.url,
       username: userName,
       password: _this.password,
@@ -32,9 +31,9 @@ var ntlmXHRApi = (function () {
     return new Promise(function (resolve, reject) {
       httpntlm.post(xhr, function (err, res) {
         res.getAllResponseHeaders = function () {
-          var header = ''
+          let header = ''
           if (res.headers) {
-            for (var key in res.headers) {
+            for (let key in res.headers) {
               header += key + ' : ' + res.headers[key] + '\r\n'
             }
           }
@@ -63,4 +62,5 @@ var ntlmXHRApi = (function () {
   })
   return ntlmXHRApi
 })()
-exports.NTLMXHRApi = ntlmXHRApi
+
+module.exports = NTLMXHRAPI

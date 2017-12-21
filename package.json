@@ -39,6 +39,7 @@
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
     "promise": "8.0.1",
+    "promise-queue": "^2.2.3",
     "raf": "3.4.0",
     "react": "^16.2.0",
     "react-dev-utils": "^4.2.1",
@@ -67,11 +68,13 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js && mv -f build ../server/build",
+    "build": "node scripts/build.js",
     "lint": "eslint .",
     "test": "node scripts/test.js --env=jsdom",
-    "electron": "electron .",
-    "dev": "nf start"
+    "electron": "ELECTRON_START_URL=http://localhost:3000 electron .",
+    "pack": "build --dir",
+    "dist": "npm run build && build",
+    "postinstall": "install-app-deps"
   },
   "proxy": "http://localhost:8080",
   "jest": {
@@ -114,5 +117,12 @@
     ]
   },
   "homepage": "./",
-  "main": "src/electron-starter.js"
+  "main": "src/electron-starter.js",
+  "build": {
+    "appId": "com.johnjones.inbrief",
+    
+    "directories": {
+      "buildResources": "public"
+    }
+  }
 }

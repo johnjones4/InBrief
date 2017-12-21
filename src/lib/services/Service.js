@@ -11,35 +11,31 @@ class Service {
     this.listeners.push(fn)
   }
 
-  exec () {
+  exec (dataEmitter) {
     throw new Error('Must override!')
   }
 
-  getCachedOrExec () {
-    if (this.cachedResponse) {
-      return new Promise((resolve) => resolve(this.cachedResponse))
-    } else {
-      console.log('No cached response available')
-      return this.exec()
-    }
+  getData () {
+    return this.cachedResponse
   }
 
-  executor () {
+  runExec () {
     console.log('Fetching updates for ' + this.name)
-    this.exec()
-      .then((response) => {
-        this.cachedResponse = response
-        this.listeners.forEach((listener) => listener(response))
-      })
+    const publishData = (response) => {
+      this.cachedResponse = response
+      this.listeners.forEach((listener) => listener(response))
+    }
+    this.exec(publishData)
+      .then(publishData)
       .catch((err) => {
         console.error(err)
       })
   }
 
   begin () {
-    this.executor()
+    this.runExec()
     this.interval = setInterval(() => {
-      this.executor()
+      this.runExec()
     }, this.intervalDelay)
   }
 

@@ -1,8 +1,8 @@
 const ews = require('ews-javascript-api')
-var NTLMXHR = require('./ntlmXHRApi')
+var NTLMXHRAPI = require('./NTLMXHRAPI')
 
 exports.init = (credentials) => {
-  var ntlmXHRApi = new NTLMXHR.NTLMXHRApi(credentials.username, credentials.password)
+  var ntlmXHRApi = new NTLMXHRAPI(credentials.username, credentials.password)
   ews.EwsLogging.DebugLogEnabled = false
   const exch = new ews.ExchangeService(ews.ExchangeVersion.Exchange2013)
   exch.XHRApi = ntlmXHRApi

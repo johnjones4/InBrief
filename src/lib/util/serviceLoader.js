@@ -1,9 +1,19 @@
 const fs = require('fs-extra')
 const services = require('../services')
 const _ = require('lodash')
+const path = require('path')
 
 exports.load = () => {
-  return fs.readJson(process.env.CONFIG || './config.json')
+  const configPath = path.join(process.env[(process.platform === 'win32') ? 'USERPROFILE' : 'HOME'], '.inbriefrc.json')
+  return fs.exists(configPath)
+    .then((exists) => {
+      if (!exists) {
+        return fs.copy('./inbriefrc.sample.json', configPath)
+      }
+    })
+    .then(() => {
+      return fs.readJson(configPath)
+    })
     .then((config) => {
       if (config) {
         return _.keys(config).map((klass) => {

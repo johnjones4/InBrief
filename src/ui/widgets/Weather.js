@@ -12,7 +12,7 @@ export default class Weather extends Widget {
       <div className='weather-now'>
         <div className='weather-label'>Now</div>
         <div className='weather-now-content'>
-          <img src={'/weather/' + this.state.data.now.icon + '.svg'} alt={this.state.data.now.weather} className='weather-icon' />
+          <img src={'./weather/' + this.state.data.now.icon + '.svg'} alt={this.state.data.now.weather} className='weather-icon' />
           <div className='weather-description'>
             {this.state.data.now.weather}
           </div>
@@ -43,7 +43,7 @@ export default class Weather extends Widget {
                 <div className='weather-label'>{item.label}</div>
                 <div className='weather-content'>
                   <div className='weather-icon-wrapper'>
-                    <img src={'/weather/' + item.icon + '.svg'} className='weather-icon' alt={item.forecast} />
+                    <img src={'./weather/' + item.icon + '.svg'} className='weather-icon' alt={item.forecast} />
                   </div>
                   <div className='weather-text'>
                     <div className='weather-description'>

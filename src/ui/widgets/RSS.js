@@ -4,6 +4,7 @@ import './RSS.scss'
 import {
   formatDate
 } from '../util'
+const {shell} = window.require('electron')
 
 export default class RSS extends Widget {
   constructor (props) {
@@ -34,7 +35,7 @@ export default class RSS extends Widget {
           {
             feed.items.slice(0, 10).map((item, j) => {
               return (
-                <a href={item.link} target='_blank' className='rss-feed-item striped striped-hover' key={j}>
+                <div onClick={() => shell.openExternal(item.link)} className='faux-link rss-feed-item striped striped-hover' key={j}>
                   <span className='rss-feed-item-title'>
                     <span className='rss-feed-item-headeline'>
                       {item.title}
@@ -49,7 +50,7 @@ export default class RSS extends Widget {
                   <span className='rss-feed-item-date'>
                     {formatDate(item.date)}
                   </span>
-                </a>
+                </div>
               )
             })
           }
