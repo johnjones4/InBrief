@@ -1,12 +1,10 @@
 const electron = require('electron')
-const {app, BrowserWindow, ipcMain, Menu} = electron
+const {app, BrowserWindow, ipcMain} = electron
 const path = require('path')
 const url = require('url')
 const serviceLoader = require('./lib/util/serviceLoader')
 
 let mainWindow
-
-// Menu.setApplicationMenu(new Menu())
 
 function createWindow () {
   mainWindow = new BrowserWindow({

@@ -5,6 +5,7 @@ class Service {
     this.intervalDelay = 60000
     this.cachedResponse = null
     this.listeners = []
+    this.executing = false
   }
 
   addListener (fn) {
@@ -20,16 +21,27 @@ class Service {
   }
 
   runExec () {
-    console.log('Fetching updates for ' + this.name)
-    const publishData = (response) => {
-      this.cachedResponse = response
-      this.listeners.forEach((listener) => listener(response))
+    if (!this.executing) {
+      this.executing = true
+      console.log('Fetching updates for ' + this.name)
+      const publishData = (response) => {
+        if (response) {
+          this.cachedResponse = response
+          this.listeners.forEach((listener) => listener(response))
+        }
+      }
+      this.exec(publishData)
+        .then(publishData)
+        .then(() => {
+          this.executing = false
+        })
+        .catch((err) => {
+          this.executing = false
+          console.error(err)
+        })
+    } else {
+      console.log(this.name + ' is not done running yet.')
     }
-    this.exec(publishData)
-      .then(publishData)
-      .catch((err) => {
-        console.error(err)
-      })
   }
 
   begin () {

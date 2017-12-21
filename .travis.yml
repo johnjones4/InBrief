@@ -1,0 +1,37 @@
+sudo: required
+dist: xenial
+
+language: c
+
+matrix:
+  include:
+    - os: osx
+    - os: linux
+      env: CC=clang CXX=clang++ npm_config_clang=1
+      compiler: clang
+
+node_js:
+  - 6
+
+cache:
+  directories:
+    - node_modules
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+      - icnsutils
+      - graphicsmagick
+      - libgnome-keyring-dev
+      - xz-utils
+      - xorriso
+      - xvfb
+
+install:
+  - npm install
+
+script:
+  - npm run dist

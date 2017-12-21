@@ -76,7 +76,8 @@
     "electron": "ELECTRON_START_URL=http://localhost:3000 electron .",
     "pack": "build --dir",
     "dist": "npm run build && build",
-    "postinstall": "install-app-deps"
+    "postinstall": "install-app-deps",
+    "clean": "rm -rf dist && rm -rf build"
   },
   "proxy": "http://localhost:8080",
   "jest": {
@@ -125,6 +126,9 @@
     "productName": "InBrief",
     "directories": {
       "buildResources": "public"
+    },
+    "mac": {
+      "type": "development"
     }
   }
 }
