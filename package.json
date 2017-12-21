@@ -1,6 +1,8 @@
 {
   "name": "inbrief",
-  "version": "0.1.0",
+  "version": "2.0.0",
+  "author": "John Jones <johnjones4@gmail.com>",
+  "description": " InBrief is a personal briefing app and dashboard.",
   "private": true,
   "dependencies": {
     "asana": "^0.15.0",
@@ -120,7 +122,7 @@
   "main": "src/electron-starter.js",
   "build": {
     "appId": "com.johnjones.inbrief",
-    
+    "productName": "InBrief",
     "directories": {
       "buildResources": "public"
     }
