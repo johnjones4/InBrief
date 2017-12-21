@@ -9,7 +9,7 @@
 
 ## About
 
-InBrief is a personal briefing app and dashboard powered by Node.js/React. In one screen, InBrief provides an overview of your top RSS feeds, Twitter lists, local weather, email unread and flagged status, todos, and schedule. This app is meant to be the homepage and daily starting place for its users.
+InBrief is a personal briefing app and dashboard powered by Electron and React. In one screen, InBrief provides an overview of your top RSS feeds, Twitter lists, local weather, email unread and flagged status, todos, and schedule. This app is meant to be the homepage and daily starting place for its users.
 
 Each widget on the app's screen draws its data via various APIs, and InBrief is designed to support future widgets and APIs as is necessary or desired. The current supported services/APIs are:
 
@@ -23,14 +23,6 @@ Each widget on the app's screen draws its data via various APIs, and InBrief is 
 * Twitter
 * Weather Underground
 
-## Setup
+## Installation
 
-1. Within both the `client` and `server` folders, run `npm install` to install Node.js dependencies.
-2. Run `npm build` within the `client` folder.
-3. Copy `config.sample.json` to `config.json` within the `server` folder. The `config.json` file is organized as a map of widget class names to configuration parameters.
-4. Update the properties in `config.json` to meet your configuration needs. If you do not want to use a particular widget, delete that section of `config.json`.
-5. Start the server by running `node index.js` within the `server` folder. Express will begin listening at port 8080. (Set the `PORT` environment variable to listen on another port.)
-
-## Deploying With Docker
-
-You can deploy this via Docker by running `docker build ./`. There is also a Makefile included that builds and deploys InBrief to a server running Docker.
+When InBrief launches for the first time, it creates a `.inbriefrc.json` file in your home directory. Update the contents of that JSON file per the [example file](https://github.com/johnjones4/InBrief/blob/electronapp/inbriefrc.sample.json) and restart InBrief.
