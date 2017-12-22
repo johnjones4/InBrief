@@ -99,7 +99,6 @@ class RSS extends Service {
         const items = []
         const req = request({
           'uri': feed,
-          'timeout': 5000,
           'agent': false,
           'pool': {
             'maxSockets': 1000

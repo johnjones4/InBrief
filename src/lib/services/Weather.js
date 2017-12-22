@@ -10,7 +10,8 @@ class Weather extends Service {
   exec () {
     return request({
       'uri': 'http://api.wunderground.com/api/' + this.config.key + '/conditions/forecast/q/' + this.config.location + '.json',
-      'json': true
+      'json': true,
+      'agent': false
     })
       .then((weatherData) => {
         return {

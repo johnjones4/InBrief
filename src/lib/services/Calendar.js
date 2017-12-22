@@ -51,7 +51,10 @@ class Calendar extends Service {
   }
 
   fetchICSEvents ({thisMorning, tonight}, calendar) {
-    return request(calendar.url)
+    return request({
+      url: calendar.url,
+      agent: false
+    })
       .then((icsData) => {
         const events = _.values(ical.parseICS(icsData))
         return events

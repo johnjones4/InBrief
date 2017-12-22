@@ -57,7 +57,8 @@ class Tasks extends Service {
         'uri': uri,
         'qs': params,
         'useQueryString': true,
-        'json': true
+        'json': true,
+        'agent': false
       })
     }
     return todoistRequest('https://todoist.com/api/v7/sync', {
