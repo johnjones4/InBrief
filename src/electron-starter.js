@@ -2,7 +2,7 @@ const electron = require('electron')
 const {app, BrowserWindow, ipcMain} = electron
 const path = require('path')
 const url = require('url')
-const serviceLoader = require('./lib/util/serviceLoader')
+const ServiceLoader = require('./lib/util/ServiceLoader')
 
 let mainWindow
 
@@ -39,7 +39,9 @@ app.on('activate', function () {
   }
 })
 
-serviceLoader.load().then((services) => {
+const loader = new ServiceLoader()
+
+loader.load().then((services) => {
   const sendServices = () => {
     mainWindow.webContents.send('services', services.map((service) => {
       return service.name

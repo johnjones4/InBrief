@@ -3,7 +3,7 @@ const request = require('request-promise-native')
 const Service = require('./Service')
 const _ = require('lodash')
 const ews = require('ews-javascript-api')
-const ewsFactory = require('../util/ewsFactory')
+const EWSFactory = require('../util/EWSFactory')
 
 class Calendar extends Service {
   constructor (config) {
@@ -69,7 +69,7 @@ class Calendar extends Service {
   }
 
   fetchExchangeEvents ({thisMorning, tonight}, calendar) {
-    const exch = ewsFactory.init(calendar.credentials)
+    const exch = new EWSFactory().initInstance(calendar.credentials)
     const view = new ews.CalendarView()
     view.StartDate = thisMorning.toISOString()
     view.EndDate = tonight.toISOString()

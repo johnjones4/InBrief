@@ -1,5 +1,5 @@
 const ews = require('ews-javascript-api')
-const ewsFactory = require('../util/ewsFactory')
+const EWSFactory = require('../util/EWSFactory')
 const Service = require('./Service')
 const Imap = require('imap')
 
@@ -43,7 +43,7 @@ class Email extends Service {
   }
 
   fetchExchange (mailbox) {
-    const exch = ewsFactory.init(mailbox.credentials)
+    const exch = new EWSFactory().initInstance(mailbox.credentials)
     const response = {
       'unread': 0,
       'flagged': 0
