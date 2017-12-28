@@ -12,6 +12,10 @@ class Service {
     this.listeners.push(fn)
   }
 
+  clearListeners () {
+    this.listeners = []
+  }
+
   exec (dataEmitter) {
     throw new Error('Must override!')
   }

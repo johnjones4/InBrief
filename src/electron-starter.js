@@ -2,7 +2,7 @@ const electron = require('electron')
 const {app, BrowserWindow, ipcMain} = electron
 const path = require('path')
 const url = require('url')
-const ServiceLoader = require('./lib/util/ServiceLoader')
+const ServiceManager = require('./lib/util/ServiceManager')
 
 let mainWindow
 
@@ -25,7 +25,64 @@ function createWindow () {
   })
 }
 
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow()
+
+  const manager = new ServiceManager()
+
+  manager.load().then(() => {
+    const sendServices = () => {
+      mainWindow.webContents.send('services', manager.services.map((service) => {
+        return {
+          name: service.name,
+          config: service.config
+        }
+      }))
+    }
+
+    sendServices()
+
+    ipcMain.on('services', (event) => {
+      sendServices()
+    })
+
+    manager.services.forEach((service) => {
+      service.addListener((data) => {
+        mainWindow.webContents.send('servicedata', data)
+      })
+      ipcMain.on('servicedata-' + service.name, (event) => {
+        if (service.getData()) {
+          const data = service.getData()
+          mainWindow.webContents.send('servicedata', data)
+        }
+      })
+      if (service.getData()) {
+        const data = service.getData()
+        mainWindow.webContents.send('servicedata', data)
+      }
+    })
+
+    ipcMain.on('servicedata', (event) => {
+      manager.services.forEach((service) => {
+        if (service.getData()) {
+          const data = service.getData()
+          mainWindow.webContents.send('servicedata', data)
+        }
+      })
+    })
+
+    ipcMain.on('serviceconfig', (event, {name, config}) => {
+      manager.updateServiceConfig(name, config)
+      mainWindow.webContents.send('services', manager.services.map((service) => {
+        return {
+          name: service.name,
+          config: service.config
+        }
+      }))
+    })
+  })
+    .catch((err) => console.error(err))
+})
 
 app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
@@ -38,36 +95,3 @@ app.on('activate', function () {
     createWindow()
   }
 })
-
-const loader = new ServiceLoader()
-
-loader.load().then((services) => {
-  const sendServices = () => {
-    mainWindow.webContents.send('services', services.map((service) => {
-      return service.name
-    }))
-  }
-
-  sendServices()
-
-  ipcMain.on('services', (event) => {
-    sendServices()
-  })
-
-  services.forEach((service) => {
-    service.addListener(({type, data}) => {
-      mainWindow.webContents.send(type, data)
-    })
-    ipcMain.on(service.name, (event) => {
-      if (service.getData()) {
-        const {type, data} = service.getData()
-        mainWindow.webContents.send(type, data)
-      }
-    })
-    if (service.getData()) {
-      const {type, data} = service.getData()
-      mainWindow.webContents.send(type, data)
-    }
-  })
-})
-  .catch((err) => console.error(err))

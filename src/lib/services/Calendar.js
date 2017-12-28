@@ -33,7 +33,7 @@ class Calendar extends Service {
         return a.start.getTime() - b.start.getTime()
       })
       return {
-        'type': 'calendar',
+        'name': 'calendar',
         'data': allEvents
       }
     })
@@ -87,6 +87,10 @@ class Calendar extends Service {
         })
       })
   }
+}
+
+Calendar.defaultConfig = {
+  calendars: []
 }
 
 module.exports = Calendar

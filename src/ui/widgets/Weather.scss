@@ -1,10 +1,5 @@
 @import '../vars_mixins.scss';
 
-.widget-weather {
-  order: 0;
-  flex-grow: 0;
-}
-
 .widget-weather .widget-body {
   position: static;
 }

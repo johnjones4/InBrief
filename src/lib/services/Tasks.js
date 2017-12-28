@@ -33,7 +33,7 @@ class Tasks extends Service {
         if (item && item.endOfWeek) totals.endOfWeek += item.endOfWeek
       })
       return {
-        'type': 'tasks',
+        'name': 'tasks',
         'data': totals
       }
     })
@@ -140,6 +140,10 @@ class Tasks extends Service {
         }
       })
   }
+}
+
+Tasks.defaultConfig = {
+  apis: []
 }
 
 module.exports = Tasks

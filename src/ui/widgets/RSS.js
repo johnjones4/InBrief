@@ -4,9 +4,14 @@ import './RSS.scss'
 import {
   formatDate
 } from '../util'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import {
+  setServiceConfig
+} from '../util/actions'
 const {shell} = window.require('electron')
 
-export default class RSS extends Widget {
+class RSS extends Widget {
   constructor (props) {
     super('News', 'rss', props)
   }
@@ -16,10 +21,11 @@ export default class RSS extends Widget {
   }
 
   renderWidget () {
+    const data = this.getWidgetData()
     return (
       <div>
         {
-          this.state.data && this.state.data.map((feed, i) => this.renderFeed(feed, i))
+          data && data.map((feed, i) => this.renderFeed(feed, i))
         }
       </div>
     )
@@ -59,3 +65,22 @@ export default class RSS extends Widget {
     )
   }
 }
+
+const stateToProps = (state) => {
+  return {
+    services: state.services
+  }
+}
+
+const dispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    setServiceConfig
+  }, dispatch)
+}
+
+RSS.widgetProps = {
+  h: 8,
+  isResizable: true
+}
+
+export default connect(stateToProps, dispatchToProps)(RSS)

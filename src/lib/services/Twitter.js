@@ -31,7 +31,7 @@ class Twitter extends Service {
           .catch((err) => this.handleSubError(err))
       } else {
         return {
-          'type': 'twitter',
+          'name': 'twitter',
           'data': tweetStreams
         }
       }
@@ -53,6 +53,20 @@ class Twitter extends Service {
         }
       })
     })
+  }
+}
+
+Twitter.defaultConfig = {
+  lists: [],
+  credentials: {
+    consumer: {
+      key: null,
+      secret: null
+    },
+    access: {
+      token: null,
+      tokenSecret: null
+    }
   }
 }
 

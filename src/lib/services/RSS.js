@@ -19,7 +19,7 @@ class RSS extends Service {
           .then((items) => {
             outputData[index] = this.processRSSItems(set, items)
             dataEmitter({
-              'type': 'rss',
+              'name': 'rss',
               'data': outputData
             })
             return fetchNextFeedSet(index + 1)
@@ -31,7 +31,7 @@ class RSS extends Service {
     return fetchNextFeedSet(0)
       .then(() => {
         return {
-          'type': 'rss',
+          'name': 'rss',
           'data': outputData
         }
       })
@@ -141,6 +141,10 @@ class RSS extends Service {
       }
     })
   }
+}
+
+RSS.defaultConfig = {
+  sets: []
 }
 
 module.exports = RSS

@@ -1,17 +1,23 @@
 import React from 'react'
 import Widget from './Widget'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import {
+  setServiceConfig
+} from '../util/actions'
 
-export default class Tasks extends Widget {
+class Tasks extends Widget {
   constructor (props) {
     super('Tasks', 'tasks', props)
   }
 
   renderWidget () {
-    return this.state.data && (
+    const data = this.getWidgetData()
+    return data && (
       <div className='widget-big-numbers'>
         <div className='widget-big-numbers-group'>
           <div className='widget-big-numbers-number'>
-            {this.state.data.today}
+            {data.today}
           </div>
           <div className='widget-big-numbers-label'>
             Due Today
@@ -19,7 +25,7 @@ export default class Tasks extends Widget {
         </div>
         <div className='widget-big-numbers-group'>
           <div className='widget-big-numbers-number'>
-            {this.state.data.endOfWeek}
+            {data.endOfWeek}
           </div>
           <div className='widget-big-numbers-label'>
             By Friday
@@ -29,3 +35,22 @@ export default class Tasks extends Widget {
     )
   }
 }
+
+const stateToProps = (state) => {
+  return {
+    services: state.services
+  }
+}
+
+const dispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    setServiceConfig
+  }, dispatch)
+}
+
+Tasks.widgetProps = {
+  h: 1.5,
+  isResizable: false
+}
+
+export default connect(stateToProps, dispatchToProps)(Tasks)

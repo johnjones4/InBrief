@@ -4,9 +4,14 @@ import './Twitter.scss'
 import {
   formatDate
 } from '../util'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import {
+  setServiceConfig
+} from '../util/actions'
 const {shell} = window.require('electron')
 
-export default class Twitter extends Widget {
+class Twitter extends Widget {
   constructor (props) {
     super('Twitter', 'twitter', props)
   }
@@ -16,10 +21,11 @@ export default class Twitter extends Widget {
   }
 
   renderWidget () {
+    const data = this.getWidgetData()
     return (
       <div>
         {
-          this.state.data && this.state.data.map((tweets, i) => this.renderTweets(tweets, i))
+          data && data.map((tweets, i) => this.renderTweets(tweets, i))
         }
       </div>
     )
@@ -82,3 +88,22 @@ export default class Twitter extends Widget {
     )
   }
 }
+
+const stateToProps = (state) => {
+  return {
+    services: state.services
+  }
+}
+
+const dispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    setServiceConfig
+  }, dispatch)
+}
+
+Twitter.widgetProps = {
+  h: 4,
+  isResizable: true
+}
+
+export default connect(stateToProps, dispatchToProps)(Twitter)

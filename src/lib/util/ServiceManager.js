@@ -1,0 +1,57 @@
+const services = require('../services')
+const _ = require('lodash')
+const settings = require('electron-settings')
+
+class ServiceManager {
+  constructor () {
+    this.services = null
+  }
+
+  load () {
+    const config = settings.get('serviceConfig') || {}
+    this.services = _.keys(config).map((name) => {
+      const serviceObject = this.instantiateServiceByName(name, config[name])
+      serviceObject.begin()
+      return serviceObject
+    })
+    return Promise.resolve(this.services)
+  }
+
+  updateServiceConfig (name, config) {
+    const serviceIndex = this.services.findIndex((service) => service.name === name)
+    let newService = this.instantiateServiceByName(name, config)
+    if (serviceIndex >= 0) {
+      this.services[serviceIndex].end()
+      this.services[serviceIndex].clearListeners()
+      this.services[serviceIndex] = newService
+    } else {
+      this.services.push(newService)
+    }
+    const storedConfig = settings.get('serviceConfig') || {}
+    storedConfig[name] = storedConfig
+    settings.set('serviceConfig', storedConfig)
+    newService.begin()
+    return newService
+  }
+
+  instantiateServiceByName (name, config) {
+    switch (name) {
+      case 'calendar':
+        return new services.Calendar(config || services.Calendar.defaultConfig)
+      case 'email':
+        return new services.Email(config || services.Email.defaultConfig)
+      case 'rss':
+        return new services.RSS(config || services.RSS.defaultConfig)
+      case 'tasks':
+        return new services.Tasks(config || services.Tasks.defaultConfig)
+      case 'twitter':
+        return new services.Twitter(config || services.Twitter.defaultConfig)
+      case 'weather':
+        return new services.Weather(config || services.Weather.defaultConfig)
+      default:
+        return null
+    }
+  }
+}
+
+module.exports = ServiceManager

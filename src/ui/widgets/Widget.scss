@@ -2,25 +2,20 @@
 
 .widget {
   background: $widget_background;
-  flex-grow: 1;
-  margin-right: 1em;
-  position: relative;
   border-left: solid 4px $widget_stripe;
-  transition: opacity 0.5s;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor: move;
+  width: 100%;
+  height: 100%;
+  transform: rotate3d(0, 1, 0, 0);
+  backface-visibility: hidden;
+  transition: all 1s;
+  z-index: 1;
   opacity: 1;
-  .spinner {
-    opacity: 0;
-  }
-}
-
-.widget-not-ready {
-  opacity: 0;
-}
-
-.widget-loading {
-  .spinner {
-    opacity: 1;
-  }
 }
 
 .widget-title {
@@ -34,35 +29,44 @@
   }
 }
 
+.widget-title-edit {
+  z-index: 0;
+  border: none;
+  outline: none;
+  display: inline-block;
+  padding: 0;
+  margin: 2px 0 0 0;
+  background: none;
+  color: white;
+  font-size: 0.6em;
+  float: right;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.widget-editor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform: rotate3d(0, 1, 0, 180deg);
+  backface-visibility: hidden;
+  transition: all 1s;
+  z-index: 0;
+  background: #eee;
+  color: #111;
+  padding: 1em;
+  overflow: scroll;
+  opacity: 0;
+}
+
 .widget-body {
   padding: 0.25rem 0.25rem 0.25rem 0.5rem;
   color: $widget_body_text_color;
-}
-
-.widget-rss,
-.widget-twitter {
-  width: 50%;
-}
-
-.widget-weather,
-.widget-tasks,
-.widget-email,
-.widget-calendar {
-  margin-right: 0;
-}
-
-.widget-weather,
-.widget-tasks,
-.widget-email {
-  margin-bottom: 1em;
-}
-
-.widget-tasks,
-.widget-email {
-  flex-grow: 0;
-  .widget-body {
-    padding: 0;
-  }
+  backface-visibility: hidden;
 }
 
 .widget-scroll .widget-body {
@@ -129,4 +133,54 @@
 
 .faux-link {
   cursor: pointer;
+}
+
+.widget-wrapper {
+  perspective: 800px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+
+  &.widget-editing {
+    .widget {
+      transform: rotate3d(0, 1, 0, -180deg);
+      z-index: 0;
+      opacity: 0;
+    }
+  
+    .widget-editor {
+      transform: rotate3d(0, 1, 0, 0);
+      z-index: 1;
+      opacity: 1;
+    }
+  }
+}
+
+.widget-editor-title {
+  font-size: 16px;
+  @include heading_font_styles;
+  color: inherit;
+}
+
+.widget-editor-body {
+  margin-top: 1em;
+}
+
+.widget-editor-json {
+  width: 100%;
+  height: 200px;
+  backface-visibility: hidden;
+}
+
+.widget-editor-buttons {
+  padding-top: 0.5em;
+  text-align: right;
+}
+
+.widget-editor-button {
+  margin-left: 0.5em;
 }

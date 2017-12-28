@@ -1,17 +1,23 @@
 import React from 'react'
 import Widget from './Widget'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import {
+  setServiceConfig
+} from '../util/actions'
 
-export default class Email extends Widget {
+class Email extends Widget {
   constructor (props) {
     super('Email', 'email', props)
   }
 
   renderWidget () {
-    return this.state.data && (
+    const data = this.getWidgetData()
+    return data && (
       <div className='widget-big-numbers'>
         <div className='widget-big-numbers-group'>
           <div className='widget-big-numbers-number'>
-            {this.state.data.unread}
+            {data.unread}
           </div>
           <div className='widget-big-numbers-label'>
             Unread
@@ -19,7 +25,7 @@ export default class Email extends Widget {
         </div>
         <div className='widget-big-numbers-group'>
           <div className='widget-big-numbers-number'>
-            {this.state.data.flagged}
+            {data.flagged}
           </div>
           <div className='widget-big-numbers-label'>
             Flagged
@@ -29,3 +35,22 @@ export default class Email extends Widget {
     )
   }
 }
+
+const stateToProps = (state) => {
+  return {
+    services: state.services
+  }
+}
+
+const dispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    setServiceConfig
+  }, dispatch)
+}
+
+Email.widgetProps = {
+  h: 1.5,
+  isResizable: false
+}
+
+export default connect(stateToProps, dispatchToProps)(Email)

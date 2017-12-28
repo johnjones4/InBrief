@@ -15,7 +15,7 @@ class Weather extends Service {
     })
       .then((weatherData) => {
         return {
-          'type': 'weather',
+          'name': 'weather',
           'data': {
             'now': {
               'weather': weatherData.current_observation.weather,
@@ -37,6 +37,11 @@ class Weather extends Service {
         }
       })
   }
+}
+
+Weather.defaultConfig = {
+  key: null,
+  location: null
 }
 
 module.exports = Weather

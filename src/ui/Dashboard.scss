@@ -1,4 +1,6 @@
 @import 'vars_mixins.scss';
+@import '../../node_modules/react-grid-layout/css/styles.css';
+@import '../../node_modules/react-resizable/css/styles.css';
 
 * {
   box-sizing: border-box;
@@ -6,44 +8,18 @@
 
 body {
   font-family: 'Open Sans', sans-serif;
-  background: $page_background;
-  background-size: cover;
   color: white;
   font-size: 12px;
+  background: $page_background;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
-.dashboard {
+.overlay {
   position: fixed;
   top: 0;
   right: 0;
   left: 0;
   bottom: 0;
   background: $page_background_overlay;
-}
-
-.dashboard-primary, .dashboard-secondary {
-  position: fixed;
-  top: 1em;
-  bottom: 1em;
-  display: flex;
-}
-
-.dashboard-primary {
-  width: calc(70% - 1em);
-  left: 1em;
-  flex-direction: row;
-}
-
-.dashboard-secondary {
-  width: calc(30% - 1em);
-  right: 1em;
-  flex-direction: column;
-}
-
-.widget-tasks {
-  order: 1;
-}
-
-.widget-email {
-  order: 2;
 }

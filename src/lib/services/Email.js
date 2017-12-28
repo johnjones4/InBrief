@@ -25,7 +25,7 @@ class Email extends Service {
         if (item && item.flagged) totals.flagged += item.flagged
       })
       return {
-        'type': 'email',
+        'name': 'email',
         'data': totals
       }
     })
@@ -126,6 +126,10 @@ class Email extends Service {
     imap.connect()
     return p
   }
+}
+
+Email.defaultConfig = {
+  mailboxes: []
 }
 
 module.exports = Email

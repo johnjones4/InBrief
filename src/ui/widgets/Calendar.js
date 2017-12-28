@@ -1,11 +1,16 @@
 import React from 'react'
 import Widget from './Widget'
 import './Calendar.scss'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import {
+  setServiceConfig
+} from '../util/actions'
 
 const MIN_MINUTES = 8 * 60
 const MAX_MINUTES = 19 * 60
 
-export default class Calendar extends Widget {
+class Calendar extends Widget {
   constructor (props) {
     super('Calendar', 'calendar', props)
   }
@@ -36,10 +41,11 @@ export default class Calendar extends Widget {
   }
 
   renderWidget () {
+    const data = this.getWidgetData()
     return (
       <div className='calendar-items'>
         {
-          this.state.data && this.state.data.map((event, i) => {
+          data && data.map((event, i) => {
             return (
               <div className='calendar-item' key={i} style={{'top': (this.estimateYPosition(event) * 100) + '%', 'height': (this.estimateHeight(event) * 100) + '%'}}>
                 <div className='calendar-item-name'>
@@ -62,3 +68,22 @@ export default class Calendar extends Widget {
     )
   }
 }
+
+const stateToProps = (state) => {
+  return {
+    services: state.services
+  }
+}
+
+const dispatchToProps = (dispatch) => {
+  return bindActionCreators({
+    setServiceConfig
+  }, dispatch)
+}
+
+Calendar.widgetProps = {
+  h: 2,
+  isResizable: true
+}
+
+export default connect(stateToProps, dispatchToProps)(Calendar)
