@@ -11,7 +11,8 @@ import {
 } from './widgets'
 import {
   setServices,
-  setServiceData
+  setServiceData,
+  setServiceConfig
 } from './util/actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -56,14 +57,25 @@ class Dashboard extends Component {
   }
 
   layoutChanged (layout, layouts) {
-    // console.log(layouts)
+    layout.forEach((serviceLayout) => {
+      const name = serviceLayout.i
+      const service = this.props.services.services.find((_service) => _service.name === name)
+      if (service) {
+        const config = service.config
+        config.layout = {
+          x: serviceLayout.x,
+          y: serviceLayout.y,
+          h: serviceLayout.h,
+          w: serviceLayout.w
+        }
+        this.props.setServiceConfig(name, config)
+      }
+    })
   }
 
   render () {
     if (this.props.services.services) {
       const cols = 3
-      let col = 0
-      let row = 0
       return (
         <div>
           <div className='overlay' />
@@ -78,16 +90,11 @@ class Dashboard extends Component {
                 const defaultProps = this.getServiceProps(service)
                 const layout = {
                   i: service.name,
-                  x: col,
-                  y: row,
-                  w: 1,
-                  h: defaultProps.h,
+                  x: service.config && service.config.layout ? (service.config.layout.x || 0) : 0,
+                  y: service.config && service.config.layout ? (service.config.layout.y || 0) : 0,
+                  w: service.config && service.config.layout ? (service.config.layout.w || 1) : 1,
+                  h: defaultProps.isResizable ? (service.config && service.config.layout ? (service.config.layout.h || defaultProps.h) : defaultProps.h) : defaultProps.h,
                   isResizable: defaultProps.isResizable
-                }
-                col++
-                if (col >= cols) {
-                  col = 0
-                  row++
                 }
                 return (
                   <div key={service.name} data-grid={layout}>
@@ -153,13 +160,15 @@ const stateToProps = (state) => {
 const dispatchToProps = (dispatch) => {
   return bindActionCreators({
     setServices,
-    setServiceData
+    setServiceData,
+    setServiceConfig
   }, dispatch)
 }
 
 Dashboard.propTypes = {
   setServices: PropTypes.func.isRequired,
   setServiceData: PropTypes.func.isRequired,
+  setServiceConfig: PropTypes.func.isRequired,
   services: PropTypes.shape({
     services: PropTypes.array
   })
