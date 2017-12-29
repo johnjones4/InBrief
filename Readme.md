@@ -5,7 +5,7 @@
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
 
-![App screenshot](screenshot.png)
+![App screenshot](https://www.dropbox.com/pri/get/john/projects/Dashboard/Demo.gif?_subject_uid=610616627&raw=1&size=1600x1200&size_mode=3&w=AACCcKEj7Vbzy9y6X1jLQG13xbaQjT7ofDaVYLvFiA7gEw)
 
 ## About
 
@@ -29,7 +29,7 @@ By default, all configurations for the various widgets contain ultra-bare-bones 
 
 ### Calendar
 
-```json
+```JSON
 {
   "calendars": [
     {
@@ -50,7 +50,7 @@ By default, all configurations for the various widgets contain ultra-bare-bones 
 
 ### Email
 
-```json
+```JSON
 {
   "mailboxes": [
     {
@@ -79,7 +79,7 @@ By default, all configurations for the various widgets contain ultra-bare-bones 
 
 ### RSS
 
-```json
+```JSON
 {
   "max": 10,
   "sets": [
@@ -107,7 +107,7 @@ By default, all configurations for the various widgets contain ultra-bare-bones 
 
 ### Tasks
 
-```json
+```JSON
 {
   "apis": [
     {
@@ -124,7 +124,7 @@ By default, all configurations for the various widgets contain ultra-bare-bones 
 
 ### Twitter
 
-```json
+```JSON
 {
   "credentials": {
     "consumer": {
@@ -148,7 +148,7 @@ By default, all configurations for the various widgets contain ultra-bare-bones 
 
 ### Weather
 
-```
+```JSON
 {
   "key": "",
   "location": "22314"
