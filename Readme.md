@@ -23,6 +23,134 @@ Each widget on the app's screen draws its data via various APIs, and InBrief is 
 * Twitter
 * Weather Underground
 
-## Installation
+## Setup
 
-When InBrief launches for the first time, it creates a `.inbriefrc.json` file in your home directory. Update the contents of that JSON file per the [example file](https://github.com/johnjones4/InBrief/blob/electronapp/inbriefrc.sample.json) and restart InBrief.
+By default, all configurations for the various widgets contain ultra-bare-bones information. Please use the following example configurations below for more information on how to configure the widgets:
+
+### Calendar
+
+```json
+{
+  "calendars": [
+    {
+      "type": "ics",
+      "url": ""
+    },
+    {
+      "type": "exchange",
+      "credentials": {
+        "username": "",
+        "password": "",
+        "url": "http://example.com/Ews/Exchange.asmx"
+      }
+    }
+  ]
+}
+```
+
+### Email
+
+```json
+{
+  "mailboxes": [
+    {
+      "type": "exchange",
+      "credentials": {
+        "username": "",
+        "password": "",
+        "url": "http://example.com/Ews/Exchange.asmx"
+      }
+    },
+    {
+      "type": "imap",
+      "credentials": {
+        "user": "",
+        "password": "",
+        "host": "imap.gmail.com",
+        "port": 993,
+        "tls": true
+      },
+      "flagMailboxName": "[Gmail]/All Mail",
+      "unreadMailboxName": "Inbox"
+    }
+  ]
+}
+```
+
+### RSS
+
+```json
+{
+  "max": 10,
+  "sets": [
+    {
+      "title": "News",
+      "feeds": [
+        "http://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml"
+      ]
+    },
+    {
+      "title": "Tech",
+      "feeds": [
+        "https://news.ycombinator.com/rss"
+      ]
+    },
+    {
+      "title": "Open Source",
+      "feeds": [
+        "http://opensource.com/feed"
+      ]
+    }
+  ]
+}
+```
+
+### Tasks
+
+```json
+{
+  "apis": [
+    {
+      "type": "todoist",
+      "token": ""
+    },
+    {
+      "type": "asana",
+      "token": ""
+    }
+  ]
+}
+```
+
+### Twitter
+
+```json
+{
+  "credentials": {
+    "consumer": {
+      "key": "",
+      "secret": ""
+    },
+    "access": {
+      "token": "",
+      "tokenSecret": ""
+    }
+  },
+  "lists": [
+    {
+      "owner": "johnjones4",
+      "slug": "open-source",
+      "title": "Open Source"
+    }
+  ]
+}
+```
+
+### Weather
+
+```
+{
+  "key": "",
+  "location": "22314"
+}
+```
