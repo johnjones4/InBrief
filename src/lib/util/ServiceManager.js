@@ -16,6 +16,18 @@ class ServiceManager {
     })
     return Promise.resolve(this.services)
   }
+  
+  getServiceByName (name) {
+    return this.services.find((service) => service.name === name)
+  }
+
+  updateServiceLayout (name, layout) {
+    const service = this.getServiceByName(name)
+    if (service && service.config) {
+      service.config.layout = layout
+      settings.set('serviceConfig.' + name, service.config)
+    }
+  }
 
   updateServiceConfig (name, config) {
     const serviceIndex = this.services.findIndex((service) => service.name === name)

@@ -82,6 +82,17 @@ const services = (state = initialServicesState, action) => {
             return Object.assign({}, service)
           })
       })
+    case ACTIONS.SET_LAYOUTS:
+      const newServices1 = state.services.slice(0)
+      action.layouts.forEach((layoutInfo) => {
+        const serviceIndex = newServices1.findIndex((service) => service.name === layoutInfo.name)
+        if (serviceIndex >= 0 && newServices1[serviceIndex].config) {
+          newServices1[serviceIndex].config.layout = layoutInfo.layout
+        }
+      })
+      return Object.assign({}, state, {
+        services: newServices1
+      })
     default:
       return state
   }

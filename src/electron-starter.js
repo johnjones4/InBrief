@@ -78,8 +78,16 @@ app.on('ready', () => {
     })
 
     ipcMain.on('removeService', (event, name) => {
+      console.log('Will remove ' + name)
       manager.removeService(name)
       sendServices()
+    })
+
+    ipcMain.on('layouts', (event, layouts) => {
+      console.log('Updating layouts')
+      layouts.forEach(({name, layout}) => {
+        manager.updateServiceLayout(name, layout)
+      })
     })
   })
     .catch((err) => console.error(err))

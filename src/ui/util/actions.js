@@ -51,3 +51,11 @@ export const removeService = (name) => {
     name
   }
 }
+
+export const setServicesLayouts = (layouts) => {
+  ipcRenderer.send('layouts', layouts)
+  return {
+    type: ACTIONS.SET_LAYOUTS,
+    layouts
+  }
+}

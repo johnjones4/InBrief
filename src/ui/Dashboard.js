@@ -12,7 +12,7 @@ import {
 import {
   setServices,
   setServiceData,
-  setServiceConfig
+  setServicesLayouts
 } from './util/actions'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
@@ -57,20 +57,18 @@ class Dashboard extends Component {
   }
 
   layoutChanged (layout, layouts) {
-    layout.forEach((serviceLayout) => {
-      const name = serviceLayout.i
-      const service = this.props.services.services.find((_service) => _service.name === name)
-      if (service) {
-        const config = service.config
-        config.layout = {
+    const newLayouts = layout.map((serviceLayout) => {
+      return {
+        name: serviceLayout.i,
+        layout: {
           x: serviceLayout.x,
           y: serviceLayout.y,
           h: serviceLayout.h,
           w: serviceLayout.w
         }
-        this.props.setServiceConfig(name, config)
       }
     })
+    this.props.setServicesLayouts(newLayouts)
   }
 
   render () {
@@ -161,14 +159,14 @@ const dispatchToProps = (dispatch) => {
   return bindActionCreators({
     setServices,
     setServiceData,
-    setServiceConfig
+    setServicesLayouts
   }, dispatch)
 }
 
 Dashboard.propTypes = {
   setServices: PropTypes.func.isRequired,
   setServiceData: PropTypes.func.isRequired,
-  setServiceConfig: PropTypes.func.isRequired,
+  setServicesLayouts: PropTypes.func.isRequired,
   services: PropTypes.shape({
     services: PropTypes.array
   })
