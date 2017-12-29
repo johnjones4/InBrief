@@ -139,6 +139,9 @@
       "publish": {
         "provider": "github"
       }
+    },
+    "linux": {
+      "category": "Utility"
     }
   }
 }
