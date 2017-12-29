@@ -30,10 +30,10 @@ class Twitter extends Service {
           })
           .catch((err) => this.handleSubError(err))
       } else {
-        return {
+        return Promise.resolve({
           'name': 'twitter',
           'data': tweetStreams
-        }
+        })
       }
     }
     return start(0)

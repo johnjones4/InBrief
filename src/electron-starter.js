@@ -30,16 +30,28 @@ app.on('ready', () => {
 
   const manager = new ServiceManager()
 
-  manager.load().then(() => {
-    const sendServices = () => {
-      mainWindow.webContents.send('services', manager.services.map((service) => {
-        return {
-          name: service.name,
-          config: service.config
-        }
-      }))
-    }
+  const sendServices = () => {
+    console.log('Sending services list')
+    mainWindow.webContents.send('services', manager.services.map((service) => {
+      return {
+        name: service.name,
+        config: service.config
+      }
+    }))
+  }
 
+  const setupServiceDataListeners = (service) => {
+    service.addListener((data) => {
+      console.log('Sending servicedata for ' + service.name)
+      mainWindow.webContents.send('servicedata', data)
+    })
+    if (service.getData()) {
+      const data = service.getData()
+      mainWindow.webContents.send('servicedata', data)
+    }
+  }
+
+  manager.load().then(() => {
     sendServices()
 
     ipcMain.on('services', (event) => {
@@ -47,19 +59,7 @@ app.on('ready', () => {
     })
 
     manager.services.forEach((service) => {
-      service.addListener((data) => {
-        mainWindow.webContents.send('servicedata', data)
-      })
-      ipcMain.on('servicedata-' + service.name, (event) => {
-        if (service.getData()) {
-          const data = service.getData()
-          mainWindow.webContents.send('servicedata', data)
-        }
-      })
-      if (service.getData()) {
-        const data = service.getData()
-        mainWindow.webContents.send('servicedata', data)
-      }
+      setupServiceDataListeners(service)
     })
 
     ipcMain.on('servicedata', (event) => {
@@ -72,13 +72,14 @@ app.on('ready', () => {
     })
 
     ipcMain.on('serviceconfig', (event, {name, config}) => {
-      manager.updateServiceConfig(name, config)
-      mainWindow.webContents.send('services', manager.services.map((service) => {
-        return {
-          name: service.name,
-          config: service.config
-        }
-      }))
+      const service = manager.updateServiceConfig(name, config)
+      sendServices()
+      setupServiceDataListeners(service)
+    })
+
+    ipcMain.on('removeService', (event, name) => {
+      manager.removeService(name)
+      sendServices()
     })
   })
     .catch((err) => console.error(err))

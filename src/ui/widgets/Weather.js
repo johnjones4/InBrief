@@ -4,7 +4,9 @@ import './Weather.scss'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
-  setServiceConfig
+  commitTempConfigString,
+  setTemporaryServiceConfigString,
+  removeService
 } from '../util/actions'
 
 class Weather extends Widget {
@@ -91,7 +93,9 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
   return bindActionCreators({
-    setServiceConfig
+    commitTempConfigString,
+    setTemporaryServiceConfigString,
+    removeService
   }, dispatch)
 }
 

@@ -27,11 +27,19 @@ class ServiceManager {
     } else {
       this.services.push(newService)
     }
-    const storedConfig = settings.get('serviceConfig') || {}
-    storedConfig[name] = storedConfig
-    settings.set('serviceConfig', storedConfig)
+    settings.set('serviceConfig.' + name, config)
     newService.begin()
     return newService
+  }
+
+  removeService (name) {
+    const serviceIndex = this.services.findIndex((service) => service.name === name)
+    if (serviceIndex >= 0) {
+      this.services[serviceIndex].end()
+      this.services[serviceIndex].clearListeners()
+      this.services.splice(serviceIndex, 1)
+    }
+    settings.delete('serviceConfig.' + name)
   }
 
   instantiateServiceByName (name, config) {

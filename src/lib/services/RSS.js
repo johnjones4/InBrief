@@ -110,7 +110,7 @@ class RSS extends Service {
           console.log(err)
           resolve([])
         })
-        req.on('err', (err) => {
+        req.on('error', (err) => {
           console.log('Error on ' + feed)
           console.log(err)
           resolve([])

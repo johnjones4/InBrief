@@ -23,3 +23,30 @@ body {
   bottom: 0;
   background: $page_background_overlay;
 }
+
+textarea,input[type=text] {
+  outline: none;
+  border: solid 1px #ccc;
+  &:focus {
+    border-color: $widget_ui_control_color;
+  }
+}
+
+button {
+  border: solid 1px #ccc;
+  outline: none;
+  background: white;
+  color: black;
+  transition: all 0.25s;
+  padding: 0.25em 1em;
+  cursor: pointer;
+  &.destructive {
+    border-color: rgb(168, 84, 84);
+  }
+  &:hover {
+    border-color: $widget_ui_control_color;
+  }
+  &:active {
+    border-color: $widget_ui_control_highlight_color;
+  }
+}

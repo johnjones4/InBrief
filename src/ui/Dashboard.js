@@ -17,6 +17,7 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {Responsive, WidthProvider} from 'react-grid-layout'
 import PropTypes from 'prop-types'
+import AddWidget from './AddWidget'
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 const {ipcRenderer} = window.require('electron')
 
@@ -40,21 +41,26 @@ class Dashboard extends Component {
   componentDidMount () {
     ipcRenderer.once('services', (event, services) => {
       this.props.setServices(services)
+
       ipcRenderer.on('servicedata', (event, data) => {
         this.props.setServiceData(data)
       })
       ipcRenderer.send('servicedata')
+
+      ipcRenderer.on('services', (event, services) => {
+        this.props.setServices(services)
+      })
     })
     ipcRenderer.send('services')
     this.resetRowHeight()
   }
 
   layoutChanged (layout, layouts) {
-    console.log(layouts)
+    // console.log(layouts)
   }
 
   render () {
-    if (this.props.services.services && this.props.services.services.length > 0) {
+    if (this.props.services.services) {
       const cols = 3
       let col = 0
       let row = 0
@@ -65,7 +71,8 @@ class Dashboard extends Component {
             rowHeight={this.state.perferredRowHeight}
             breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
             cols={{lg: cols, md: cols, sm: cols, xs: cols, xxs: cols}}
-            onLayoutChange={(layout, layouts) => this.layoutChanged(layout, layouts)}>
+            onLayoutChange={(layout, layouts) => this.layoutChanged(layout, layouts)}
+            draggableCancel='input,textarea'>
             {
               this.props.services.services.map((service, i) => {
                 const defaultProps = this.getServiceProps(service)
@@ -90,6 +97,7 @@ class Dashboard extends Component {
               })
             }
           </ResponsiveReactGridLayout>
+          <AddWidget />
         </div>
       )
     } else {

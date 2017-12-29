@@ -15,11 +15,12 @@ $stripe_background_hover: lighten($foreground_highlight_color,35%);
 $deemphasized_text: darken(desaturate($widget_body_text_color,40%),40%);
 $double_deemphasized_text: darken(desaturate($widget_body_text_color,50%),50%);
 
-$strong_highlight: #779;
-
 @mixin heading_font_styles {
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: 300;
   color: $widget_body_strong_text_color;
 }
+
+$widget_ui_control_color: rgb(68, 128, 184);
+$widget_ui_control_highlight_color: lighten($widget_ui_control_color,20%);

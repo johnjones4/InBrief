@@ -46,23 +46,6 @@
   }
 }
 
-.widget-editor {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  transform: rotate3d(0, 1, 0, 180deg);
-  backface-visibility: hidden;
-  transition: all 1s;
-  z-index: 0;
-  background: #eee;
-  color: #111;
-  padding: 1em;
-  overflow: scroll;
-  opacity: 0;
-}
-
 .widget-body {
   padding: 0.25rem 0.25rem 0.25rem 0.5rem;
   color: $widget_body_text_color;
@@ -160,6 +143,23 @@
   }
 }
 
+.widget-editor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform: rotate3d(0, 1, 0, 180deg);
+  backface-visibility: hidden;
+  transition: all 1s;
+  z-index: 0;
+  background: #eee;
+  color: #111;
+  padding: 1em;
+  overflow: scroll;
+  opacity: 0;
+}
+
 .widget-editor-title {
   font-size: 16px;
   @include heading_font_styles;
@@ -167,20 +167,36 @@
 }
 
 .widget-editor-body {
-  margin-top: 1em;
+  position: absolute;
+  top: 3em;
+  left: 1em;
+  right: 1em;
+  bottom: 1em;
 }
 
 .widget-editor-json {
   width: 100%;
-  height: 200px;
   backface-visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 2.75em;
+  font-family: monospace;
 }
 
 .widget-editor-buttons {
-  padding-top: 0.5em;
   text-align: right;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .widget-editor-button {
   margin-left: 0.5em;
+  &.destructive {
+    float: left;
+    margin-left: 0;
+  }
 }

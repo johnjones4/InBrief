@@ -1,0 +1,77 @@
+@import 'vars_mixins.scss';
+
+
+.add-widget-button {
+  padding: 0;
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  font-size: 50px;
+  line-height: 40px;
+  padding: 1px 9px 6px 9px;
+  background: $page_background_overlay;
+  color: $widget_body_text_color;
+  border: none;
+  opacity: 0;
+}
+
+body:hover .add-widget-button {
+  opacity: 1;
+}
+
+$height: 150px;
+$outerMargin: 10px;
+
+.add-widget-wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: $page_background_overlay;
+}
+
+.add-widget {
+  position: fixed;
+  height: $height;
+  top: 50%;
+  left: 0;
+  right: 0;
+  background: $page_background_overlay;
+  margin: ($height * -0.5) auto 0 auto;
+}
+
+.add-widget-service-option {
+  float: left;
+  margin: $outerMargin 0;
+}
+
+.add-widget-service-option:first-child {
+  margin-left: ($outerMargin / 2);
+}
+
+.add-widget-service-button {
+  width: ($height - ($outerMargin * 2));
+  padding: 0;
+  margin: 0 ($outerMargin / 2);
+  background: transparent no-repeat center center;
+  background-size: 75%;
+  border: none;
+  vertical-align: bottom;
+  padding-top: ($height - ($outerMargin * 3.25));
+  color: white;
+  opacity: 0.75;
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.add-widget-close-button {
+  padding: 0;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+}

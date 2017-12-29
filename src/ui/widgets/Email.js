@@ -3,7 +3,9 @@ import Widget from './Widget'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
-  setServiceConfig
+  commitTempConfigString,
+  setTemporaryServiceConfigString,
+  removeService
 } from '../util/actions'
 
 class Email extends Widget {
@@ -44,7 +46,9 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
   return bindActionCreators({
-    setServiceConfig
+    commitTempConfigString,
+    setTemporaryServiceConfigString,
+    removeService
   }, dispatch)
 }
 

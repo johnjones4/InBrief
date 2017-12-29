@@ -4,7 +4,9 @@ import './Calendar.scss'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
-  setServiceConfig
+  commitTempConfigString,
+  setTemporaryServiceConfigString,
+  removeService
 } from '../util/actions'
 
 const MIN_MINUTES = 8 * 60
@@ -77,7 +79,9 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
   return bindActionCreators({
-    setServiceConfig
+    commitTempConfigString,
+    setTemporaryServiceConfigString,
+    removeService
   }, dispatch)
 }
 
