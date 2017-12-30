@@ -23,6 +23,10 @@ Each widget on the app's screen draws its data via various APIs, and InBrief is 
 * Twitter
 * Weather Underground
 
+## Installation
+
+To install InBrief on your computer, head to the [Releases](https://github.com/johnjones4/InBrief/releases) section and download the appropriate file for your system. (Currently, there are only builds for Linux and Mac)
+
 ## Setup
 
 By default, all configurations for the various widgets contain ultra-bare-bones information. Please use the following example configurations below for more information on how to configure the widgets:
