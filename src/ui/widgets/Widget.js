@@ -17,7 +17,7 @@ class Widget extends Component {
   }
 
   getWidgetTempConfig (props = this.props) {
-    return props.services.services ? props.services.services.find((service) => service.name === this.name).tempConfigString : null
+    return props.services.services ? props.services.services.find((service) => service.name === this.name).tempConfig : null
   }
 
   getWidgetData () {
@@ -40,16 +40,65 @@ class Widget extends Component {
   }
 
   saveConfig () {
-    this.props.commitTempConfigString(this.name)
+    this.props.commitTempConfig(this.name)
     this.setState({editing: false})
   }
 
   cancelConfig () {
+    this.props.setTemporaryConfig(this.name, this.getWidgetConfig())
     this.setState({editing: false})
   }
 
   destroyWidget () {
     this.props.removeService(this.name)
+  }
+
+  setTempConfigSubValue (field, subfield, value) {
+    const newTempConfig = Object.assign({}, this.getWidgetTempConfig())
+    newTempConfig[field][subfield] = value
+    this.props.setTemporaryConfig(this.name, newTempConfig)
+  }
+
+  setTempConfigValue (field, value) {
+    const newTempConfig = Object.assign({}, this.getWidgetTempConfig())
+    newTempConfig[field] = value
+    this.props.setTemporaryConfig(this.name, newTempConfig)
+  }
+
+  setTempConfigArrayIndexValue (arrayName, index, field, value) {
+    const tempConfig = this.getWidgetTempConfig()
+    if (index < tempConfig[arrayName].length) {
+      const newArray = tempConfig[arrayName].slice(0)
+      newArray[index][field] = value
+      this.setTempConfigValue(arrayName, newArray)
+    }
+  }
+
+  removeTempConfigArrayIndex (arrayName, index) {
+    const tempConfig = this.getWidgetTempConfig()
+    if (index < tempConfig[arrayName].length) {
+      const newArray = tempConfig[arrayName].slice(0)
+      newArray.splice(index, 1)
+      this.setTempConfigValue(arrayName, newArray)
+    }
+  }
+
+  addTempConfigArrayObject (arrayName, object) {
+    const tempConfig = this.getWidgetTempConfig()
+    const newArray = tempConfig[arrayName].slice(0)
+    newArray.push(object)
+    this.setTempConfigValue(arrayName, newArray)
+  }
+
+  moveTempConfigArrayIndex (arrayName, index, nextIndex) {
+    const tempConfig = this.getWidgetTempConfig()
+    if (index < tempConfig[arrayName].length && nextIndex >= 0 && nextIndex < tempConfig[arrayName].length) {
+      const newArray = tempConfig[arrayName].slice(0)
+      const oldObject = tempConfig[arrayName][nextIndex]
+      newArray[nextIndex] = tempConfig[arrayName][index]
+      newArray[index] = oldObject
+      this.setTempConfigValue(arrayName, newArray)
+    }
   }
 
   render () {
@@ -69,15 +118,13 @@ class Widget extends Component {
             {this.title}
           </div>
           <div className='widget-editor-body'>
-            <textarea
-              className='widget-editor-json'
-              ref={(el) => { this.configJsonElement = el }}
-              onChange={(event) => this.props.setTemporaryServiceConfigString(this.name, event.target.value)}
-              value={this.getWidgetTempConfig()} />
-            <div className='widget-editor-buttons'>
-              <button className='widget-editor-button destructive' onClick={() => this.destroyWidget()}>Remove</button>
-              <button className='widget-editor-button' onClick={() => this.saveConfig()}>Save</button>
-              <button className='widget-editor-button' onClick={() => this.cancelConfig()}>Cancel</button>
+            <div className='widget-editor-form-area'>
+              { this.renderEditor() }
+            </div>
+            <div className='widget-editor-button-set widget-editor-control-buttons'>
+              <button className='destructive' onClick={() => this.destroyWidget()}>Remove</button>
+              <button onClick={() => this.saveConfig()}>Save</button>
+              <button onClick={() => this.cancelConfig()}>Cancel</button>
             </div>
           </div>
         </div>
@@ -88,15 +135,19 @@ class Widget extends Component {
   renderWidget () {
     return null
   }
+
+  renderEditor () {
+    return null
+  }
 }
 
 Widget.propTypes = {
   services: PropTypes.shape({
     services: PropTypes.array
   }),
-  commitTempConfigString: PropTypes.func.isRequired,
+  commitTempConfig: PropTypes.func.isRequired,
   removeService: PropTypes.func.isRequired,
-  setTemporaryServiceConfigString: PropTypes.func.isRequired
+  setTemporaryConfig: PropTypes.func.isRequired
 }
 
 export default Widget

@@ -16,7 +16,7 @@ const services = (state = initialServicesState, action) => {
         }
       })
       newServices.forEach((service) => {
-        service.tempConfigString = JSON.stringify(service.config, null, '  ')
+        service.tempConfig = Object.assign({}, service.config)
       })
       return Object.assign({}, state, {
         services: newServices
@@ -35,7 +35,7 @@ const services = (state = initialServicesState, action) => {
           name: action.name,
           config: {},
           data: action.data,
-          tempConfigString: '{}'
+          tempConfig: {}
         })
         return Object.assign({}, state, {
           services: newServices
@@ -55,17 +55,17 @@ const services = (state = initialServicesState, action) => {
           name: action.name,
           config: action.config,
           data: null,
-          tempConfigString: JSON.stringify(action.config, null, '  ')
+          tempConfig: Object.assign({}, action.config)
         })
         return Object.assign({}, state, {
           services: newServices
         })
       }
-    case ACTIONS.SET_TEMP_SERVICE_CONFIG_STRING:
+    case ACTIONS.SET_TEMP_CONFIG:
       const index2 = state.services.findIndex((service) => service.name === action.name)
       if (index2 >= 0) {
         const newServices = state.services.slice(0)
-        newServices[index2].tempConfigString = action.tempConfigString
+        newServices[index2].tempConfig = Object.assign({}, action.tempConfig)
         return Object.assign({}, state, {
           services: newServices
         })

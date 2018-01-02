@@ -88,12 +88,11 @@ class RSS extends Service {
       arraysOfItems.forEach((_items) => {
         _items.forEach((item) => items.push(item))
       })
-      return items
+      return items.slice(0, this.config.max)
     })
   }
 
   fetchSingleFeed (feed) {
-    const _this = this
     return new Promise((resolve, reject) => {
       try {
         const items = []
@@ -127,9 +126,7 @@ class RSS extends Service {
           var stream = this
           var item
           while ((item = stream.read()) !== null) {
-            if (items.length < _this.config.max) {
-              items.push(item)
-            }
+            items.push(item)
           }
         })
         feedparser.on('end', function () {

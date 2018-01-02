@@ -4,8 +4,8 @@ import './Calendar.scss'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
-  commitTempConfigString,
-  setTemporaryServiceConfigString,
+  commitTempConfig,
+  setTemporaryConfig,
   removeService
 } from '../util/actions'
 
@@ -69,6 +69,91 @@ class Calendar extends Widget {
       </div>
     )
   }
+
+  renderEditor () {
+    const tempConfig = this.getWidgetTempConfig()
+    const calendarTypes = [
+      {
+        name: 'exchange',
+        label: 'Microsoft Exchange'
+      },
+      {
+        name: 'ics',
+        label: 'ICS'
+      }
+    ]
+    if (tempConfig) {
+      return (
+        <div className='email-config-calendars'>
+          {
+            tempConfig.calendars.map((calendar, i) => {
+              return (
+                <div className='widget-editor-section tasks-config-calendar' key={i}>
+                  <div className='widget-editor-input-group'>
+                    <label className='widget-editor-label'>Type</label>
+                    <select className='widget-editor-input' value={calendar.type} onChange={(event) => this.setTempConfigArrayIndexValue('calendars', i, 'type', calendarTypes[event.target.selectedIndex - 1].name)}>
+                      <option value=''>Select Calendar</option>
+                      {
+                        calendarTypes.map((type, j) => {
+                          return (<option key={j} value={type.name}>{type.label}</option>)
+                        })
+                      }
+                    </select>
+                  </div>
+                  { this.renderCalendarConfig(calendar, i) }
+                  <div className='widget-editor-button-set'>
+                    <button className='small destructive' onClick={() => this.removeTempConfigArrayIndex('calendars', i)}>Remove Calendar</button>
+                  </div>
+                </div>
+              )
+            })
+          }
+          <button className='additive' onClick={() => this.addTempConfigArrayObject('calendars', {type: ''})}>Add Calendar</button>
+        </div>
+      )
+    } else {
+      return null
+    }
+  }
+
+  setCalendarCredentialValue (index, key, value) {
+    const credentials = Object.assign({}, this.getWidgetTempConfig().mailboxes[index].credentials)
+    credentials[key] = value
+    this.setTempConfigArrayIndexValue('calendars', index, 'credentials', credentials)
+  }
+
+  renderCalendarConfig (calendar, i) {
+    switch (calendar.type) {
+      case 'exchange':
+        return (
+          <div>
+            <div className='widget-editor-input-group'>
+              <label className='widget-editor-label'>Server URL</label>
+              <input className='widget-editor-input' type='text' value={calendar.credentials && calendar.credentials.url} onChange={(event) => this.setCalendarCredentialValue(i, 'url', event.target.value)} />
+            </div>
+            <div className='widget-editor-input-group'>
+              <label className='widget-editor-label'>Username</label>
+              <input className='widget-editor-input' type='text' value={calendar.credentials && calendar.credentials.username} onChange={(event) => this.setCalendarCredentialValue(i, 'username', event.target.value)} />
+            </div>
+            <div className='widget-editor-input-group'>
+              <label className='widget-editor-label'>Password</label>
+              <input className='widget-editor-input' type='password' value={calendar.credentials && calendar.credentials.password} onChange={(event) => this.setCalendarCredentialValue(i, 'password', event.target.value)} />
+            </div>
+          </div>
+        )
+      case 'ics':
+        return (
+          <div>
+            <div className='widget-editor-input-group'>
+              <label className='widget-editor-label'>ICS URL</label>
+              <input className='widget-editor-input' type='text' value={calendar.url} onChange={(event) => this.setTempConfigArrayIndexValue('calendars', i, 'url', event.target.value)} />
+            </div>
+          </div>
+        )
+      default:
+        return null
+    }
+  }
 }
 
 const stateToProps = (state) => {
@@ -79,8 +164,8 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
   return bindActionCreators({
-    commitTempConfigString,
-    setTemporaryServiceConfigString,
+    commitTempConfig,
+    setTemporaryConfig,
     removeService
   }, dispatch)
 }

@@ -174,29 +174,59 @@
   bottom: 1em;
 }
 
-.widget-editor-json {
+.widget-editor-form-area {
   width: 100%;
-  backface-visibility: hidden;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 2.75em;
-  font-family: monospace;
+  overflow: scroll;
 }
 
-.widget-editor-buttons {
-  text-align: right;
+.widget-editor-control-buttons {
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
 }
 
-.widget-editor-button {
-  margin-left: 0.5em;
-  &.destructive {
-    float: left;
-    margin-left: 0;
+.widget-editor-button-set {
+  overflow: auto;
+  height: auto;
+  button {
+    margin-right: 0.5em;
+    &:last-child {
+      margin-right: 0;
+    }
+    &.destructive {
+      float: right;
+    }
   }
+}
+
+.widget-editor-input-group {
+  clear: both;
+  margin: 0.5em 0;
+}
+
+.widget-editor-label {
+  clear: both;
+  display: block;
+}
+
+.widget-editor-input {
+  clear: both;
+  display: block;
+  width: 100%;
+}
+
+textarea.widget-editor-input {
+  height: 100px;
+}
+
+.widget-editor-section {
+  border-bottom: solid 1px #bbb;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
 }

@@ -4,8 +4,8 @@ import './Weather.scss'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
-  commitTempConfigString,
-  setTemporaryServiceConfigString,
+  commitTempConfig,
+  setTemporaryConfig,
   removeService
 } from '../util/actions'
 
@@ -83,6 +83,26 @@ class Weather extends Widget {
       </div>
     )
   }
+
+  renderEditor () {
+    const tempConfig = this.getWidgetTempConfig()
+    if (tempConfig) {
+      return (
+        <div>
+          <div className='widget-editor-input-group'>
+            <label className='widget-editor-label'>API Key</label>
+            <input className='widget-editor-input' type='text' value={tempConfig.key} onChange={(event) => this.setTempConfigValue('key', event.target.value)} />
+          </div>
+          <div className='widget-editor-input-group'>
+            <label className='widget-editor-label'>ZIP Code</label>
+            <input className='widget-editor-input' type='text' value={tempConfig.location} onChange={(event) => this.setTempConfigValue('location', event.target.value)} />
+          </div>
+        </div>
+      )
+    } else {
+      return null
+    }
+  }
 }
 
 const stateToProps = (state) => {
@@ -93,8 +113,8 @@ const stateToProps = (state) => {
 
 const dispatchToProps = (dispatch) => {
   return bindActionCreators({
-    commitTempConfigString,
-    setTemporaryServiceConfigString,
+    commitTempConfig,
+    setTemporaryConfig,
     removeService
   }, dispatch)
 }

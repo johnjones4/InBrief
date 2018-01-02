@@ -25,10 +25,10 @@ export const setServiceConfig = (name, config) => {
   }
 }
 
-export const commitTempConfigString = (name) => {
+export const commitTempConfig = (name) => {
   return (dispatch, getState) => {
     try {
-      const config = JSON.parse(getState().services.services.find((service) => service.name === name).tempConfigString)
+      const config = getState().services.services.find((service) => service.name === name).tempConfig
       dispatch(setServiceConfig(name, config))
     } catch (err) {
       console.error(err)
@@ -36,11 +36,11 @@ export const commitTempConfigString = (name) => {
   }
 }
 
-export const setTemporaryServiceConfigString = (name, tempConfigString) => {
+export const setTemporaryConfig = (name, tempConfig) => {
   return {
-    type: ACTIONS.SET_TEMP_SERVICE_CONFIG_STRING,
+    type: ACTIONS.SET_TEMP_CONFIG,
     name,
-    tempConfigString
+    tempConfig
   }
 }
 

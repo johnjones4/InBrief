@@ -40,8 +40,14 @@ button {
   transition: all 0.25s;
   padding: 0.25em 1em;
   cursor: pointer;
+  &.small {
+    font-size: 0.75em;
+  }
   &.destructive {
     border-color: rgb(168, 84, 84);
+  }
+  &.additive {
+    border-color: rgb(84, 168, 84);
   }
   &:hover {
     border-color: $widget_ui_control_color;
