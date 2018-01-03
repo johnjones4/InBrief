@@ -17,6 +17,6 @@ install:
   - yarn install
 
 script:
-  - echo $KEYS > ./src/keys.json
+  - echo $KEYS > ./src/keys.js
   - yarn run dist
-  - rm ./src/keys.json
+  - rm ./src/keys.js
