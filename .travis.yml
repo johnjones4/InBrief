@@ -17,6 +17,5 @@ install:
   - yarn install
 
 script:
-  - node dropKeys.js
+  - echo $KEYS | base64 --decode > ./src/keys.json
   - yarn run dist
-  - rm ./src/keys.json
