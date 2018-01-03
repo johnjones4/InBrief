@@ -2345,6 +2345,14 @@ electron-download@^3.0.1:
     semver "^5.3.0"
     sumchecker "^1.2.0"
 
+electron-oauth2@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/electron-oauth2/-/electron-oauth2-3.0.0.tgz#d7e8ba354776097fc18d7dbcbdfaedfa3f377e7b"
+  dependencies:
+    node-fetch "^1.3.3"
+    object-assign "^4.0.1"
+    pinkie-promise "^2.0.0"
+
 electron-osx-sign@0.4.7:
   version "0.4.7"
   resolved "https://registry.yarnpkg.com/electron-osx-sign/-/electron-osx-sign-0.4.7.tgz#1d75647a82748eacd48bea70616ec83ffade3ee5"
@@ -5186,7 +5194,7 @@ node-emoji@^1.8.1:
   dependencies:
     lodash.toarray "^4.4.0"
 
-node-fetch@^1.0.1:
+node-fetch@^1.0.1, node-fetch@^1.3.3:
   version "1.7.3"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.7.3.tgz#980f6f72d85211a5347c6b2bc18c5b84c3eb47ef"
   dependencies:
@@ -5394,9 +5402,20 @@ number-is-nan@^1.0.0:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/nwmatcher/-/nwmatcher-1.4.3.tgz#64348e3b3d80f035b40ac11563d278f8b72db89c"
 
+oauth-electron-twitter@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/oauth-electron-twitter/-/oauth-electron-twitter-0.1.1.tgz#658b3ef9fec2451f20b4c28046f9f95fc3997a5b"
+  dependencies:
+    oauth "^0.9.14"
+    query-string "^4.1.0"
+
 oauth-sign@~0.8.0, oauth-sign@~0.8.1, oauth-sign@~0.8.2:
   version "0.8.2"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.8.2.tgz#46a6ab7f0aead8deae9ec0565780b7d4efeb9d43"
+
+oauth@^0.9.14:
+  version "0.9.15"
+  resolved "https://registry.yarnpkg.com/oauth/-/oauth-0.9.15.tgz#bd1fefaf686c96b75475aed5196412ff60cfb9c1"
 
 object-assign@4.1.1, object-assign@^4.0.1, object-assign@^4.1.0, object-assign@^4.1.1:
   version "4.1.1"

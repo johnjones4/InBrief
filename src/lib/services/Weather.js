@@ -1,5 +1,6 @@
 const Service = require('./Service')
 const request = require('request-promise-native')
+const keys = require('../../keys.json')
 
 class Weather extends Service {
   constructor (config) {
@@ -10,7 +11,7 @@ class Weather extends Service {
   exec () {
     if (this.config.key && this.config.location) {
       return request({
-        'uri': 'http://api.wunderground.com/api/' + this.config.key + '/conditions/forecast/q/' + this.config.location + '.json',
+        'uri': 'http://api.wunderground.com/api/' + keys.weatherUnderground + '/conditions/forecast/q/' + this.config.location + '.json',
         'json': true,
         'agent': false
       })

@@ -11,7 +11,7 @@ import {
   setTemporaryConfig,
   removeService
 } from '../util/actions'
-const {shell} = window.require('electron')
+const { shell, ipcRenderer } = window.require('electron')
 
 class Twitter extends Widget {
   constructor (props) {
@@ -90,11 +90,18 @@ class Twitter extends Widget {
     )
   }
 
-  setCredentialValue (key1, key2, value) {
+  setAccessCredentials (accessCredentials) {
     const credentials = Object.assign({}, this.getWidgetTempConfig().credentials)
-    credentials[key1] = Object.assign({}, this.getWidgetTempConfig().credentials[key1])
-    credentials[key1][key2] = value
+    credentials.access = accessCredentials
     this.setTempConfigValue('credentials', credentials)
+  }
+
+  authorizeTwitter () {
+    const messageType = 'authorize-twitter'
+    ipcRenderer.once(messageType, (event, accessCredentials) => {
+      this.setAccessCredentials(accessCredentials)
+    })
+    ipcRenderer.send(messageType)
   }
 
   renderEditor () {
@@ -103,22 +110,17 @@ class Twitter extends Widget {
       return (
         <div>
           <div className='widget-editor-section'>
-            <div className='widget-editor-input-group'>
-              <label className='widget-editor-label'>Access Token</label>
-              <input className='widget-editor-input' type='text' value={tempConfig.credentials.access.token} onChange={(event) => this.setCredentialValue('access', 'token', event.target.value)} />
-            </div>
-            <div className='widget-editor-input-group'>
-              <label className='widget-editor-label'>Access Token Secret</label>
-              <input className='widget-editor-input' type='text' value={tempConfig.credentials.access.tokenSecret} onChange={(event) => this.setCredentialValue('access', 'tokenSecret', event.target.value)} />
-            </div>
-            <div className='widget-editor-input-group'>
-              <label className='widget-editor-label'>Consumer Key</label>
-              <input className='widget-editor-input' type='text' value={tempConfig.credentials.consumer.key} onChange={(event) => this.setCredentialValue('consumer', 'key', event.target.value)} />
-            </div>
-            <div className='widget-editor-input-group'>
-              <label className='widget-editor-label'>Consumer Secret</label>
-              <input className='widget-editor-input' type='text' value={tempConfig.credentials.consumer.secret} onChange={(event) => this.setCredentialValue('consumer', 'secret', event.target.value)} />
-            </div>
+            {
+              tempConfig.credentials &&
+                tempConfig.credentials &&
+                tempConfig.credentials.access &&
+                tempConfig.credentials.access.token &&
+                tempConfig.credentials.access.tokenSecret ? (
+                  <button className='destructive' onClick={() => this.setAccessCredentials(null)}>Deauthorize</button>
+                ) : (
+                  <button className='additive' onClick={() => this.authorizeTwitter()}>Authorize</button>
+                )
+            }
           </div>
           <div className='twitter-feed-config-lists'>
             {

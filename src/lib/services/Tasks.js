@@ -51,94 +51,108 @@ class Tasks extends Service {
   }
 
   fetchTodoist ({now, tonight, friday}, api) {
-    const todoistRequest = (uri, params) => {
-      params.token = api.token
-      return request({
-        'uri': uri,
-        'qs': params,
-        'useQueryString': true,
-        'json': true,
-        'agent': false
-      })
-    }
-    return todoistRequest('https://todoist.com/api/v7/sync', {
-      'sync_token': '*',
-      'resource_types': JSON.stringify(['items'])
-    })
-      .then((body) => {
-        body.items.forEach((item) => {
-          if (item.due_date_utc !== null) {
-            item.dueDate = new Date(item.due_date_utc)
-          } else {
-            item.dueDate = null
-          }
+    if (api.token) {
+      const todoistRequest = (uri, params) => {
+        params.token = api.token
+        return request({
+          'uri': uri,
+          'qs': params,
+          'useQueryString': true,
+          'json': true,
+          'agent': false
         })
-
-        const reducer = (limitDate) => {
-          return (subtotal, item) => {
-            if (item.dueDate) {
-              return subtotal + (item.dueDate.getTime() <= limitDate.getTime() ? 1 : 0)
+      }
+      return todoistRequest('https://todoist.com/api/v7/sync', {
+        'sync_token': '*',
+        'resource_types': JSON.stringify(['items'])
+      })
+        .then((body) => {
+          body.items.forEach((item) => {
+            if (item.due_date_utc !== null) {
+              item.dueDate = new Date(item.due_date_utc)
             } else {
-              return subtotal
-            }
-          }
-        }
-
-        const today = body.items.reduce(reducer(tonight), 0)
-
-        const endOfWeek = body.items.reduce(reducer(friday), 0)
-
-        return {
-          today,
-          endOfWeek
-        }
-      })
-  }
-
-  fetchAsana ({now, tonight, friday}, api) {
-    const client = asana.Client.create().useAccessToken(api.token)
-    return client.users.me()
-      .then(function (me) {
-        return Promise.all(
-          me.workspaces.map((workspace) => {
-            return client.tasks.findAll({
-              'assignee': me.id,
-              'workspace': workspace.id,
-              'opt_fields': 'due_on'
-            })
-          })
-        )
-      })
-      .then((workspaceTasks) => {
-        workspaceTasks.forEach((workspace) => {
-          workspace.data.forEach((task) => {
-            if (task.due_on === null) {
-              task.due_on = new Date(task.due_on)
+              item.dueDate = null
             }
           })
-        })
 
-        const reducer = (limitDate) => {
-          return (total, workspace) => {
-            return workspace.data.reduce((subtotal, task) => {
-              if (task.dueDate) {
-                return subtotal + (task.due_on.getTime() <= limitDate.getTime() ? 1 : 0)
+          const reducer = (limitDate) => {
+            return (subtotal, item) => {
+              if (item.dueDate) {
+                return subtotal + (item.dueDate.getTime() <= limitDate.getTime() ? 1 : 0)
               } else {
                 return subtotal
               }
-            }, total)
+            }
           }
-        }
 
-        const today = workspaceTasks.reduce(reducer(tonight), 0)
+          const today = body.items.reduce(reducer(tonight), 0)
 
-        const endOfWeek = workspaceTasks.reduce(reducer(friday), 0)
+          const endOfWeek = body.items.reduce(reducer(friday), 0)
 
-        return {
-          today,
-          endOfWeek
-        }
+          return {
+            today,
+            endOfWeek
+          }
+        })
+    } else {
+      return Promise.resolve({
+        today: 0,
+        endOfWeek: 0
       })
+    }
+  }
+
+  fetchAsana ({now, tonight, friday}, api) {
+    if (api.token) {
+      const client = asana.Client.create().useAccessToken(api.token)
+      return client.users.me()
+        .then(function (me) {
+          return Promise.all(
+            me.workspaces.map((workspace) => {
+              return client.tasks.findAll({
+                'assignee': me.id,
+                'workspace': workspace.id,
+                'opt_fields': 'due_on'
+              })
+            })
+          )
+        })
+        .then((workspaceTasks) => {
+          workspaceTasks.forEach((workspace) => {
+            workspace.data.forEach((task) => {
+              if (task.due_on === null) {
+                task.due_on = new Date(task.due_on)
+              }
+            })
+          })
+
+          const reducer = (limitDate) => {
+            return (total, workspace) => {
+              return workspace.data.reduce((subtotal, task) => {
+                if (task.dueDate) {
+                  return subtotal + (task.due_on.getTime() <= limitDate.getTime() ? 1 : 0)
+                } else {
+                  return subtotal
+                }
+              }, total)
+            }
+          }
+
+          const today = workspaceTasks.reduce(reducer(tonight), 0)
+
+          const endOfWeek = workspaceTasks.reduce(reducer(friday), 0)
+
+          return {
+            today,
+            endOfWeek
+          }
+        })
+    } else {
+      return Promise.resolve({
+        today: 0,
+        endOfWeek: 0
+      })
+    }
   }
 }
 

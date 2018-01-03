@@ -90,10 +90,6 @@ class Weather extends Widget {
       return (
         <div>
           <div className='widget-editor-input-group'>
-            <label className='widget-editor-label'>API Key</label>
-            <input className='widget-editor-input' type='text' value={tempConfig.key} onChange={(event) => this.setTempConfigValue('key', event.target.value)} />
-          </div>
-          <div className='widget-editor-input-group'>
             <label className='widget-editor-label'>ZIP Code</label>
             <input className='widget-editor-input' type='text' value={tempConfig.location} onChange={(event) => this.setTempConfigValue('location', event.target.value)} />
           </div>

@@ -7,6 +7,7 @@ import {
   setTemporaryConfig,
   removeService
 } from '../util/actions'
+const { ipcRenderer } = window.require('electron')
 
 class Tasks extends Widget {
   constructor (props) {
@@ -68,8 +69,7 @@ class Tasks extends Widget {
                     </select>
                   </div>
                   <div className='widget-editor-input-group'>
-                    <label className='widget-editor-label'>Token</label>
-                    <input className='widget-editor-input' type='text' value={api.token} onChange={(event) => this.setTempConfigArrayIndexValue('apis', i, 'token', event.target.value)} />
+                    { this.renderAPIConfig(api, i) }
                   </div>
                   <div className='widget-editor-button-set'>
                     <button className='small destructive' onClick={() => this.removeTempConfigArrayIndex('apis', i)}>Remove API</button>
@@ -83,6 +83,33 @@ class Tasks extends Widget {
       )
     } else {
       return null
+    }
+  }
+
+  authorizeService (api, index) {
+    const messageType = 'authorize-tasks-' + api.type
+    ipcRenderer.once(messageType, (event, token) => {
+      console.log(token)
+      this.setTempConfigArrayIndexValue('apis', index, 'token', token)
+    })
+    ipcRenderer.send(messageType)
+  }
+
+  deauthorizeService (api, index) {
+    this.setTempConfigArrayIndexValue('apis', index, 'token', null)
+  }
+
+  renderAPIConfig (api, index) {
+    switch (api.type) {
+      case 'asana':
+      case 'todoist':
+        if (api.token) {
+          return (<button className='destructive' onClick={() => this.deauthorizeService(api, index)}>Deauthorize</button>)
+        } else {
+          return (<button className='additive' onClick={() => this.authorizeService(api, index)}>Authorize</button>)
+        }
+      default:
+        return null
     }
   }
 }
