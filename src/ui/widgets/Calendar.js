@@ -117,7 +117,7 @@ class Calendar extends Widget {
   }
 
   setCalendarCredentialValue (index, key, value) {
-    const credentials = Object.assign({}, this.getWidgetTempConfig().mailboxes[index].credentials)
+    const credentials = Object.assign({}, this.getWidgetTempConfig().calendars[index].credentials)
     credentials[key] = value
     this.setTempConfigArrayIndexValue('calendars', index, 'credentials', credentials)
   }

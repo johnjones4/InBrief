@@ -77,7 +77,7 @@ class Tasks extends Service {
 
           const reducer = (limitDate) => {
             return (subtotal, item) => {
-              if (item.dueDate) {
+              if (item.dueDate && item.checked === 0) {
                 return subtotal + (item.dueDate.getTime() <= limitDate.getTime() ? 1 : 0)
               } else {
                 return subtotal
