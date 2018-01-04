@@ -64,7 +64,7 @@ class RSS extends Service {
     })
     return {
       'title': set.title,
-      'items': items.map((item) => {
+      'items': items.slice(0, this.config.max).map((item) => {
         return {
           'title': item.title,
           'date': item.pubDate,
@@ -88,7 +88,7 @@ class RSS extends Service {
       arraysOfItems.forEach((_items) => {
         _items.forEach((item) => items.push(item))
       })
-      return items.slice(0, this.config.max)
+      return items
     })
   }
 
