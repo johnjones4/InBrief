@@ -5,6 +5,7 @@ const url = require('url')
 const servicesSetup = require('./lib/processHelpers/servicesSetup')
 const menuSetup = require('./lib/processHelpers/menuSetup')
 const authorizorsSetup = require('./lib/processHelpers/authorizorsSetup')
+const twitterListHelper = require('./lib/processHelpers/twitterListHelper')
 
 process.env.IS_DEV = !(!process.env.ELECTRON_START_URL)
 
@@ -34,6 +35,7 @@ app.on('ready', () => {
   menuSetup()
   servicesSetup(mainWindow)
   authorizorsSetup(mainWindow)
+  twitterListHelper(mainWindow)
 })
 
 app.on('window-all-closed', function () {

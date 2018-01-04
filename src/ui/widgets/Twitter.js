@@ -16,6 +16,36 @@ const { shell, ipcRenderer } = window.require('electron')
 class Twitter extends Widget {
   constructor (props) {
     super('Twitter', 'twitter', props)
+    this.state = {
+      listOptions: [],
+      lastListAuthStr: null
+    }
+  }
+
+  componentDidMount () {
+    ipcRenderer.on('twitterlists', (event, lists) => {
+      this.setState({listOptions: lists})
+    })
+  }
+
+  componentWillReceiveProps (newProps) {
+    const twitterService = newProps.services.services.find((service) => service.name === 'twitter')
+    if (this.state.listOptions.length === 0 &&
+        twitterService &&
+        twitterService.tempConfig &&
+        twitterService.tempConfig.credentials &&
+        twitterService.tempConfig.credentials.access &&
+        twitterService.tempConfig.credentials.access.token &&
+        twitterService.tempConfig.credentials.access.tokenSecret) {
+      const authStr = [twitterService.tempConfig.credentials.access.token, twitterService.tempConfig.credentials.access.tokenSecret].join('+')
+      if (this.state.lastListAuth !== authStr) {
+        this.setState({lastListAuth: authStr})
+        ipcRenderer.send('twitterlists', {
+          accessToken: twitterService.tempConfig.credentials.access.token,
+          tokenSecret: twitterService.tempConfig.credentials.access.tokenSecret
+        })
+      }
+    }
   }
 
   getMainClassNames () {
@@ -104,6 +134,15 @@ class Twitter extends Widget {
     ipcRenderer.send(messageType)
   }
 
+  updateList (listIndex, selectedIndex) {
+    console.log(this.state.listOptions[selectedIndex].name)
+    this.setTempConfigArrayIndexValues('lists', listIndex, {
+      title: this.state.listOptions[selectedIndex].name,
+      owner: this.state.listOptions[selectedIndex].owner,
+      slug: this.state.listOptions[selectedIndex].slug
+    })
+  }
+
   renderEditor () {
     const tempConfig = this.getWidgetTempConfig()
     if (tempConfig) {
@@ -112,7 +151,6 @@ class Twitter extends Widget {
           <div className='widget-editor-section'>
             {
               tempConfig.credentials &&
-                tempConfig.credentials &&
                 tempConfig.credentials.access &&
                 tempConfig.credentials.access.token &&
                 tempConfig.credentials.access.tokenSecret ? (
@@ -128,16 +166,15 @@ class Twitter extends Widget {
                 return (
                   <div className='widget-editor-section twitter-feed-config-list' key={i}>
                     <div className='widget-editor-input-group'>
-                      <label className='widget-editor-label'>Title</label>
-                      <input className='widget-editor-input' type='text' value={list.title} onChange={(event) => this.setTempConfigArrayIndexValue('lists', i, 'title', event.target.value)} />
-                    </div>
-                    <div className='widget-editor-input-group'>
-                      <label className='widget-editor-label'>Owner</label>
-                      <input className='widget-editor-input' type='text' value={list.owner} onChange={(event) => this.setTempConfigArrayIndexValue('lists', i, 'owner', event.target.value)} />
-                    </div>
-                    <div className='widget-editor-input-group'>
-                      <label className='widget-editor-label'>Slug</label>
-                      <input className='widget-editor-input' type='text' value={list.slug} onChange={(event) => this.setTempConfigArrayIndexValue('lists', i, 'slug', event.target.value)} />
+                      <label className='widget-editor-label'>List</label>
+                      <select className='widget-editor-input' value={[list.owner, list.slug].join('/')} onChange={(event) => event.target.selectedIndex > 0 && this.updateList(i, event.target.selectedIndex - 1)}>
+                        <option>Select a List</option>
+                        {
+                          this.state.listOptions.map((_list) => {
+                            return (<option key={_list.name} value={[_list.owner, _list.slug].join('/')}>{_list.name}</option>)
+                          })
+                        }
+                      </select>
                     </div>
                     <div className='widget-editor-button-set'>
                       <button className='small destructive' onClick={() => this.removeTempConfigArrayIndex('lists', i)}>Remove List</button>

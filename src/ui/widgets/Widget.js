@@ -74,6 +74,17 @@ class Widget extends Component {
     }
   }
 
+  setTempConfigArrayIndexValues (arrayName, index, map) {
+    const tempConfig = this.getWidgetTempConfig()
+    if (index < tempConfig[arrayName].length) {
+      const newArray = tempConfig[arrayName].slice(0)
+      for (let field in map) {
+        newArray[index][field] = map[field]
+      }
+      this.setTempConfigValue(arrayName, newArray)
+    }
+  }
+
   removeTempConfigArrayIndex (arrayName, index) {
     const tempConfig = this.getWidgetTempConfig()
     if (index < tempConfig[arrayName].length) {
