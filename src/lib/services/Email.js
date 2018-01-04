@@ -13,7 +13,7 @@ class Email extends Service {
     return Promise.all(
       this.config.mailboxes.map((mailbox) => {
         return this.fetchMail(mailbox)
-          .catch((err) => this.handleSubError(err))
+          .catch((err) => this.handleExecError(err))
       })
     ).then((data) => {
       const totals = {

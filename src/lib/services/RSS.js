@@ -17,11 +17,13 @@ class RSS extends Service {
         const set = this.config.sets[index]
         return this.fetchArrayOfFeeds(set.feeds)
           .then((items) => {
-            outputData[index] = this.processRSSItems(set, items)
-            dataEmitter({
-              'name': 'rss',
-              'data': outputData
-            })
+            if (items) {
+              outputData[index] = this.processRSSItems(set, items)
+              dataEmitter({
+                'name': 'rss',
+                'data': outputData
+              })
+            }
             return fetchNextFeedSet(index + 1)
           })
       } else {
@@ -86,7 +88,9 @@ class RSS extends Service {
     ).then((arraysOfItems) => {
       const items = []
       arraysOfItems.forEach((_items) => {
-        _items.forEach((item) => items.push(item))
+        if (_items) {
+          _items.forEach((item) => items.push(item))
+        }
       })
       return items
     })
@@ -94,48 +98,44 @@ class RSS extends Service {
 
   fetchSingleFeed (feed) {
     return new Promise((resolve, reject) => {
-      try {
-        const items = []
-        const req = request({
-          'uri': feed,
-          'agent': false,
-          'pool': {
-            'maxSockets': 1000
-          }
-        })
-        const feedparser = new FeedParser()
-        feedparser.on('error', (err) => {
-          console.log('Error on ' + feed)
-          console.log(err)
-          resolve([])
-        })
-        req.on('error', (err) => {
-          console.log('Error on ' + feed)
-          console.log(err)
-          resolve([])
-        })
-        req.on('response', function (res) {
-          var stream = this
-          if (res.statusCode === 200) {
-            stream.pipe(feedparser)
-          } else {
-            resolve([])
-          }
-        })
-        feedparser.on('readable', function () {
-          var stream = this
-          var item
-          while ((item = stream.read()) !== null) {
-            items.push(item)
-          }
-        })
-        feedparser.on('end', function () {
-          resolve(items)
-        })
-      } catch (e) {
-        console.error(e)
+      const items = []
+      const req = request({
+        'uri': feed,
+        'agent': false,
+        'pool': {
+          'maxSockets': 1000
+        }
+      })
+      const feedparser = new FeedParser()
+      feedparser.on('error', (err) => {
+        this.handleExecError(err)
         resolve([])
-      }
+      })
+      req.on('error', (err) => {
+        this.handleExecError(err)
+        resolve([])
+      })
+      req.on('response', function (res) {
+        var stream = this
+        if (res.statusCode === 200) {
+          stream.pipe(feedparser)
+        } else {
+          resolve([])
+        }
+      })
+      feedparser.on('readable', function () {
+        var stream = this
+        var item
+        while ((item = stream.read()) !== null) {
+          items.push(item)
+        }
+      })
+      feedparser.on('end', function () {
+        resolve(items)
+      })
+    }).catch((err) => {
+      this.handleExecError(err)
+      return Promise.resolve([])
     })
   }
 }

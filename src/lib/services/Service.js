@@ -4,16 +4,22 @@ class Service {
     this.config = config
     this.intervalDelay = 60000
     this.cachedResponse = null
-    this.listeners = []
+    this.dataListeners = []
+    this.errorListeners = []
     this.executing = false
   }
 
-  addListener (fn) {
-    this.listeners.push(fn)
+  addDataListener (fn) {
+    this.dataListeners.push(fn)
+  }
+
+  addErrorListener (fn) {
+    this.errorListeners.push(fn)
   }
 
   clearListeners () {
-    this.listeners = []
+    this.dataListeners = []
+    this.errorListeners = []
   }
 
   exec (dataEmitter) {
@@ -31,7 +37,7 @@ class Service {
       const publishData = (response) => {
         if (response) {
           this.cachedResponse = response
-          this.listeners.forEach((listener) => listener(response))
+          this.dataListeners.forEach((listener) => listener(response))
         }
       }
       this.exec(publishData)
@@ -41,7 +47,7 @@ class Service {
         })
         .catch((err) => {
           this.executing = false
-          console.error(err)
+          this.handleExecError(err)
         })
     } else {
       console.log(this.name + ' is not done running yet.')
@@ -61,8 +67,9 @@ class Service {
     }
   }
 
-  handleSubError (err) {
+  handleExecError (err) {
     console.error(err)
+    this.errorListeners.forEach((listener) => listener(err))
   }
 
   thenSleep (data, time) {

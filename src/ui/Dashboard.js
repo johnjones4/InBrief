@@ -51,6 +51,10 @@ class Dashboard extends Component {
       ipcRenderer.on('services', (event, services) => {
         this.props.setServices(services)
       })
+
+      ipcRenderer.on('serviceerror', (event, {type, error}) => {
+        window.alert('Error in widget "' + type + '": ' + error)
+      })
     })
     ipcRenderer.send('services')
     this.resetRowHeight()

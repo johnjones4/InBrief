@@ -45,9 +45,17 @@ const setupServices = () => {
   }
 
   const setupServiceDataListeners = (service) => {
-    service.addListener((data) => {
+    service.addDataListener((data) => {
       console.log('Sending servicedata for ' + service.name)
       mainWindow.webContents.send('servicedata', data)
+    })
+    service.addErrorListener((error) => {
+      const errorStr = error.length && error.length > 0 ? (error[0].message || error[0]) : (error.message || error)
+      console.log('Sending error ' + errorStr)
+      mainWindow.webContents.send('serviceerror', {
+        error: errorStr,
+        type: service.name
+      })
     })
     if (service.getData()) {
       const data = service.getData()

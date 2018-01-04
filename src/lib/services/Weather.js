@@ -9,7 +9,7 @@ class Weather extends Service {
   }
 
   exec () {
-    if (this.config.key && this.config.location) {
+    if (this.config.location) {
       return request({
         'uri': 'http://api.wunderground.com/api/' + keys.weatherUnderground + '/conditions/forecast/q/' + this.config.location + '.json',
         'json': true,
@@ -38,6 +38,13 @@ class Weather extends Service {
             }
           }
         })
+        .catch((err) => {
+          this.handleExecError(err)
+          return {
+            'name': 'weather',
+            'data': null
+          }
+        })
     } else {
       return Promise.resolve({
         'name': 'weather',
@@ -48,7 +55,6 @@ class Weather extends Service {
 }
 
 Weather.defaultConfig = {
-  key: null,
   location: null
 }
 

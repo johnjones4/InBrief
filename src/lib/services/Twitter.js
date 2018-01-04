@@ -21,16 +21,17 @@ class Twitter extends Service {
         if (i < this.config.lists.length) {
           return this.queryList(i)
             .then((tweets) => {
-              tweetStreams.push({
-                'title': this.config.lists[i].title,
-                'tweets': tweets
-              })
+              if (tweets) {
+                tweetStreams.push({
+                  'title': this.config.lists[i].title,
+                  'tweets': tweets
+                })
+              }
               return this.thenSleep(null, 100)
             })
             .then(() => {
               return start(i + 1)
             })
-            .catch((err) => this.handleSubError(err))
         } else {
           return Promise.resolve({
             'name': 'twitter',
@@ -60,17 +61,13 @@ class Twitter extends Service {
           resolve(tweets)
         }
       })
-    })
+    }).catch((err) => this.handleExecError(err))
   }
 }
 
 Twitter.defaultConfig = {
   lists: [],
   credentials: {
-    consumer: {
-      key: null,
-      secret: null
-    },
     access: {
       token: null,
       tokenSecret: null

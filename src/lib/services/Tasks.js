@@ -21,7 +21,7 @@ class Tasks extends Service {
     return Promise.all(
       this.config.apis.map((api) => {
         return this.fetchApi(dates, api)
-          .catch((err) => this.handleSubError(err))
+          .catch((err) => this.handleExecError(err))
       })
     ).then((data) => {
       const totals = {

@@ -22,12 +22,14 @@ class Calendar extends Service {
     return Promise.all(
       this.config.calendars.map((calendar) => {
         return this.fetchEvents(dates, calendar)
-          .catch((err) => this.handleSubError(err))
+          .catch((err) => this.handleExecError(err))
       })
     ).then((arraysOfEvents) => {
       const allEvents = []
       arraysOfEvents.forEach((events) => {
-        events.forEach((event) => allEvents.push(event))
+        if (events) {
+          events.forEach((event) => allEvents.push(event))
+        }
       })
       allEvents.sort((a, b) => {
         return a.start.getTime() - b.start.getTime()
