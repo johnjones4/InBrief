@@ -18,7 +18,7 @@ module.exports = (mainWindow) => {
           return {
             owner: list.user.screen_name,
             slug: list.slug,
-            name: list.full_name
+            title: list.full_name
           }
         }))
       }

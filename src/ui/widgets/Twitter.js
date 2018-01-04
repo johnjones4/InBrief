@@ -137,7 +137,7 @@ class Twitter extends Widget {
   updateList (listIndex, selectedIndex) {
     console.log(this.state.listOptions[selectedIndex].name)
     this.setTempConfigArrayIndexValues('lists', listIndex, {
-      title: this.state.listOptions[selectedIndex].name,
+      title: this.state.listOptions[selectedIndex].title,
       owner: this.state.listOptions[selectedIndex].owner,
       slug: this.state.listOptions[selectedIndex].slug
     })
@@ -171,7 +171,7 @@ class Twitter extends Widget {
                         <option>Select a List</option>
                         {
                           this.state.listOptions.map((_list) => {
-                            return (<option key={_list.name} value={[_list.owner, _list.slug].join('/')}>{_list.name}</option>)
+                            return (<option key={_list.name} value={[_list.owner, _list.slug].join('/')}>{_list.title}</option>)
                           })
                         }
                       </select>
