@@ -89,6 +89,9 @@ module.exports = (mainWindow) => {
         })
         window.close()
       })
-      .catch((error) => console.log(error))
+      .catch((error) => {
+        console.log('here')
+        console.error(error)
+      })
   })
 }

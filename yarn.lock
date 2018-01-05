@@ -5402,9 +5402,9 @@ number-is-nan@^1.0.0:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/nwmatcher/-/nwmatcher-1.4.3.tgz#64348e3b3d80f035b40ac11563d278f8b72db89c"
 
-oauth-electron-twitter@^0.1.1:
+"oauth-electron-twitter@https://github.com/johnjones4/oauth-electron-twitter":
   version "0.1.1"
-  resolved "https://registry.yarnpkg.com/oauth-electron-twitter/-/oauth-electron-twitter-0.1.1.tgz#658b3ef9fec2451f20b4c28046f9f95fc3997a5b"
+  resolved "https://github.com/johnjones4/oauth-electron-twitter#493a45808e3f6334534c23abb9577450022ebae2"
   dependencies:
     oauth "^0.9.14"
     query-string "^4.1.0"
