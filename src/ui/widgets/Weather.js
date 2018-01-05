@@ -117,7 +117,7 @@ const dispatchToProps = (dispatch) => {
 
 Weather.widgetProps = {
   h: 3,
-  isResizable: false
+  isResizable: true
 }
 
 export default connect(stateToProps, dispatchToProps)(Weather)
