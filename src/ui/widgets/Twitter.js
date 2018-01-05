@@ -171,7 +171,7 @@ class Twitter extends Widget {
                         <option>Select a List</option>
                         {
                           this.state.listOptions.map((_list) => {
-                            return (<option key={_list.name} value={[_list.owner, _list.slug].join('/')}>{_list.title}</option>)
+                            return (<option key={_list.title} value={[_list.owner, _list.slug].join('/')}>{_list.title}</option>)
                           })
                         }
                       </select>

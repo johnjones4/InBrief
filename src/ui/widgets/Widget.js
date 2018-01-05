@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import './Widget.scss'
+import './WidgetEditor.scss'
+import './WidgetBigNumbers.scss'
 import PropTypes from 'prop-types'
 
 class Widget extends Component {
@@ -115,7 +117,7 @@ class Widget extends Component {
   render () {
     return (
       <div className={['widget-wrapper', (this.state.editing ? 'widget-editing' : null)].join(' ')}>
-        <div className={this.getMainClassNames().join(' ')} key={this.name}>
+        <div className={this.getMainClassNames().join(' ')}>
           <div className='widget-title'>
             {this.title}
             <button className='widget-title-edit' onClick={() => this.editConfig()}>Edit</button>

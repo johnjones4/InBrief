@@ -1,0 +1,89 @@
+@import '../vars_mixins.scss';
+
+.widget-editor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transform: rotate3d(0, 1, 0, 180deg);
+  backface-visibility: hidden;
+  transition: all 1s;
+  z-index: 0;
+  background: #eee;
+  color: #111;
+  padding: 1em;
+  overflow: scroll;
+  opacity: 0;
+}
+
+.widget-editor-title {
+  font-size: 16px;
+  @include heading_font_styles;
+  color: inherit;
+}
+
+.widget-editor-body {
+  position: absolute;
+  top: 3em;
+  left: 1em;
+  right: 1em;
+  bottom: 1em;
+}
+
+.widget-editor-form-area {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 2.75em;
+  overflow: scroll;
+}
+
+.widget-editor-control-buttons {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.widget-editor-button-set {
+  overflow: auto;
+  height: auto;
+  button {
+    margin-right: 0.5em;
+    &:last-child {
+      margin-right: 0;
+    }
+    &.destructive {
+      float: right;
+    }
+  }
+}
+
+.widget-editor-input-group {
+  clear: both;
+  margin: 0.5em 0;
+}
+
+.widget-editor-label {
+  clear: both;
+  display: block;
+}
+
+.widget-editor-input {
+  clear: both;
+  display: block;
+  width: 100%;
+}
+
+textarea.widget-editor-input {
+  height: 100px;
+}
+
+.widget-editor-section {
+  border-bottom: solid 1px #bbb;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+}

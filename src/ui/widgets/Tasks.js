@@ -1,5 +1,5 @@
 import React from 'react'
-import Widget from './Widget'
+import BigNumbersWidget from './BigNumbersWidget'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
@@ -9,33 +9,23 @@ import {
 } from '../util/actions'
 const { ipcRenderer } = window.require('electron')
 
-class Tasks extends Widget {
+class Tasks extends BigNumbersWidget {
   constructor (props) {
     super('Tasks', 'tasks', props)
   }
 
   renderWidget () {
     const data = this.getWidgetData()
-    return data && (
-      <div className='widget-big-numbers'>
-        <div className='widget-big-numbers-group'>
-          <div className='widget-big-numbers-number'>
-            {data.today}
-          </div>
-          <div className='widget-big-numbers-label'>
-            Due Today
-          </div>
-        </div>
-        <div className='widget-big-numbers-group'>
-          <div className='widget-big-numbers-number'>
-            {data.endOfWeek}
-          </div>
-          <div className='widget-big-numbers-label'>
-            By Friday
-          </div>
-        </div>
-      </div>
-    )
+    return data && this.renderBigNumbers([
+      {
+        label: 'Due Today',
+        value: data.today
+      },
+      {
+        label: 'By Friday',
+        value: data.endOfWeek
+      }
+    ])
   }
 
   renderEditor () {

@@ -1,5 +1,5 @@
 import React from 'react'
-import Widget from './Widget'
+import BigNumbersWidget from './BigNumbersWidget'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {
@@ -8,33 +8,23 @@ import {
   removeService
 } from '../util/actions'
 
-class Email extends Widget {
+class Email extends BigNumbersWidget {
   constructor (props) {
     super('Email', 'email', props)
   }
 
   renderWidget () {
     const data = this.getWidgetData()
-    return data && (
-      <div className='widget-big-numbers'>
-        <div className='widget-big-numbers-group'>
-          <div className='widget-big-numbers-number'>
-            {data.unread}
-          </div>
-          <div className='widget-big-numbers-label'>
-            Unread
-          </div>
-        </div>
-        <div className='widget-big-numbers-group'>
-          <div className='widget-big-numbers-number'>
-            {data.flagged}
-          </div>
-          <div className='widget-big-numbers-label'>
-            Flagged
-          </div>
-        </div>
-      </div>
-    )
+    return data && this.renderBigNumbers([
+      {
+        label: 'Unread',
+        value: data.unread
+      },
+      {
+        label: 'Flagged',
+        value: data.flagged
+      }
+    ])
   }
 
   renderEditor () {
