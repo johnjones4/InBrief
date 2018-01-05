@@ -8,6 +8,10 @@ import {
   setTemporaryConfig,
   removeService
 } from '../util/actions'
+import {
+  WidgetEditorFieldGroup,
+  WidgetEditorList
+} from '../util/widgetElements'
 
 const MIN_MINUTES = 8 * 60
 const MAX_MINUTES = 19 * 60
@@ -84,32 +88,31 @@ class Calendar extends Widget {
     ]
     if (tempConfig) {
       return (
-        <div className='email-config-calendars'>
-          {
-            tempConfig.calendars.map((calendar, i) => {
-              return (
-                <div className='widget-editor-section tasks-config-calendar' key={i}>
-                  <div className='widget-editor-input-group'>
-                    <label className='widget-editor-label'>Type</label>
-                    <select className='widget-editor-input' value={calendar.type} onChange={(event) => this.setTempConfigArrayIndexValue('calendars', i, 'type', calendarTypes[event.target.selectedIndex - 1].name)}>
-                      <option value=''>Select Calendar</option>
-                      {
-                        calendarTypes.map((type, j) => {
-                          return (<option key={j} value={type.name}>{type.label}</option>)
-                        })
-                      }
-                    </select>
-                  </div>
-                  { this.renderCalendarConfig(calendar, i) }
-                  <div className='widget-editor-button-set'>
-                    <button className='small destructive' onClick={() => this.removeTempConfigArrayIndex('calendars', i)}>Remove Calendar</button>
-                  </div>
-                </div>
-              )
-            })
-          }
-          <button className='additive' onClick={() => this.addTempConfigArrayObject('calendars', {type: ''})}>Add Calendar</button>
-        </div>
+        <WidgetEditorList
+          wrapperClassName='email-config-calendars'
+          list={tempConfig.calendars || []}
+          sectionClassNames={['email-config-calendar']}
+          renderSection={(calendar, i) => {
+            return (
+              <div>
+                <WidgetEditorFieldGroup name='Type'>
+                  <select className='widget-editor-input' value={calendar.type} onChange={(event) => this.setTempConfigArrayIndexValue('calendars', i, 'type', calendarTypes[event.target.selectedIndex - 1].name)}>
+                    <option value=''>Select Calendar</option>
+                    {
+                      calendarTypes.map((type, j) => {
+                        return (<option key={j} value={type.name}>{type.label}</option>)
+                      })
+                    }
+                  </select>
+                </WidgetEditorFieldGroup>
+                { this.renderCalendarConfig(calendar, i) }
+              </div>
+            )
+          }}
+          removable
+          appendable
+          translateItem={(i, d) => this.moveTempConfigArrayIndex('calendars', i, d)}
+          append={() => this.addTempConfigArrayObject('calendars', {type: ''})} />
       )
     } else {
       return null
@@ -127,27 +130,23 @@ class Calendar extends Widget {
       case 'exchange':
         return (
           <div>
-            <div className='widget-editor-input-group'>
-              <label className='widget-editor-label'>Server URL</label>
+            <WidgetEditorFieldGroup name='Server URL'>
               <input className='widget-editor-input' type='text' value={calendar.credentials && calendar.credentials.url} onChange={(event) => this.setCalendarCredentialValue(i, 'url', event.target.value)} />
-            </div>
-            <div className='widget-editor-input-group'>
-              <label className='widget-editor-label'>Username</label>
+            </WidgetEditorFieldGroup>
+            <WidgetEditorFieldGroup name='Username'>
               <input className='widget-editor-input' type='text' value={calendar.credentials && calendar.credentials.username} onChange={(event) => this.setCalendarCredentialValue(i, 'username', event.target.value)} />
-            </div>
-            <div className='widget-editor-input-group'>
-              <label className='widget-editor-label'>Password</label>
+            </WidgetEditorFieldGroup>
+            <WidgetEditorFieldGroup name='Password'>
               <input className='widget-editor-input' type='password' value={calendar.credentials && calendar.credentials.password} onChange={(event) => this.setCalendarCredentialValue(i, 'password', event.target.value)} />
-            </div>
+            </WidgetEditorFieldGroup>
           </div>
         )
       case 'ics':
         return (
           <div>
-            <div className='widget-editor-input-group'>
-              <label className='widget-editor-label'>ICS URL</label>
+            <WidgetEditorFieldGroup name='ICS URL'>
               <input className='widget-editor-input' type='text' value={calendar.url} onChange={(event) => this.setTempConfigArrayIndexValue('calendars', i, 'url', event.target.value)} />
-            </div>
+            </WidgetEditorFieldGroup>
           </div>
         )
       default:

@@ -11,6 +11,10 @@ import {
   setTemporaryConfig,
   removeService
 } from '../util/actions'
+import {
+  WidgetEditorFieldGroup,
+  WidgetEditorList
+} from '../util/widgetElements'
 const { shell, ipcRenderer } = window.require('electron')
 
 class Twitter extends Widget {
@@ -160,33 +164,30 @@ class Twitter extends Widget {
                 )
             }
           </div>
-          <div className='twitter-feed-config-lists'>
-            {
-              tempConfig.lists.map((list, i) => {
-                return (
-                  <div className='widget-editor-section twitter-feed-config-list' key={i}>
-                    <div className='widget-editor-input-group'>
-                      <label className='widget-editor-label'>List</label>
-                      <select className='widget-editor-input' value={[list.owner, list.slug].join('/')} onChange={(event) => event.target.selectedIndex > 0 && this.updateList(i, event.target.selectedIndex - 1)}>
-                        <option>Select a List</option>
-                        {
-                          this.state.listOptions.map((_list) => {
-                            return (<option key={_list.title} value={[_list.owner, _list.slug].join('/')}>{_list.title}</option>)
-                          })
-                        }
-                      </select>
-                    </div>
-                    <div className='widget-editor-button-set'>
-                      <button className='small destructive' onClick={() => this.removeTempConfigArrayIndex('lists', i)}>Remove List</button>
-                      <button className='small' onClick={() => this.moveTempConfigArrayIndex('lists', i, i - 1)}>Move Up</button>
-                      <button className='small' onClick={() => this.moveTempConfigArrayIndex('lists', i, i + 1)}>Move Down</button>
-                    </div>
-                  </div>
-                )
-              })
-            }
-            <button className='additive' onClick={() => this.addTempConfigArrayObject('lists', {title: '', owner: '', slug: ''})}>Add List</button>
-          </div>
+          <WidgetEditorList
+            wrapperClassName='twitter-feed-config-lists'
+            list={tempConfig.lists || []}
+            sectionClassNames={['twitter-feed-config-list']}
+            renderSection={(list, i) => {
+              return (
+                <WidgetEditorFieldGroup name='List'>
+                  <select className='widget-editor-input' value={[list.owner, list.slug].join('/')} onChange={(event) => event.target.selectedIndex > 0 && this.updateList(i, event.target.selectedIndex - 1)}>
+                    <option>Select a List</option>
+                    {
+                      this.state.listOptions.map((_list) => {
+                        return (<option key={_list.title} value={[_list.owner, _list.slug].join('/')}>{_list.title}</option>)
+                      })
+                    }
+                  </select>
+                </WidgetEditorFieldGroup>
+              )
+            }}
+            removable
+            movable
+            appendable
+            removeItem={(i) => this.removeTempConfigArrayIndex('lists', i)}
+            translateItem={(i, d) => this.moveTempConfigArrayIndex('lists', i, d)}
+            append={() => this.addTempConfigArrayObject('lists', {title: '', owner: '', slug: ''})} />
         </div>
       )
     } else {

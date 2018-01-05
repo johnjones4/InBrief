@@ -11,6 +11,10 @@ import {
   setTemporaryConfig,
   removeService
 } from '../util/actions'
+import {
+  WidgetEditorFieldGroup,
+  WidgetEditorList
+} from '../util/widgetElements'
 const {shell} = window.require('electron')
 
 class RSS extends Widget {
@@ -73,35 +77,32 @@ class RSS extends Widget {
       return (
         <div>
           <div className='widget-editor-section'>
-            <div className='widget-editor-input-group'>
-              <label className='widget-editor-label'>Max Items Per Set</label>
+            <WidgetEditorFieldGroup name='Max Items Per Set'>
               <input className='widget-editor-input' type='number' value={isNaN(tempConfig.max) ? '' : tempConfig.max} onChange={(event) => this.setTempConfigValue('max', parseInt(event.target.value))} />
-            </div>
+            </WidgetEditorFieldGroup>
           </div>
-          <div className='rss-feed-config-sets'>
-            {
-              tempConfig.sets.map((set, i) => {
-                return (
-                  <div className='widget-editor-section rss-feed-config-set' key={i}>
-                    <div className='widget-editor-input-group'>
-                      <label className='widget-editor-label'>Title</label>
-                      <input className='widget-editor-input' type='text' value={set.title} onChange={(event) => this.setTempConfigArrayIndexValue('sets', i, 'title', event.target.value)} />
-                    </div>
-                    <div className='widget-editor-input-group'>
-                      <label className='widget-editor-label'>Feeds (One per line)</label>
-                      <textarea className='widget-editor-input' value={set.feeds.join('\n')} onChange={(event) => this.setTempConfigArrayIndexValue('sets', i, 'feeds', event.target.value.split('\n'))} />
-                    </div>
-                    <div className='widget-editor-button-set'>
-                      <button className='small destructive' onClick={() => this.removeTempConfigArrayIndex('sets', i)}>Remove Feed Set</button>
-                      <button className='small' onClick={() => this.moveTempConfigArrayIndex('sets', i, i - 1)}>Move Up</button>
-                      <button className='small' onClick={() => this.moveTempConfigArrayIndex('sets', i, i + 1)}>Move Down</button>
-                    </div>
-                  </div>
-                )
-              })
-            }
-            <button className='additive' onClick={() => this.addTempConfigArrayObject('sets', {title: '', feeds: []})}>Add Feed Set</button>
-          </div>
+          <WidgetEditorList
+            wrapperClassName='rss-feed-config-sets'
+            list={tempConfig.sets || []}
+            sectionClassNames={['rss-feed-config-set']}
+            renderSection={(set, i) => {
+              return (
+                <div>
+                  <WidgetEditorFieldGroup name='Title'>
+                    <input className='widget-editor-input' type='text' value={set.title} onChange={(event) => this.setTempConfigArrayIndexValue('sets', i, 'title', event.target.value)} />
+                  </WidgetEditorFieldGroup>
+                  <WidgetEditorFieldGroup name='Feeds (One per line)'>
+                    <textarea className='widget-editor-input' value={set.feeds.join('\n')} onChange={(event) => this.setTempConfigArrayIndexValue('sets', i, 'feeds', event.target.value.split('\n'))} />
+                  </WidgetEditorFieldGroup>
+                </div>
+              )
+            }}
+            removable
+            movable
+            appendable
+            removeItem={(i) => this.removeTempConfigArrayIndex('sets', i)}
+            translateItem={(i, d) => this.moveTempConfigArrayIndex('sets', i, d)}
+            append={() => this.addTempConfigArrayObject('sets', {title: '', feeds: []})} />
         </div>
       )
     } else {

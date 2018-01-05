@@ -7,6 +7,10 @@ import {
   setTemporaryConfig,
   removeService
 } from '../util/actions'
+import {
+  WidgetEditorFieldGroup,
+  WidgetEditorList
+} from '../util/widgetElements'
 const { ipcRenderer } = window.require('electron')
 
 class Tasks extends BigNumbersWidget {
@@ -42,34 +46,31 @@ class Tasks extends BigNumbersWidget {
     ]
     if (tempConfig) {
       return (
-        <div className='tasks-config-apis'>
-          {
-            tempConfig.apis.map((api, i) => {
-              return (
-                <div className='widget-editor-section tasks-config-api' key={i}>
-                  <div className='widget-editor-input-group'>
-                    <label className='widget-editor-label'>Title</label>
-                    <select className='widget-editor-input' value={api.type} onChange={(event) => this.setTempConfigArrayIndexValue('apis', i, 'type', apiTypes[event.target.selectedIndex - 1].name)}>
-                      <option value=''>Select an API</option>
-                      {
-                        apiTypes.map((type, j) => {
-                          return (<option key={j} value={type.name}>{type.label}</option>)
-                        })
-                      }
-                    </select>
-                  </div>
-                  <div className='widget-editor-input-group'>
-                    { this.renderAPIConfig(api, i) }
-                  </div>
-                  <div className='widget-editor-button-set'>
-                    <button className='small destructive' onClick={() => this.removeTempConfigArrayIndex('apis', i)}>Remove API</button>
-                  </div>
-                </div>
-              )
-            })
-          }
-          <button className='additive' onClick={() => this.addTempConfigArrayObject('apis', {type: '', key: ''})}>Add API</button>
-        </div>
+        <WidgetEditorList
+          wrapperClassName='tasks-config-apis'
+          list={tempConfig.apis || []}
+          sectionClassNames={['tasks-config-api']}
+          renderSection={(api, i) => {
+            return (
+              <div>
+                <WidgetEditorFieldGroup name='Type'>
+                  <select className='widget-editor-input' value={api.type} onChange={(event) => this.setTempConfigArrayIndexValue('apis', i, 'type', apiTypes[event.target.selectedIndex - 1].name)}>
+                    <option value=''>Select an API</option>
+                    {
+                      apiTypes.map((type, j) => {
+                        return (<option key={j} value={type.name}>{type.label}</option>)
+                      })
+                    }
+                  </select>
+                </WidgetEditorFieldGroup>
+                { this.renderAPIConfig(api, i) }
+              </div>
+            )
+          }}
+          removable
+          appendable
+          translateItem={(i, d) => this.moveTempConfigArrayIndex('apis', i, d)}
+          append={() => this.addTempConfigArrayObject('apis', {type: '', key: ''})} />
       )
     } else {
       return null

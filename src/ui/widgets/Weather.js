@@ -8,6 +8,9 @@ import {
   setTemporaryConfig,
   removeService
 } from '../util/actions'
+import {
+  WidgetEditorFieldGroup
+} from '../util/widgetElements'
 
 class Weather extends Widget {
   constructor (props) {
@@ -89,10 +92,9 @@ class Weather extends Widget {
     if (tempConfig) {
       return (
         <div>
-          <div className='widget-editor-input-group'>
-            <label className='widget-editor-label'>ZIP Code</label>
+          <WidgetEditorFieldGroup name='ZIP Code'>
             <input className='widget-editor-input' type='text' value={tempConfig.location} onChange={(event) => this.setTempConfigValue('location', event.target.value)} />
-          </div>
+          </WidgetEditorFieldGroup>
         </div>
       )
     } else {

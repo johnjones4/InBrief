@@ -7,6 +7,10 @@ import {
   setTemporaryConfig,
   removeService
 } from '../util/actions'
+import {
+  WidgetEditorFieldGroup,
+  WidgetEditorList
+} from '../util/widgetElements'
 
 class Email extends BigNumbersWidget {
   constructor (props) {
@@ -41,32 +45,31 @@ class Email extends BigNumbersWidget {
     ]
     if (tempConfig) {
       return (
-        <div className='email-config-mailboxes'>
-          {
-            tempConfig.mailboxes.map((mailbox, i) => {
-              return (
-                <div className='widget-editor-section tasks-config-mailbox' key={i}>
-                  <div className='widget-editor-input-group'>
-                    <label className='widget-editor-label'>Type</label>
-                    <select className='widget-editor-input' value={mailbox.type} onChange={(event) => this.setTempConfigArrayIndexValue('mailboxes', i, 'type', mailboxTypes[event.target.selectedIndex - 1].name)}>
-                      <option value=''>Select Mailbox</option>
-                      {
-                        mailboxTypes.map((type, j) => {
-                          return (<option key={j} value={type.name}>{type.label}</option>)
-                        })
-                      }
-                    </select>
-                  </div>
-                  { this.renderMailboxConfig(mailbox, i) }
-                  <div className='widget-editor-button-set'>
-                    <button className='small destructive' onClick={() => this.removeTempConfigArrayIndex('mailboxes', i)}>Remove Mailbox</button>
-                  </div>
-                </div>
-              )
-            })
-          }
-          <button className='additive' onClick={() => this.addTempConfigArrayObject('mailboxes', {type: '', credentials: {}})}>Add Mailbox</button>
-        </div>
+        <WidgetEditorList
+          wrapperClassName='email-config-mailboxes'
+          list={tempConfig.mailboxes || []}
+          sectionClassNames={['email-config-mailbox']}
+          renderSection={(mailbox, i) => {
+            return (
+              <div>
+                <WidgetEditorFieldGroup name='Type'>
+                  <select className='widget-editor-input' value={mailbox.type} onChange={(event) => this.setTempConfigArrayIndexValue('mailboxes', i, 'type', mailboxTypes[event.target.selectedIndex - 1].name)}>
+                    <option value=''>Select Mailbox</option>
+                    {
+                      mailboxTypes.map((type, j) => {
+                        return (<option key={j} value={type.name}>{type.label}</option>)
+                      })
+                    }
+                  </select>
+                </WidgetEditorFieldGroup>
+                { this.renderMailboxConfig(mailbox, i) }
+              </div>
+            )
+          }}
+          removable
+          appendable
+          translateItem={(i, d) => this.moveTempConfigArrayIndex('mailboxes', i, d)}
+          append={() => this.addTempConfigArrayObject('mailboxes', {type: '', credentials: {}})} />
       )
     } else {
       return null
@@ -101,36 +104,28 @@ class Email extends BigNumbersWidget {
       case 'imap':
         return (
           <div>
-            <div className='widget-editor-input-group'>
-              <label className='widget-editor-label'>Hostname</label>
+            <WidgetEditorFieldGroup name='Hostname'>
               <input className='widget-editor-input' type='text' value={mailbox.credentials.host} onChange={(event) => this.setMailboxCredentialValue(i, 'host', event.target.value)} />
-            </div>
-            <div className='widget-editor-input-group'>
-              <label className='widget-editor-label'>Username</label>
+            </WidgetEditorFieldGroup>
+            <WidgetEditorFieldGroup name='Username'>
               <input className='widget-editor-input' type='text' value={mailbox.credentials.user} onChange={(event) => this.setMailboxCredentialValue(i, 'user', event.target.value)} />
-            </div>
-            <div className='widget-editor-input-group'>
-              <label className='widget-editor-label'>Password</label>
+            </WidgetEditorFieldGroup>
+            <WidgetEditorFieldGroup name='Password'>
               <input className='widget-editor-input' type='password' value={mailbox.credentials.password} onChange={(event) => this.setMailboxCredentialValue(i, 'password', event.target.value)} />
-            </div>
-            <div className='widget-editor-input-group'>
-              <label className='widget-editor-label'>Port</label>
+            </WidgetEditorFieldGroup>
+            <WidgetEditorFieldGroup name='Port'>
               <input className='widget-editor-input' type='text' value={mailbox.credentials.port} onChange={(event) => this.setMailboxCredentialValue(i, 'port', event.target.value)} />
-            </div>
-            <div className='widget-editor-input-group'>
-              <label className='widget-editor-label'>
-                <input type='checkbox' checked={mailbox.credentials.tls} onChange={(event) => this.setMailboxCredentialValue(i, 'tls', event.target.checked)} />
-                TLS
-              </label>
-            </div>
-            <div className='widget-editor-input-group'>
-              <label className='widget-editor-label'>Flagged Mailbox Name</label>
+            </WidgetEditorFieldGroup>
+            <label className='widget-editor-label'>
+              <input type='checkbox' checked={mailbox.credentials.tls} onChange={(event) => this.setMailboxCredentialValue(i, 'tls', event.target.checked)} />
+              TLS
+            </label>
+            <WidgetEditorFieldGroup name='Flagged Mailbox Name'>
               <input className='widget-editor-input' type='text' value={mailbox.flagMailboxName} onChange={(event) => this.setTempConfigArrayIndexValue('mailboxes', i, 'flagMailboxName', event.target.value)} />
-            </div>
-            <div className='widget-editor-input-group'>
-              <label className='widget-editor-label'>Unread Mailbox Name</label>
+            </WidgetEditorFieldGroup>
+            <WidgetEditorFieldGroup name='Unread Mailbox Name'>
               <input className='widget-editor-input' type='text' value={mailbox.unreadMailboxName} onChange={(event) => this.setTempConfigArrayIndexValue('mailboxes', i, 'unreadMailboxName', event.target.value)} />
-            </div>
+            </WidgetEditorFieldGroup>
           </div>
         )
       default:

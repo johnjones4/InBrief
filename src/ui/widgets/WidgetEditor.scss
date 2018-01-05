@@ -87,3 +87,11 @@ textarea.widget-editor-input {
   padding-bottom: 0.5em;
   margin-bottom: 1em;
 }
+
+.widget-editor-list-section-controls {
+  overflow: auto;
+  height: auto;
+  .destructive {
+    float: right;
+  }
+} 
