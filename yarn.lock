@@ -1324,6 +1324,15 @@ builder-util-runtime@3.4.1, builder-util-runtime@^3.4.0, builder-util-runtime@^3
     fs-extra-p "^4.5.0"
     sax "^1.2.4"
 
+builder-util-runtime@~4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-4.0.0.tgz#783a4148164e8f9e2ffd4ffa4c2e0a0886e19496"
+  dependencies:
+    bluebird-lst "^1.0.5"
+    debug "^3.1.0"
+    fs-extra-p "^4.5.0"
+    sax "^1.2.4"
+
 builder-util@3.4.5, builder-util@^3.4.4, builder-util@^3.4.5:
   version "3.4.5"
   resolved "https://registry.yarnpkg.com/builder-util/-/builder-util-3.4.5.tgz#f1eb84748fdc05b10ace81795241f36ab5776677"
@@ -2345,6 +2354,10 @@ electron-download@^3.0.1:
     semver "^5.3.0"
     sumchecker "^1.2.0"
 
+electron-is-dev@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-0.3.0.tgz#14e6fda5c68e9e4ecbeff9ccf037cbd7c05c5afe"
+
 electron-oauth2@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/electron-oauth2/-/electron-oauth2-3.0.0.tgz#d7e8ba354776097fc18d7dbcbdfaedfa3f377e7b"
@@ -2391,6 +2404,20 @@ electron-to-chromium@^1.2.7, electron-to-chromium@^1.3.28:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.30.tgz#9666f532a64586651fc56a72513692e820d06a80"
   dependencies:
     electron-releases "^2.1.0"
+
+electron-updater@^2.18.2:
+  version "2.18.2"
+  resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-2.18.2.tgz#776b50389b849535425e9e2893d7943ee61e8e3f"
+  dependencies:
+    bluebird-lst "^1.0.5"
+    builder-util-runtime "~4.0.0"
+    electron-is-dev "^0.3.0"
+    fs-extra-p "^4.5.0"
+    js-yaml "^3.10.0"
+    lazy-val "^1.0.3"
+    lodash.isequal "^4.5.0"
+    semver "^5.4.1"
+    source-map-support "^0.5.0"
 
 electron@^1.7.10:
   version "1.7.10"
@@ -4845,7 +4872,7 @@ lodash.has@^4.5.2:
   version "4.5.2"
   resolved "https://registry.yarnpkg.com/lodash.has/-/lodash.has-4.5.2.tgz#d19f4dc1095058cccbe2b0cdf4ee0fe4aa37c862"
 
-lodash.isequal@^4.0.0:
+lodash.isequal@^4.0.0, lodash.isequal@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
 
