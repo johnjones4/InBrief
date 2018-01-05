@@ -116,7 +116,7 @@ const dispatchToProps = (dispatch) => {
 }
 
 Weather.widgetProps = {
-  h: 2.5,
+  h: 3,
   isResizable: false
 }
 
