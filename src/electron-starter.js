@@ -33,6 +33,7 @@ const createWindow = () => {
 
 app.on('ready', () => {
   autoUpdater.checkForUpdatesAndNotify()
+
   createWindow()
   menuSetup(app)
   servicesSetup(mainWindow)
