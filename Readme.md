@@ -27,3 +27,7 @@ Each widget on the app's screen draws its data via various APIs, and InBrief is 
 ## Installation
 
 To install InBrief on your computer, head to the [Releases](https://github.com/johnjones4/InBrief/releases) section and download the appropriate file for your system. (Currently, there are only builds for Linux and Mac) Once running, there's a "plus" icon in the bottom right-hand corner of the window. Click that to add widgets. When a widget is added, click the edit button in its upper right-hand corner to configure it for your needs.
+
+## Extending
+
+To extend the capabilities of this application and add additional dashboard panels, see the [Development](Development.md) documentation
