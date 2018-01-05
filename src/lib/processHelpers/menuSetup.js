@@ -1,11 +1,12 @@
 const {Menu} = require('electron')
 
-module.exports = () => {
+module.exports = (app) => {
   const template = [
     {
       label: 'Application',
       submenu: [
         { label: 'About Application', selector: 'orderFrontStandardAboutPanel:' },
+        { role: 'reload' },
         { type: 'separator' },
         { label: 'Quit', accelerator: 'CmdOrCtrl+Q', click: () => { app.quit() } }
       ]

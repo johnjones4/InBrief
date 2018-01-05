@@ -32,7 +32,7 @@ const createWindow = () => {
 
 app.on('ready', () => {
   createWindow()
-  menuSetup()
+  menuSetup(app)
   servicesSetup(mainWindow)
   authorizorsSetup(mainWindow)
   twitterListHelper(mainWindow)
