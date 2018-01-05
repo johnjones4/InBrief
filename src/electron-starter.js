@@ -6,7 +6,8 @@ const servicesSetup = require('./lib/processHelpers/servicesSetup')
 const menuSetup = require('./lib/processHelpers/menuSetup')
 const authorizorsSetup = require('./lib/processHelpers/authorizorsSetup')
 const twitterListHelper = require('./lib/processHelpers/twitterListHelper')
-const autoUpdater = require('electron-updater').autoUpdate
+const autoUpdater = require('electron-updater').autoUpdater
+const ServiceManager = require('./lib/util/ServiceManager')
 
 process.env.IS_DEV = !(!process.env.ELECTRON_START_URL)
 
@@ -34,9 +35,10 @@ const createWindow = () => {
 app.on('ready', () => {
   autoUpdater.checkForUpdatesAndNotify()
 
+  const serviceManager = new ServiceManager()
   createWindow()
-  menuSetup(app)
-  servicesSetup(mainWindow)
+  menuSetup(app, serviceManager)
+  servicesSetup(mainWindow, serviceManager)
   authorizorsSetup(mainWindow)
   twitterListHelper(mainWindow)
 })

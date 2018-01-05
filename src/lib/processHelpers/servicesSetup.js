@@ -1,9 +1,6 @@
-const ServiceManager = require('../util/ServiceManager')
 const { ipcMain } = require('electron')
 
-module.exports = (mainWindow) => {
-  const manager = new ServiceManager()
-
+module.exports = (mainWindow, manager) => {
   const sendServices = () => {
     console.log('Sending services list')
     mainWindow.webContents.send('services', manager.services.map((service) => {
@@ -33,15 +30,18 @@ module.exports = (mainWindow) => {
     }
   }
 
+  const setupAllServiceDataListeners = () => {
+    manager.services.forEach((service) => {
+      setupServiceDataListeners(service)
+    })
+  }
+
   manager.load().then(() => {
     sendServices()
+    setupAllServiceDataListeners()
 
     ipcMain.on('services', (event) => {
       sendServices()
-    })
-
-    manager.services.forEach((service) => {
-      setupServiceDataListeners(service)
     })
 
     ipcMain.on('servicedata', (event) => {
@@ -70,6 +70,11 @@ module.exports = (mainWindow) => {
       layouts.forEach(({name, layout}) => {
         manager.updateServiceLayout(name, layout)
       })
+    })
+
+    manager.addReloadListener(() => {
+      sendServices()
+      setupAllServiceDataListeners()
     })
   })
     .catch((err) => console.error(err))

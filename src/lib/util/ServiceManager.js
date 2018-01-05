@@ -1,22 +1,48 @@
 const services = require('../services')
 const _ = require('lodash')
 const settings = require('electron-settings')
+const fs = require('fs-extra')
 
 class ServiceManager {
   constructor () {
     this.services = null
+    this.reloadListeners = []
+  }
+
+  addReloadListener (fn) {
+    this.reloadListeners.push(fn)
+  }
+
+  usesLocalConfig () {
+    return !settings.get('serviceConfigPath')
+  }
+
+  loadConfig (path) {
+    if (!path || path === settings.file()) {
+      settings.delete('serviceConfigPath')
+    } else {
+      settings.set('serviceConfigPath', path)
+    }
+    return this.load()
   }
 
   load () {
-    const config = settings.get('serviceConfig') || {}
+    if (this.services) {
+      this.services.forEach((service) => {
+        service.end()
+        service.clearListeners()
+      })
+    }
+    const config = this.getServiceConfig() || {}
     this.services = _.keys(config).map((name) => {
       const serviceObject = this.instantiateServiceByName(name, config[name])
       serviceObject.begin()
       return serviceObject
     })
+    this.reloadListeners.forEach((fn) => fn())
     return Promise.resolve(this.services)
   }
-  
+
   getServiceByName (name) {
     return this.services.find((service) => service.name === name)
   }
@@ -25,7 +51,7 @@ class ServiceManager {
     const service = this.getServiceByName(name)
     if (service && service.config) {
       service.config.layout = layout
-      settings.set('serviceConfig.' + name, service.config)
+      this.commitServiceConfigs()
     }
   }
 
@@ -39,7 +65,7 @@ class ServiceManager {
     } else {
       this.services.push(newService)
     }
-    settings.set('serviceConfig.' + name, config)
+    this.commitServiceConfigs()
     newService.begin()
     return newService
   }
@@ -51,7 +77,27 @@ class ServiceManager {
       this.services[serviceIndex].clearListeners()
       this.services.splice(serviceIndex, 1)
     }
-    settings.delete('serviceConfig.' + name)
+    this.commitServiceConfigs()
+  }
+
+  commitServiceConfigs () {
+    const serviceConfig = {}
+    this.services.forEach((service) => {
+      serviceConfig[service.name] = service.config
+    })
+    if (this.usesLocalConfig()) {
+      settings.set('serviceConfig', serviceConfig)
+    } else {
+      fs.writeJsonSync(settings.get('serviceConfigPath'), serviceConfig)
+    }
+  }
+
+  getServiceConfig () {
+    if (this.usesLocalConfig()) {
+      return settings.get('serviceConfig')
+    } else {
+      return fs.readJsonSync(settings.get('serviceConfigPath'))
+    }
   }
 
   instantiateServiceByName (name, config) {
