@@ -49,9 +49,7 @@ class RSS extends Widget {
               return (
                 <div onClick={() => shell.openExternal(item.link)} className='faux-link rss-feed-item striped striped-hover' key={j}>
                   <span className='rss-feed-item-title'>
-                    <span className='rss-feed-item-headeline'>
-                      {item.title}
-                    </span>
+                    <span className='rss-feed-item-headeline' dangerouslySetInnerHTML={{__html: item.title}} />
                     { item.author && (<span className='rss-feed-item-author'>
                       {item.author}
                     </span>)}
