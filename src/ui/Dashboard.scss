@@ -44,10 +44,10 @@ button {
     font-size: 0.75em;
   }
   &.destructive {
-    border-color: rgb(168, 84, 84);
+    border-color: $widget_ui_control_danger;
   }
   &.additive {
-    border-color: rgb(84, 168, 84);
+    border-color: $widget_ui_control_success;
   }
   &:hover {
     border-color: $widget_ui_control_color;

@@ -24,3 +24,6 @@ $double_deemphasized_text: darken(desaturate($widget_body_text_color,50%),50%);
 
 $widget_ui_control_color: rgb(68, 128, 184);
 $widget_ui_control_highlight_color: lighten($widget_ui_control_color,20%);
+
+$widget_ui_control_danger: rgb(168, 84, 84);
+$widget_ui_control_success: rgb(84, 168, 84);

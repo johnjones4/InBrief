@@ -3,6 +3,7 @@ import './Widget.scss'
 import './WidgetEditor.scss'
 import './WidgetBigNumbers.scss'
 import PropTypes from 'prop-types'
+const {ipcRenderer} = window.require('electron')
 
 class Widget extends Component {
   constructor (title, name, props) {
@@ -10,7 +11,23 @@ class Widget extends Component {
     this.name = name
     this.title = title
     this.state = {
-      editing: false
+      editing: false,
+      error: null
+    }
+    ipcRenderer.on('serviceerror', (event, info) => {
+      this.handleError(info)
+    })
+  }
+
+  handleError ({type, error}) {
+    if (type === this.name) {
+      this.setState({error})
+      if (this.errorTimeout) {
+        clearTimeout(this.errorTimeout)
+      }
+      this.errorTimeout = setTimeout(() => {
+        this.setState({error: null})
+      }, 5000)
     }
   }
 
@@ -31,7 +48,11 @@ class Widget extends Component {
   }
 
   getMainClassNames () {
-    return ['widget', 'widget-' + this.name]
+    const classNames = ['widget', 'widget-' + this.name]
+    if (this.state.error) {
+      classNames.push('widget-error')
+    }
+    return classNames
   }
 
   editConfig () {
@@ -125,6 +146,11 @@ class Widget extends Component {
           <div className='widget-body'>
             {this.renderWidget()}
           </div>
+          { this.state.error && (
+            <div className='widget-error-details'>
+              { this.state.error }
+            </div>
+          )}
         </div>
         <div className='widget-editor'>
           <div className='widget-editor-title'>

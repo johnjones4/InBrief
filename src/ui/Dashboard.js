@@ -28,7 +28,6 @@ class Dashboard extends Component {
     this.state = {
       perferredRowHeight: 200
     }
-    this.errorQueue = []
     window.addEventListener('resize', () => {
       this.resetRowHeight()
     })
@@ -54,23 +53,6 @@ class Dashboard extends Component {
       })
     })
     ipcRenderer.send('services')
-
-    ipcRenderer.on('serviceerror', (event, info) => {
-      this.errorQueue.push(info)
-    })
-
-    this.errorInterval = setInterval(() => {
-      if (this.errorQueue.length > 1) {
-        if (this.errorQueue.length > 1) {
-          const str = 'Errors experienced:\n' + this.errorQueue.map(({type, error}) => type + ': ' + error).join('\n')
-          window.alert(str)
-        } else if (this.errorQueue.length === 1) {
-          const {type, error} = this.errorQueue[0]
-          window.alert('Error in widget "' + type + '": ' + error)
-        }
-        this.errorQueue = []
-      }
-    }, 1000)
 
     this.resetRowHeight()
   }
