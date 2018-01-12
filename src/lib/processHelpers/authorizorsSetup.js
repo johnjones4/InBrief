@@ -1,8 +1,8 @@
 const { ipcMain, BrowserWindow } = require('electron')
-const electronOauth2 = require('electron-oauth2')
 const keys = require('../../keys')
 const OAuth = require('oauth-electron-twitter').oauth
 const Twitter = require('oauth-electron-twitter').twitter
+const oauthFactory = require('../util/oauthFactory')
 
 module.exports = (mainWindow) => {
   const authWindowOptions = {
@@ -10,28 +10,6 @@ module.exports = (mainWindow) => {
     autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: false
-    }
-  }
-
-  const getAuthURL = (service) => {
-    switch (service) {
-      case 'asana':
-        return 'https://app.asana.com/-/oauth_authorize'
-      case 'todoist':
-        return 'https://todoist.com/oauth/authorize'
-      default:
-        return null
-    }
-  }
-
-  const getTokenURL = (service) => {
-    switch (service) {
-      case 'asana':
-        return 'https://app.asana.com/-/oauth_token'
-      case 'todoist':
-        return 'https://todoist.com/oauth/access_token'
-      default:
-        return null
     }
   }
 
@@ -54,17 +32,13 @@ module.exports = (mainWindow) => {
   }
 
   const doOAuth2Request = (service) => {
-    const oauth = electronOauth2({
-      clientId: keys[service].id,
-      clientSecret: keys[service].secret,
-      authorizationUrl: getAuthURL(service),
-      tokenUrl: getTokenURL(service),
-      useBasicAuthorizationHeader: false,
-      redirectUri: 'http://localhost'
-    }, authWindowOptions)
+    const oauth = oauthFactory(service, authWindowOptions)
     oauth.getAccessToken(getAccessTokenOptions(service))
       .then(token => {
-        mainWindow.webContents.send('authorize-tasks-' + service, token.access_token)
+        mainWindow.webContents.send('authorize-tasks-' + service, {
+          token: token.access_token,
+          refreshToken: token.refresh_token
+        })
       })
       .catch((err) => console.error(err))
   }

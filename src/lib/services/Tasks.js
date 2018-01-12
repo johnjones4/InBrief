@@ -1,6 +1,7 @@
 const Service = require('./Service')
 const request = require('request-promise-native')
 const asana = require('asana')
+const oauthFactory = require('../util/oauthFactory')
 
 class Tasks extends Service {
   constructor (config) {
@@ -50,8 +51,13 @@ class Tasks extends Service {
     }
   }
 
+  refreshAPIToken (refreshToken, service) {
+    return oauthFactory(service, null)
+      .refreshToken(refreshToken)
+  }
+
   fetchTodoist ({now, tonight, friday}, api) {
-    if (api.token) {
+    if (api.token || api.refreshToken) {
       const todoistRequest = (uri, params) => {
         params.token = api.token
         return request({
@@ -62,10 +68,22 @@ class Tasks extends Service {
           'agent': false
         })
       }
-      return todoistRequest('https://todoist.com/api/v7/sync', {
-        'sync_token': '*',
-        'resource_types': JSON.stringify(['items'])
-      })
+      return (() => {
+        if (api.refreshToken) {
+          return this.refreshAPIToken(api.refreshToken, 'todoist')
+            .then((token) => {
+              api.token = token
+            })
+        } else {
+          return Promise.resolve()
+        }
+      })()
+        .then(() => {
+          return todoistRequest('https://todoist.com/api/v7/sync', {
+            'sync_token': '*',
+            'resource_types': JSON.stringify(['items'])
+          })
+        })
         .then((body) => {
           body.items.forEach((item) => {
             if (item.due_date_utc !== null) {
@@ -103,9 +121,22 @@ class Tasks extends Service {
   }
 
   fetchAsana ({now, tonight, friday}, api) {
-    if (api.token) {
-      const client = asana.Client.create().useAccessToken(api.token)
-      return client.users.me()
+    if (api.token || api.refreshToken) {
+      let client
+      return (() => {
+        if (api.refreshToken) {
+          return this.refreshAPIToken(api.refreshToken, 'asana')
+            .then((token) => {
+              api.token = token
+            })
+        } else {
+          return Promise.resolve()
+        }
+      })()
+        .then(() => {
+          client = asana.Client.create().useAccessToken(api.token)
+          return client.users.me()
+        })
         .then(function (me) {
           return Promise.all(
             me.workspaces.map((workspace) => {

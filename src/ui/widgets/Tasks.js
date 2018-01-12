@@ -79,9 +79,9 @@ class Tasks extends BigNumbersWidget {
 
   authorizeService (api, index) {
     const messageType = 'authorize-tasks-' + api.type
-    ipcRenderer.once(messageType, (event, token) => {
-      console.log(token)
+    ipcRenderer.once(messageType, (event, {token, refreshToken}) => {
       this.setTempConfigArrayIndexValue('apis', index, 'token', token)
+      this.setTempConfigArrayIndexValue('apis', index, 'refreshToken', refreshToken)
     })
     ipcRenderer.send(messageType)
   }
