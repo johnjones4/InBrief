@@ -89,7 +89,8 @@ class Dashboard extends Component {
             breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
             cols={{lg: cols, md: cols, sm: cols, xs: cols, xxs: cols}}
             onLayoutChange={(layout, layouts) => this.layoutChanged(layout, layouts)}
-            draggableCancel='input,textarea'>
+            draggableCancel='input,textarea'
+            margin={[20, 20]}>
             {
               this.props.services.services.map((service, i) => {
                 const defaultProps = this.getServiceProps(service)

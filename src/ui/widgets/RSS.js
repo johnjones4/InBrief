@@ -48,18 +48,18 @@ class RSS extends Widget {
             feed.items.map((item, j) => {
               return (
                 <div onClick={() => shell.openExternal(item.link)} className='faux-link rss-feed-item striped striped-hover' key={j}>
-                  <span className='rss-feed-item-title'>
-                    <span className='rss-feed-item-headeline' dangerouslySetInnerHTML={{__html: item.title}} />
+                  <div className='rss-feed-item-title' dangerouslySetInnerHTML={{__html: item.title}} />
+                  <div>
                     { item.author && (<span className='rss-feed-item-author'>
                       {item.author}
                     </span>)}
                     <span className='rss-feed-item-website'>
                       {item.website}
                     </span>
-                  </span>
-                  <span className='rss-feed-item-date'>
-                    {formatDate(item.date)}
-                  </span>
+                    <span className='rss-feed-item-date'>
+                      {formatDate(item.date)}
+                    </span>
+                  </div>
                 </div>
               )
             })

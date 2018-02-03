@@ -15,64 +15,56 @@ import {
 class Weather extends Widget {
   constructor (props) {
     super('Weather', 'weather', props)
+    this.state = {
+      selectedIndex: 0
+    }
   }
 
-  renderCurrentWeather (data) {
-    return (
-      <div className='weather-now'>
-        <div className='weather-label'>Now</div>
-        <div className='weather-now-content'>
-          <img src={'./weather/' + data.now.icon + '.svg'} alt={data.now.weather} className='weather-icon' />
-          <div className='weather-description'>
-            {data.now.weather}
-          </div>
-          <div className='weather-temp'>
-            <span className='weather-value-label weather-temp-label'>Temp: </span>
-            <span className='weather-temp-temp'>{data.now.temp}&#176;</span>
-          </div>
-          <div className='weather-feelslike'>
-            <span className='weather-value-label weather-feelslike-label'>Feels Like: </span>
-            <span className='weather-feelslike-temp'>{data.now.feelslike}&#176;</span>
-          </div>
-          <div className='weather-humidity'>
-            <span className='weather-value-label weather-humidity-label'>Humidity: </span>
-            <span className='weather-humidity-temp'>{data.now.humidity}</span>
-          </div>
-        </div>
-      </div>
-    )
+  getForecaseTranslation (index) {
+    if (index === this.state.selectedIndex) {
+      return {}
+    } else {
+      const delta = index - this.state.selectedIndex
+      return {
+        'transform': 'translateX(' + (delta * 100) + '%)'
+      }
+    }
   }
 
-  renderForecast (data) {
+  renderWeather (weather, index) {
     return (
-      <div className='weather-forecast'>
-        {
-          data.forecast.map((item, i) => {
-            return (
-              <div className='weather-forecast-item' key={i}>
-                <div className='weather-label'>{item.label}</div>
-                <div className='weather-content'>
-                  <div className='weather-icon-wrapper'>
-                    <img src={'./weather/' + item.icon + '.svg'} className='weather-icon' alt={item.forecast} />
-                  </div>
-                  <div className='weather-text'>
-                    <div className='weather-description'>
-                      {item.forecast}
-                    </div>
-                    <div className='weather-high'>
-                      <span className='weather-value-label weather-high-label'>High: </span>
-                      <span className='weather-high-temp'>{item.high}&#176;</span>
-                    </div>
-                    <div className='weather-low'>
-                      <span className='weather-value-label weather-low-label'>Low: </span>
-                      <span className='weather-low-temp'>{item.low}&#176;</span>
-                    </div>
-                  </div>
+      <div className='weather-forecast' style={this.getForecaseTranslation(index)} key={weather.label}>
+        <div className='weather-content'>
+          <div className='weather-icon-wrapper'>
+            <img src={'./weather/' + weather.icon + '.svg'} className='weather-icon' alt={weather.description} />
+          </div>
+          <div className='weather-text'>
+            <div className='weather-description'>
+              {weather.description}
+            </div>
+            { weather.temps.length === 2 ? (
+              <div>
+                <div className='weather-key-value'>
+                  <span className='weather-key'>High: </span>
+                  <span className='weather-value'>{weather.temps[0]}&#176;</span>
+                </div>
+                <div className='weather-key-value'>
+                  <span className='weather-key'>Low: </span>
+                  <span className='weather-value'>{weather.temps[1]}&#176;</span>
                 </div>
               </div>
-            )
-          })
-        }
+            ) : (
+              <div className='weather-key-value'>
+                <span className='weather-key'>Temp: </span>
+                <span className='weather-value'>{weather.temps[0]}&#176;</span>
+              </div>
+            )}
+            <div className='weather-key-value'>
+              <span className='weather-key'>Humidity: </span>
+              <span className='weather-value'>{weather.humidity}</span>
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
@@ -81,8 +73,14 @@ class Weather extends Widget {
     const data = this.getWidgetData()
     return data && (
       <div className='weather-wrapper'>
-        { this.renderCurrentWeather(data) }
-        { this.renderForecast(data) }
+        <div className='weather-forecasts'>
+          { data.map((weather, index) => this.renderWeather(weather, index)) }
+        </div>
+        <div className='weather-nav-labels'>
+          { data.map((weather, index) => {
+            return (<button className={'weather-nav-label' + (index === this.state.selectedIndex ? ' active' : '')} onClick={() => this.setState({selectedIndex: index})}>{weather.label}</button>)
+          }) }
+        </div>
       </div>
     )
   }

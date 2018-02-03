@@ -109,6 +109,9 @@ class Twitter extends Widget {
                       <span className='twitter-feed-tweet-name'>
                         {tweet.user.name}
                       </span>
+                      <span className='twitter-feed-tweet-screen-name'>
+                        @{tweet.user.screen_name}
+                      </span>
                       <span className='twitter-feed-tweet-date'>
                         {formatDate(tweet.created_at)}
                       </span>

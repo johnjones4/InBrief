@@ -1,24 +1,21 @@
-$page_background: url(./background.jpg) no-repeat center center;
-$page_background_overlay: rgba(0,0,0,0.6);
-$widget_background: rgba(0,0,0,0.15);
-$widget_stripe: rgba(150,150,150,0.2);
+$page_background: #f7f7f7;;
+$page_background_overlay: transparent;
+$widget_background: white;
 $widget_title_background: rgba(0,0,0,0);
-$widget_body_text_color: #CCD;
-$widget_body_strong_text_color: #EEF;
+$widget_body_text_color: #1a1a1a;
+$widget_body_strong_text_color: #1a1a1a;
 
-$foreground_highlight_color: rgba(20,20,20,0.4);
+$foreground_highlight_color: #eee;
 
-$stripe_background_odd: lighten($foreground_highlight_color,7%);
-$stripe_background_even: $foreground_highlight_color;
-$stripe_background_hover: lighten($foreground_highlight_color,35%);
+$stripe_background_odd: transparent;
+$stripe_background_even: transparent;
+$stripe_background_hover: transparent;
 
-$deemphasized_text: darken(desaturate($widget_body_text_color,40%),40%);
-$double_deemphasized_text: darken(desaturate($widget_body_text_color,50%),50%);
+$deemphasized_text: rgba(26, 26, 26, .5);
+$double_deemphasized_text: rgba(26, 26, 26, .5);
 
 @mixin heading_font_styles {
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 300;
+  font-weight: 700;
   color: $widget_body_strong_text_color;
 }
 

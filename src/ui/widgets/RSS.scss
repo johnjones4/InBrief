@@ -7,43 +7,25 @@
 .rss-feed-item {
   display: block;
   color: inherit;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  text-decoration: none;
+  padding: 0.5em 0;
+  border-bottom: 1px solid $foreground_highlight_color;
+  transition: background 0.25s;
+  &:hover {
+    // background: $foreground_highlight_color;
+    .rss-feed-item-title {
+      text-decoration: underline;
+    }
+  }
 }
 
-.rss-feed-item:visited {
-  color: $double_deemphasized_text;
-}
-
-.rss-feed-item-title {
-  padding: 0.5em;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  justify-content: space-between;
-}
-
-.rss-feed-item-date {
-  padding: 0.5em;
-  white-space: nowrap;
-  color: $deemphasized_text;
-}
-
+.rss-feed-item-date,
 .rss-feed-item-author,
 .rss-feed-item-website {
-  margin-left: 0.5em;
   font-size: 0.75em;
   color: $deemphasized_text;
 }
 
-.rss-feed-item:visited .rss-feed-item-author,
-.rss-feed-item:visited .rss-feed-item-website {
-  color: $double_deemphasized_text;
-}
-
+.rss-feed-item-website:after,
 .rss-feed-item-author:after {
-  content: ' /';
+  content: ' - ';
 }

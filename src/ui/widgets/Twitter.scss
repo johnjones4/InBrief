@@ -10,10 +10,11 @@
 .twitter-feed-tweet {
   clear: both;
   height: 50px;
-  padding: 0.5em;
+  padding: 1em 0.5em;
   box-sizing: content-box;
   overflow: hidden;
   text-overflow: ellipsis;
+  border-bottom: 1px solid $foreground_highlight_color;
 }
 
 .twitter-feed-tweet a {
@@ -26,11 +27,17 @@
   width: 50px;
   height: auto;
   margin-right: 0.5em;
+  border-radius: 50%;
+}
+
+.twitter-feed-tweet-screen-name {
+  color: $deemphasized_text;
 }
 
 .twitter-feed-tweet-date {
   font-size: 0.75em;
   color: $deemphasized_text;
+  float: right;
 }
 
 @media (max-width: 1900px) {
@@ -41,8 +48,9 @@
 }
 
 .twitter-feed-tweet-name {
-  margin-right: 0.5em;
+  margin-right: 0.25em;
   color: $widget_body_strong_text_color;
+  font-weight: 600;
 }
 
 .twitter-feed-tweet-header {
