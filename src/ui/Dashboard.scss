@@ -15,15 +15,6 @@ body {
   background-attachment: fixed;
 }
 
-.overlay {
-  position: fixed;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  background: $page_background_overlay;
-}
-
 textarea,input[type=text] {
   outline: none;
   border: solid 1px #ccc;
@@ -54,5 +45,39 @@ button {
   }
   &:active {
     border-color: $widget_ui_control_highlight_color;
+  }
+}
+
+.dashboard-placeholder {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  flex-direction: column;
+  color: $placeholder_text_color;
+  text-align: center;
+  background: white url(/arrow.svg) no-repeat;
+  background-size: auto 30%;
+  background-position: 90% 80%;
+  .dashboard-placeholder-text-1 {
+    font-weight: 300;
+    font-size: 16px;
+  }
+  .dashboard-placeholder-text-2 {
+    font-weight: 600;
+    font-size: 58px;
+    text-transform: uppercase;
+    padding: 0.25em 0 0 0;
+  }
+}
+
+.react-grid-item > .react-resizable-handle {
+  background-image: url(/resize.svg);
+  &::after {
+    border: none;
   }
 }

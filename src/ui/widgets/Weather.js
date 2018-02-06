@@ -78,7 +78,7 @@ class Weather extends Widget {
         </div>
         <div className='weather-nav-labels'>
           { data.map((weather, index) => {
-            return (<button className={'weather-nav-label' + (index === this.state.selectedIndex ? ' active' : '')} onClick={() => this.setState({selectedIndex: index})}>{weather.label}</button>)
+            return (<button key={index} className={'weather-nav-label' + (index === this.state.selectedIndex ? ' active' : '')} onClick={() => this.setState({selectedIndex: index})}>{weather.label}</button>)
           }) }
         </div>
       </div>
@@ -91,7 +91,7 @@ class Weather extends Widget {
       return (
         <div>
           <WidgetEditorFieldGroup name='ZIP Code'>
-            <input className='widget-editor-input' type='text' value={tempConfig.location} onChange={(event) => this.setTempConfigValue('location', event.target.value)} />
+            <input className='widget-editor-input' type='text' value={tempConfig.location || ''} onChange={(event) => this.setTempConfigValue('location', event.target.value)} />
           </WidgetEditorFieldGroup>
         </div>
       )
@@ -116,7 +116,7 @@ const dispatchToProps = (dispatch) => {
 }
 
 Weather.widgetProps = {
-  h: 3,
+  h: 2,
   isResizable: true
 }
 

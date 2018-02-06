@@ -14,6 +14,8 @@ $stripe_background_hover: transparent;
 $deemphasized_text: rgba(26, 26, 26, .5);
 $double_deemphasized_text: rgba(26, 26, 26, .5);
 
+$placeholder_text_color: #E0E0E0;
+
 @mixin heading_font_styles {
   font-weight: 700;
   color: $widget_body_strong_text_color;

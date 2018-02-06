@@ -51,31 +51,29 @@ class AddWidget extends Component {
     const servicesToShow = services.filter((service) => {
       return this.props.services.services.findIndex((_service) => _service.name === service.name) < 0
     })
-    if (servicesToShow.length > 0) {
-      if (this.state.showing) {
-        return (
-          <div className='add-widget-wrapper'>
-            <div className='add-widget' style={{width: ((servicesToShow.length * 140) + 10)}}>
-              {
-                servicesToShow
-                  .map((service) => {
-                    return (
-                      <div className='add-widget-service-option' key={service.name}>
-                        <button style={{backgroundImage: 'url(./service_icons/' + service.name + '.svg'}} className='add-widget-service-button' onClick={() => this.addService(service.name)}>{service.label}</button>
-                      </div>
-                    )
-                  })
-              }
-              <button className='add-widget-close-button' onClick={() => this.setState({showing: false})}>&times;</button>
+    return (
+      <div>
+        <div className={'add-widget-wrapper' + (this.state.showing ? ' active' : '')}>
+          <div className='add-widget' style={{width: ((servicesToShow.length * 140) + 10)}}>
+            <div className='add-widget-title'>
+              Choose a Card
             </div>
+            {
+              servicesToShow
+                .map((service) => {
+                  return (
+                    <div className='add-widget-service-option' key={service.name}>
+                      <button style={{backgroundImage: 'url(./service_icons/' + service.name + '.svg'}} className='add-widget-service-button' onClick={() => this.addService(service.name)}>{service.label}</button>
+                    </div>
+                  )
+                })
+            }
+            <button className='add-widget-close-button' onClick={() => this.setState({showing: false})}>&times;</button>
           </div>
-        )
-      } else {
-        return (<button className='add-widget-button' onClick={() => this.setState({showing: true})}>+</button>)
-      }
-    } else {
-      return null
-    }
+        </div>
+        {servicesToShow.length > 0 && !this.state.showing ? (<button className='add-widget-button' onClick={() => this.setState({showing: true})}>+</button>) : null}
+      </div>
+    )
   }
 }
 

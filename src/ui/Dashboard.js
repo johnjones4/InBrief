@@ -79,11 +79,10 @@ class Dashboard extends Component {
   }
 
   render () {
-    if (this.props.services.services) {
+    if (this.props.services.services && this.props.services.services.length > 0) {
       const cols = 3
       return (
         <div>
-          <div className='overlay' />
           <ResponsiveReactGridLayout
             rowHeight={this.state.perferredRowHeight}
             breakpoints={{lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0}}
@@ -114,7 +113,19 @@ class Dashboard extends Component {
         </div>
       )
     } else {
-      return null
+      return (
+        <div>
+          <div className='dashboard-placeholder'>
+            <div className='dashboard-placeholder-text-1'>
+              Welcome to InBrief. We're glad to have you here
+            </div>
+            <div className='dashboard-placeholder-text-2'>
+              Add Some Cards
+            </div>
+          </div>
+          <AddWidget />
+        </div>
+      )
     }
   }
 
