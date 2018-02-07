@@ -60,7 +60,7 @@ button {
   flex-direction: column;
   color: $placeholder_text_color;
   text-align: center;
-  background: white url(/arrow.svg) no-repeat;
+  background: white url(./arrow.svg) no-repeat;
   background-size: auto 30%;
   background-position: 90% 80%;
   .dashboard-placeholder-text-1 {
@@ -76,7 +76,7 @@ button {
 }
 
 .react-grid-item > .react-resizable-handle {
-  background-image: url(/resize.svg);
+  background-image: url(./resize.svg);
   &::after {
     border: none;
   }

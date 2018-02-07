@@ -22,6 +22,8 @@ import AddWidget from './AddWidget'
 const ResponsiveReactGridLayout = WidthProvider(Responsive)
 const {ipcRenderer} = window.require('electron')
 
+const MARGIN = 20
+
 class Dashboard extends Component {
   constructor (props) {
     super(props)
@@ -35,7 +37,7 @@ class Dashboard extends Component {
 
   resetRowHeight () {
     this.setState({
-      perferredRowHeight: (window.innerHeight / 8) - 12
+      perferredRowHeight: ((window.innerHeight - MARGIN) / 8) - MARGIN
     })
   }
 
@@ -89,7 +91,7 @@ class Dashboard extends Component {
             cols={{lg: cols, md: cols, sm: cols, xs: cols, xxs: cols}}
             onLayoutChange={(layout, layouts) => this.layoutChanged(layout, layouts)}
             draggableCancel='input,textarea'
-            margin={[20, 20]}>
+            margin={[MARGIN, MARGIN]}>
             {
               this.props.services.services.map((service, i) => {
                 const defaultProps = this.getServiceProps(service)
