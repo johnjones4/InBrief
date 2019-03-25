@@ -58,13 +58,28 @@ class Twitter extends Widget {
 
   renderWidget () {
     const data = this.getWidgetData()
-    return (
-      <div>
-        {
-          data && data.map((tweets, i) => this.renderTweets(tweets, i))
-        }
-      </div>
-    )
+    if (!data) {
+      return null
+    }
+    if (this.getWidgetConfig().merge) {
+      const all = []
+      data.forEach(tweets => {
+        tweets.tweets.forEach(tweet => {
+          tweet.timestamp = new Date(tweet.created_at).getTime()
+          all.push(tweet)
+        })
+      })
+      all.sort((a, b) => {
+        return b.timestamp - a.timestamp
+      })
+      return this.renderTweets({tweets: all}, null)
+    } else {
+      return (
+        <div>
+          { data.map((tweets, i) => this.renderTweets(tweets, i)) }
+        </div>
+      )
+    }
   }
 
   prepareTweetText (tweet) {
@@ -93,9 +108,11 @@ class Twitter extends Widget {
   renderTweets (tweets, i) {
     return (
       <div className='twitter-feed' key={i}>
-        <div className='twitter-feed-title widget-subhead'>
-          {tweets.title}
-        </div>
+        {tweets.title && (
+          <div className='twitter-feed-title widget-subhead'>
+            {tweets.title}
+          </div>
+        )}
         <div className='twitter-feed-tweets'>
           {
             tweets.tweets.slice(0, 10).map((tweet, j) => {
@@ -161,7 +178,13 @@ class Twitter extends Widget {
                 tempConfig.credentials.access &&
                 tempConfig.credentials.access.token &&
                 tempConfig.credentials.access.tokenSecret ? (
-                  <button className='destructive' onClick={() => this.setAccessCredentials(null)}>Deauthorize</button>
+                  <div>
+                    <label>
+                      <input type='checkbox' name='merge' checked={this.getWidgetTempConfig().merge || false} onClick={(event) => this.setTempConfigValue('merge', event.target.checked)} />
+                      Merge Lists
+                    </label>
+                    <button className='destructive pull-right' onClick={() => this.setAccessCredentials(null)}>Deauthorize</button>
+                  </div>
                 ) : (
                   <button className='additive' onClick={() => this.authorizeTwitter()}>Authorize</button>
                 )
