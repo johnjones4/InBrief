@@ -61,7 +61,8 @@ class Twitter extends Widget {
     if (!data) {
       return null
     }
-    if (this.getWidgetConfig().merge) {
+    const config = this.getWidgetConfig()
+    if (config.merge) {
       const all = []
       data.forEach(tweets => {
         tweets.tweets.forEach(tweet => {
@@ -106,8 +107,10 @@ class Twitter extends Widget {
   }
 
   renderTweets (tweets, i) {
+    const config = this.getWidgetConfig()
+    const width = Math.floor(100.0 / (config.layout.w || 0)) + '%'
     return (
-      <div className='twitter-feed' key={i}>
+      <div className='twitter-feed' style={{width}} key={i}>
         {tweets.title && (
           <div className='twitter-feed-title widget-subhead'>
             {tweets.title}
@@ -180,7 +183,7 @@ class Twitter extends Widget {
                 tempConfig.credentials.access.tokenSecret ? (
                   <div>
                     <label>
-                      <input type='checkbox' name='merge' checked={this.getWidgetTempConfig().merge || false} onClick={(event) => this.setTempConfigValue('merge', event.target.checked)} />
+                      <input type='checkbox' name='merge' checked={this.getWidgetTempConfig().merge || false} onChange={(event) => this.setTempConfigValue('merge', event.target.checked)} />
                       Merge Lists
                     </label>
                     <button className='destructive pull-right' onClick={() => this.setAccessCredentials(null)}>Deauthorize</button>

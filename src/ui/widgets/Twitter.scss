@@ -1,7 +1,6 @@
 @import '../vars_mixins.scss';
 
 .twitter-feed {
-  width: 50%;
   float: left;
   padding-right: 0.5em;
   margin-bottom: 1em;
@@ -38,13 +37,6 @@
   font-size: 0.75em;
   color: $deemphasized_text;
   float: right;
-}
-
-@media (max-width: 1900px) {
-  .twitter-feed {
-    width: auto;
-    float: none;
-  }
 }
 
 .twitter-feed-tweet-name {
