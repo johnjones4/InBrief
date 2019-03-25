@@ -36,32 +36,15 @@ class Weather extends Widget {
       <div className='weather-forecast' style={this.getForecaseTranslation(index)} key={weather.label}>
         <div className='weather-content'>
           <div className='weather-icon-wrapper'>
-            <img src={'./weather/' + weather.icon + '.svg'} className='weather-icon' alt={weather.description} />
+            <img src={weather.icon} className='weather-icon' alt={weather.description} />
           </div>
           <div className='weather-text'>
             <div className='weather-description'>
               {weather.description}
             </div>
-            { weather.temps.length === 2 ? (
-              <div>
-                <div className='weather-key-value'>
-                  <span className='weather-key'>High: </span>
-                  <span className='weather-value'>{weather.temps[0]}&#176;</span>
-                </div>
-                <div className='weather-key-value'>
-                  <span className='weather-key'>Low: </span>
-                  <span className='weather-value'>{weather.temps[1]}&#176;</span>
-                </div>
-              </div>
-            ) : (
-              <div className='weather-key-value'>
-                <span className='weather-key'>Temp: </span>
-                <span className='weather-value'>{weather.temps[0]}&#176;</span>
-              </div>
-            )}
             <div className='weather-key-value'>
-              <span className='weather-key'>Humidity: </span>
-              <span className='weather-value'>{weather.humidity}</span>
+              <span className='weather-key'>Temp: </span>
+              <span className='weather-value'>{weather.temp}&#176;</span>
             </div>
           </div>
         </div>

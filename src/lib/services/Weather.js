@@ -1,6 +1,6 @@
 const Service = require('./Service')
 const request = require('request-promise-native')
-const keys = require('../../keys.json')
+const zipcodes = require('zipcodes')
 
 class Weather extends Service {
   constructor (config) {
@@ -10,51 +10,43 @@ class Weather extends Service {
 
   exec () {
     if (this.config.location) {
-      return request({
-        'uri': 'http://api.wunderground.com/api/' + keys.weatherUnderground + '/conditions/forecast/q/' + this.config.location + '.json',
-        'json': true,
-        'agent': false
-      })
-        .then((weatherData) => {
-          return {
-            'name': 'weather',
-            'data': [
-              {
-                'label': 'Now',
-                'icon': weatherData.current_observation.icon,
-                'description': weatherData.current_observation.weather,
-                'temps': [
-                  weatherData.current_observation.temp_f
-                ],
-                'humidity': weatherData.current_observation.relative_humidity
-              }
-            ].concat([0, 1, 2].map((i) => {
-              return {
-                'label': weatherData.forecast.txt_forecast.forecastday[i].title,
-                'icon': weatherData.forecast.simpleforecast.forecastday[i].icon,
-                'description': weatherData.forecast.simpleforecast.forecastday[i].conditions,
-                'temps': [
-                  parseFloat(weatherData.forecast.simpleforecast.forecastday[i].high.fahrenheit),
-                  parseFloat(weatherData.forecast.simpleforecast.forecastday[i].low.fahrenheit)
-                ],
-                'humidity': weatherData.forecast.simpleforecast.forecastday[i].avehumidity + '%'
-              }
-            }))
+      const coords = zipcodes.lookup(this.config.location)
+      if (coords) {
+        return request({
+          'uri': 'https://api.weather.gov/points/' + coords.latitude + '%2C' + coords.longitude + '/forecast',
+          'json': true,
+          'agent': false,
+          'headers': {
+            'User-agent': 'InBrief',
+            'Accept': 'application/ld+json'
           }
         })
-        .catch((err) => {
-          this.handleExecError(err)
-          return {
-            'name': 'weather',
-            'data': null
-          }
-        })
-    } else {
-      return Promise.resolve({
-        'name': 'weather',
-        'data': null
-      })
+          .then((weatherData) => {
+            return {
+              'name': 'weather',
+              'data': weatherData.periods.slice(0, 4).map(period => {
+                return {
+                  'label': period.name,
+                  'icon': period.icon,
+                  'description': period.shortForecast,
+                  'temp': period.temperature
+                }
+              })
+            }
+          })
+          .catch((err) => {
+            this.handleExecError(err)
+            return {
+              'name': 'weather',
+              'data': null
+            }
+          })
+      }
     }
+    return Promise.resolve({
+      'name': 'weather',
+      'data': null
+    })
   }
 }
 
