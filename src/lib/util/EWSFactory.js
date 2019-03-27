@@ -31,18 +31,18 @@ const NTLMXHRAPI = (function () {
     }
     return new Promise(function (resolve, reject) {
       httpntlm.post(xhr, function (err, res) {
-        res.getAllResponseHeaders = function () {
-          let header = ''
-          if (res.headers) {
-            for (let key in res.headers) {
-              header += key + ' : ' + res.headers[key] + '\r\n'
-            }
-          }
-          return header
-        }
         if (err) {
           reject(err)
-        } else {
+        } else if (res) {
+          res.getAllResponseHeaders = function () {
+            let header = ''
+            if (res.headers) {
+              for (let key in res.headers) {
+                header += key + ' : ' + res.headers[key] + '\r\n'
+              }
+            }
+            return header
+          }
           res['responseText'] = res.body
           res['status'] = res.statusCode
           if (res.statusCode === 200) {
@@ -50,6 +50,8 @@ const NTLMXHRAPI = (function () {
           } else {
             reject(res)
           }
+        } else {
+          reject(new Error('No response object'))
         }
       })
     })
