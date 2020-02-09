@@ -1,7 +1,6 @@
 # InBrief
 
-[![Build Status](https://travis-ci.org/johnjones4/InBrief.svg?branch=master)](https://travis-ci.org/johnjones4/InBrief)
-[![Maintainability](https://api.codeclimate.com/v1/badges/28160129abdf4605c5fe/maintainability)](https://codeclimate.com/github/johnjones4/InBrief/maintainability)
+[![Build Status](https://travis-ci.org/johnjones4/InBrief.svg?branch=master)](https://travis-ci.org/johnjones4/InBrief)[![Maintainability](https://api.codeclimate.com/v1/badges/28160129abdf4605c5fe/maintainability)](https://codeclimate.com/github/johnjones4/InBrief/maintainability)
 [![NSP Status](https://nodesecurity.io/orgs/john-jones/projects/1cf328ae-6356-40fc-9c9f-4c8e2c5e4fd8/badge)](https://nodesecurity.io/orgs/john-jones/projects/1cf328ae-6356-40fc-9c9f-4c8e2c5e4fd8)
 
 [![JavaScript Style Guide](https://cdn.rawgit.com/standard/standard/master/badge.svg)](https://github.com/standard/standard)
