@@ -33,7 +33,7 @@
     "zipcodes": "^8.0.0"
   },
   "devDependencies": {
-    "electron": "^1.7.10",
+    "electron": "^7.2.4",
     "electron-builder": "^19.49.0",
     "autoprefixer": "7.1.6",
     "babel-core": "6.26.0",
