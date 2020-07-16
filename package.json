@@ -15,7 +15,7 @@
     "httpntlm": "^1.7.5",
     "ical": "^0.6.0",
     "imap": "^0.8.19",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.19",
     "oauth-electron-twitter": "https://github.com/johnjones4/oauth-electron-twitter",
     "promise": "8.0.1",
     "promise-queue": "^2.2.3",
