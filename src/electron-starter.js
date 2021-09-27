@@ -17,7 +17,10 @@ const createWindow = () => {
   mainWindow = new BrowserWindow({
     width: 1440,
     height: 900,
-    title: 'InBrief'
+    title: 'InBrief',
+    webPreferences: {
+      nodeIntegration: true
+    }
   })
 
   const startUrl = process.env.ELECTRON_START_URL || url.format({

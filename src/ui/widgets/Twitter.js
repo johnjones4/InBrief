@@ -108,7 +108,7 @@ class Twitter extends Widget {
 
   renderTweets (tweets, i) {
     const config = this.getWidgetConfig()
-    const width = Math.floor(100.0 / (config.layout.w || 0)) + '%'
+    const width = Math.floor(100.0 / (config.layout ? (config.layout.w || 0) : 0)) + '%'
     return (
       <div className='twitter-feed' style={{width}} key={i}>
         {tweets.title && (
