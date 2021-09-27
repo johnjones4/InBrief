@@ -1,5 +1,3 @@
-@import '../vars_mixins.scss';
-
 .calendar-items {
   position: absolute;
   top: 3em;
@@ -12,25 +10,21 @@
 .calendar-item {
   position: absolute;
   padding: 0.5em;
-  background: $foreground_highlight_color;
+  background: var(--foreground-highlight-color);
   left: 0;
   right: 0;
 }
 
-.calendar-item-name {
-  // font-weight: bold;
-}
-
 .calendar-item-timespan {
   font-size: 0.75em;
-  color: $deemphasized_text;
+  color: var(--deemphasized-text);
   margin-top: 3px;
 }
 
 .calendar-now {
   position: absolute;
   height: 1px;
-  background: $widget_ui_control_color;
+  background: var(--widget-ui-control-color);
   left: 0;
   right: 0;
 }

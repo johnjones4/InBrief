@@ -1,7 +1,5 @@
-@import '../vars_mixins.scss';
-
 .widget {
-  background: $widget_background;
+  background: var(--widget-background);
   border: solid 1px transparent;
   border-radius: 15px;
   box-shadow: 0 0 10px 3px rgba(0, 0, 0, .05);
@@ -18,20 +16,22 @@
   transition: all 1s;
   z-index: 1;
   opacity: 1;
-  &.widget-error {
-    border-color: $widget_ui_control_danger;
-  }
+}
+
+.widget-error {
+  border-color: var(--widget-ui-control-danger);
 }
 
 .widget-title {
   padding: 1rem;
   font-size: 16px;
-  background: $widget_title_background;
-  @include heading_font_styles;
+  background: var(--widget-title-background);
+  font-weight: var(--heading-font-weight);
+  color: var(--widget-body-strong-text-color);
+}
 
-  .spinner {
-    float: right;
-  }
+.widget-title .spinner {
+  float: right;
 }
 
 .widget-title-edit {
@@ -45,14 +45,15 @@
   font-size: 0.6em;
   float: right;
   cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
+}
+
+.widget-title-edit:hover {
+  text-decoration: underline;
 }
 
 .widget-body {
   padding: 1rem;
-  color: $widget_body_text_color;
+  color: var(--widget-body-text-color);
   backface-visibility: hidden;
 }
 
@@ -63,7 +64,7 @@
   right: 0;
   padding: 0.5em;
   color: white;
-  background: $widget_ui_control_danger;
+  background: var(--widget-ui-control-danger);
 }
 
 .widget-scroll .widget-body {
@@ -79,19 +80,20 @@
   font-size: 13px;
   margin-bottom: 0.5em;
   text-transform: uppercase;
-  @include heading_font_styles;
+  font-weight: var(--heading-font-weight);
+  color: var(--widget-body-strong-text-color);
 }
 
 .striped {
-  background: $stripe_background_odd;
+  background: var(--stripe-background-odd);
 }
 
 .striped:nth-child(even) {
-  background: $stripe_background_even;
+  background: var(--stripe-background-even);
 }
 
 .striped-hover:hover {
-  background: $stripe_background_hover
+  background: var(--stripe-background-hover)
 }
 
 .faux-link {
@@ -107,18 +109,16 @@
   width: 100%;
   height: 100%;
   position: absolute;
+}
 
-  &.widget-editing {
-    .widget {
-      transform: rotate3d(0, 1, 0, -180deg);
-      z-index: 0;
-      opacity: 0;
-    }
-  
-    .widget-editor {
-      transform: rotate3d(0, 1, 0, 0);
-      z-index: 1;
-      opacity: 1;
-    }
-  }
+.widget-editing .widget {
+  transform: rotate3d(0, 1, 0, -180deg);
+  z-index: 0;
+  opacity: 0;
+}
+
+.widget-editing .widget-editor {
+  transform: rotate3d(0, 1, 0, 0);
+  z-index: 1;
+  opacity: 1;
 }

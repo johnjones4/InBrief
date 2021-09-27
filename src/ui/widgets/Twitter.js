@@ -1,6 +1,6 @@
 import React from 'react'
 import Widget from './Widget'
-import './Twitter.scss'
+import './Twitter.css'
 import {
   formatDate
 } from '../util'

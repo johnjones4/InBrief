@@ -114,6 +114,8 @@ class ServiceManager {
         return new services.Twitter(config || services.Twitter.defaultConfig)
       case 'weather':
         return new services.Weather(config || services.Weather.defaultConfig)
+      case 'iframe':
+        return new services.IFrame(config || services.IFrame.defaultConfig)
       default:
         return null
     }

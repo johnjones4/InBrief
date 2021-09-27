@@ -1,0 +1,27 @@
+:root {
+  --page-background: #f7f7f7;;
+  --page-background-overlay: transparent;
+  --widget-background: white;
+  --widget-title-background: rgba(0,0,0,0);
+  --widget-body-text-color: #1a1a1a;
+  --widget-body-strong-text-color: #1a1a1a;
+
+  --foreground-highlight-color: #eee;
+
+  --stripe-background-odd: transparent;
+  --stripe-background-even: transparent;
+  --stripe-background-hover: transparent;
+
+  --deemphasized-text: rgba(26, 26, 26, .5);
+  --double-deemphasized-text: rgba(26, 26, 26, .5);
+
+  --placeholder-text-color: #E0E0E0;
+
+  --heading-font-weight: 700;
+
+  --widget-ui-control-color: rgb(68, 128, 184);
+  --widget-ui-control-highlight-color: rgb(108, 168, 224);
+
+  --widget-ui-control-danger: rgb(168, 84, 84);
+  --widget-ui-control-success: rgb(84, 168, 84);
+}

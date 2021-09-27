@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import './AddWidget.scss'
+import './AddWidget.css'
 import PropTypes from 'prop-types'
 import {
   setServiceConfig
@@ -31,6 +31,10 @@ const services = [
   {
     name: 'weather',
     label: 'Weather'
+  },
+  {
+    name: 'iframe',
+    label: 'IFrame'
   }
 ]
 

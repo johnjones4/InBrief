@@ -1,6 +1,6 @@
 import React from 'react'
 import Widget from './Widget'
-import './Weather.scss'
+import './Weather.css'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {

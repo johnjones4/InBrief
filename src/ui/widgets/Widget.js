@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import './Widget.scss'
-import './WidgetEditor.scss'
-import './WidgetBigNumbers.scss'
+import './Widget.css'
+import './WidgetEditor.css'
+import './WidgetBigNumbers.css'
 import PropTypes from 'prop-types'
 const {ipcRenderer} = window.require('electron')
 
@@ -9,10 +9,10 @@ class Widget extends Component {
   constructor (title, name, props) {
     super(props)
     this.name = name
-    this.title = title
     this.state = {
       editing: false,
-      error: null
+      error: null,
+      title: title
     }
     ipcRenderer.on('serviceerror', (event, info) => {
       this.handleError(info)
@@ -140,7 +140,7 @@ class Widget extends Component {
       <div className={['widget-wrapper', (this.state.editing ? 'widget-editing' : null)].join(' ')}>
         <div className={this.getMainClassNames().join(' ')}>
           <div className='widget-title'>
-            {this.title}
+            {this.state.title}
             <button className='widget-title-edit' onClick={() => this.editConfig()}>Edit</button>
           </div>
           <div className='widget-body'>
@@ -154,7 +154,7 @@ class Widget extends Component {
         </div>
         <div className='widget-editor'>
           <div className='widget-editor-title'>
-            {this.title}
+            {this.state.title}
           </div>
           <div className='widget-editor-body'>
             <div className='widget-editor-form-area'>

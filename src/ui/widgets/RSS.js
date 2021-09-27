@@ -1,6 +1,6 @@
 import React from 'react'
 import Widget from './Widget'
-import './RSS.scss'
+import './RSS.css'
 import {
   formatDate
 } from '../util'

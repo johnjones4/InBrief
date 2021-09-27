@@ -1,10 +1,7 @@
-@import '../vars_mixins.scss';
-
 .widget-big-numbers {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-  // margin: -20px 0 0 0;
   width: 100%;
   position: absolute;
   top: 3em;
@@ -27,11 +24,11 @@
   font-size: 5em;
   line-height: 0.9em;
   font-weight: 600;
-  color: $widget_body_strong_text_color;
+  color: var(--widget-body-strong-text-color);
 }
 
 .widget-big-numbers-label {
   line-height: 2em;
   text-transform: uppercase;
-  color: $deemphasized_text;
+  color: var(--deemphasized-text);
 }

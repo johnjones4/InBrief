@@ -1,6 +1,6 @@
 import React from 'react'
 import Widget from './Widget'
-import './Calendar.scss'
+import './Calendar.css'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import {

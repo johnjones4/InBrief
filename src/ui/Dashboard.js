@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
 import './reset.css'
-import './Dashboard.scss'
+import './vars_mixins.css'
+import '../../node_modules/react-grid-layout/css/styles.css'
+import '../../node_modules/react-resizable/css/styles.css'
+import './Dashboard.css'
 import {
   Calendar,
   Email,
   RSS,
   Tasks,
   Twitter,
-  Weather
+  Weather,
+  IFrame
 } from './widgets'
 import {
   setServices,
@@ -145,6 +149,8 @@ class Dashboard extends Component {
         return (<Tasks key={service} />)
       case 'weather':
         return (<Weather key={service} />)
+      case 'iframe':
+        return (<IFrame key={service} />)
       default:
         return null
     }
@@ -164,6 +170,8 @@ class Dashboard extends Component {
         return Tasks.widgetProps
       case 'weather':
         return Weather.widgetProps
+      case 'iframe':
+        return IFrame.widgetProps
       default:
         return null
     }

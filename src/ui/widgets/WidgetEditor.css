@@ -1,5 +1,3 @@
-@import '../vars_mixins.scss';
-
 .widget-editor {
   position: absolute;
   top: 0;
@@ -15,16 +13,16 @@
   padding: 1em;
   overflow: scroll;
   opacity: 0;
+}
 
-  .pull-right {
-    float: right;
-  }
+.widget-editor .pull-right {
+  float: right;
 }
 
 .widget-editor-title {
   font-size: 16px;
-  @include heading_font_styles;
-  color: inherit;
+  font-weight: var(--heading-font-weight);
+  color: var(--widget-body-strong-text-color);
 }
 
 .widget-editor-body {
@@ -55,15 +53,17 @@
 .widget-editor-button-set {
   overflow: auto;
   height: auto;
-  button {
-    margin-right: 0.5em;
-    &:last-child {
-      margin-right: 0;
-    }
-    &.destructive {
-      float: right;
-    }
-  }
+  
+}
+
+.widget-editor-button-set button {
+  margin-right: 0.5em;
+}
+.widget-editor-button-set button:last-child {
+  margin-right: 0;
+}
+.widget-editor-button-set button.destructive {
+  float: right;
 }
 
 .widget-editor-input-group {
@@ -95,7 +95,8 @@ textarea.widget-editor-input {
 .widget-editor-list-section-controls {
   overflow: auto;
   height: auto;
-  .destructive {
-    float: right;
-  }
 } 
+
+.widget-editor-list-section-controls .destructive {
+  float: right;
+}

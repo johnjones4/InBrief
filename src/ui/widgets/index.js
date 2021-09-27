@@ -4,6 +4,7 @@ import RSS from './RSS'
 import Tasks from './Tasks'
 import Twitter from './Twitter'
 import Weather from './Weather'
+import IFrame from './IFrame'
 
 export {
   Calendar,
@@ -11,5 +12,6 @@ export {
   RSS,
   Tasks,
   Twitter,
-  Weather
+  Weather,
+  IFrame
 }

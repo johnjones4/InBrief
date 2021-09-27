@@ -1,5 +1,3 @@
-@import '../vars_mixins.scss';
-
 .twitter-feed {
   float: left;
   padding-right: 0.5em;
@@ -13,7 +11,7 @@
   box-sizing: content-box;
   overflow: hidden;
   text-overflow: ellipsis;
-  border-bottom: 1px solid $foreground_highlight_color;
+  border-bottom: 1px solid var(--foreground-highlight-color);
 }
 
 .twitter-feed-tweet a {
@@ -30,18 +28,18 @@
 }
 
 .twitter-feed-tweet-screen-name {
-  color: $deemphasized_text;
+  color: var(--deemphasized-text);
 }
 
 .twitter-feed-tweet-date {
   font-size: 0.75em;
-  color: $deemphasized_text;
+  color: var(--deemphasized-text);
   float: right;
 }
 
 .twitter-feed-tweet-name {
   margin-right: 0.25em;
-  color: $widget_body_strong_text_color;
+  color: var(--widget-body-strong-text-color);
   font-weight: 600;
 }
 
