@@ -13,8 +13,8 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest,]
-    runs-on: ${{ matrix.os }}
+        os: [ubuntu-latest, macos-latest, ubuntu-latest-arm8]
+    runs-on: ${{ matrix.os }} 
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js 16
