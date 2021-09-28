@@ -22,7 +22,8 @@ class Twitter extends Widget {
     super('Twitter', 'twitter', props)
     this.state = {
       listOptions: [],
-      lastListAuthStr: null
+      lastListAuthStr: null,
+      title: 'Twitter'
     }
   }
 
@@ -33,7 +34,7 @@ class Twitter extends Widget {
   }
 
   componentWillReceiveProps (newProps) {
-    const twitterService = newProps.services.services.find((service) => service.name === 'twitter')
+    const twitterService = newProps.services.services.find((service) => service.uuid === this.props.uuid)
     if (this.state.listOptions.length === 0 &&
         twitterService &&
         twitterService.tempConfig &&

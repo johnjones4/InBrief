@@ -1,10 +1,8 @@
 const Service = require('./Service')
-const request = require('request-promise-native')
-const zipcodes = require('zipcodes')
 
 class IFrame extends Service {
-  constructor (config) {
-    super('iframe', config)
+  getName () {
+    return 'iframe'
   }
 
   exec () {

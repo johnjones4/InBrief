@@ -3,9 +3,13 @@ const TwitterClient = require('twitter')
 const keys = require('../../keys')
 
 class Twitter extends Service {
-  constructor (config) {
-    super('twitter', config)
+  constructor (uuid, config) {
+    super(uuid, config)
     this.intervalDelay = 10000
+  }
+
+  getName () {
+    return 'twitter'
   }
 
   exec () {
@@ -34,7 +38,8 @@ class Twitter extends Service {
             })
         } else {
           return Promise.resolve({
-            'name': 'twitter',
+            'uuid': this.uuid,
+            'name': this.getName(),
             'data': tweetStreams
           })
         }
@@ -42,6 +47,7 @@ class Twitter extends Service {
       return start(0)
     } else {
       return Promise.resolve({
+        'uuid': this.uuid,
         'name': 'twitter',
         'data': []
       })

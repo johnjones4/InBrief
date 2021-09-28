@@ -10,7 +10,7 @@ const services = (state = initialServicesState, action) => {
     case ACTIONS.SET_SERVICES:
       const newServices = action.services.slice(0)
       newServices.forEach((service) => {
-        const existingService = state.services.find((_service) => service.name === _service.name)
+        const existingService = state.services.find((_service) => service.uuid === _service.uuid)
         if (existingService) {
           service.data = existingService.data
         }
@@ -22,7 +22,7 @@ const services = (state = initialServicesState, action) => {
         services: newServices
       })
     case ACTIONS.SET_SERVICE_DATA:
-      const index = state.services.findIndex((service) => service.name === action.name)
+      const index = state.services.findIndex((service) => service.uuid === action.uuid)
       if (index >= 0) {
         const newServices = state.services.slice(0)
         newServices[index].data = action.data
@@ -33,6 +33,7 @@ const services = (state = initialServicesState, action) => {
         const newServices = state.services.slice(0)
         newServices.push({
           name: action.name,
+          uuid: action.uuid,
           config: {},
           data: action.data,
           tempConfig: {}
@@ -42,7 +43,7 @@ const services = (state = initialServicesState, action) => {
         })
       }
     case ACTIONS.SET_SERVICE_CONFIG:
-      const index1 = state.services.findIndex((service) => service.name === action.name)
+      const index1 = state.services.findIndex((service) => service.uuid === action.uuid)
       if (index1 >= 0) {
         const newServices = state.services.slice(0)
         newServices[index1].config = action.config
@@ -54,6 +55,7 @@ const services = (state = initialServicesState, action) => {
         newServices.push({
           name: action.name,
           config: action.config,
+          uuid: action.uuid,
           data: null,
           tempConfig: Object.assign({}, action.config)
         })
@@ -62,7 +64,7 @@ const services = (state = initialServicesState, action) => {
         })
       }
     case ACTIONS.SET_TEMP_CONFIG:
-      const index2 = state.services.findIndex((service) => service.name === action.name)
+      const index2 = state.services.findIndex((service) => service.uuid === action.uuid)
       if (index2 >= 0) {
         const newServices = state.services.slice(0)
         newServices[index2].tempConfig = Object.assign({}, action.tempConfig)
@@ -76,7 +78,7 @@ const services = (state = initialServicesState, action) => {
       return Object.assign({}, state, {
         services: state.services
           .filter((service) => {
-            return service.name !== action.name
+            return service.uuid !== action.uuid
           })
           .map((service) => {
             return Object.assign({}, service)
@@ -85,7 +87,7 @@ const services = (state = initialServicesState, action) => {
     case ACTIONS.SET_LAYOUTS:
       const newServices1 = state.services.slice(0)
       action.layouts.forEach((layoutInfo) => {
-        const serviceIndex = newServices1.findIndex((service) => service.name === layoutInfo.name)
+        const serviceIndex = newServices1.findIndex((service) => service.uuid === layoutInfo.uuid)
         if (serviceIndex >= 0 && newServices1[serviceIndex].config) {
           newServices1[serviceIndex].config.layout = layoutInfo.layout
         }

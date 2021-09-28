@@ -32,15 +32,15 @@ class Widget extends Component {
   }
 
   getWidgetConfig (props = this.props) {
-    return props.services.services ? props.services.services.find((service) => service.name === this.name).config : null
+    return props.services.services ? props.services.services.find((service) => service.uuid === this.props.uuid).config : null
   }
 
   getWidgetTempConfig (props = this.props) {
-    return props.services.services ? props.services.services.find((service) => service.name === this.name).tempConfig : null
+    return props.services.services ? props.services.services.find((service) => service.uuid === this.props.uuid).tempConfig : null
   }
 
   getWidgetData () {
-    return this.props.services.services ? this.props.services.services.find((service) => service.name === this.name).data : null
+    return this.props.services.services ? this.props.services.services.find((service) => service.uuid === this.props.uuid).data : null
   }
 
   isReady () {
@@ -63,29 +63,29 @@ class Widget extends Component {
   }
 
   saveConfig () {
-    this.props.commitTempConfig(this.name)
+    this.props.commitTempConfig(this.name, this.props.uuid)
     this.setState({editing: false})
   }
 
   cancelConfig () {
-    this.props.setTemporaryConfig(this.name, this.getWidgetConfig())
+    this.props.setTemporaryConfig(this.props.uuid, this.getWidgetConfig())
     this.setState({editing: false})
   }
 
   destroyWidget () {
-    this.props.removeService(this.name)
+    this.props.removeService(this.props.uuid)
   }
 
   setTempConfigSubValue (field, subfield, value) {
     const newTempConfig = Object.assign({}, this.getWidgetTempConfig())
     newTempConfig[field][subfield] = value
-    this.props.setTemporaryConfig(this.name, newTempConfig)
+    this.props.setTemporaryConfig(this.props.uuid, newTempConfig)
   }
 
   setTempConfigValue (field, value) {
     const newTempConfig = Object.assign({}, this.getWidgetTempConfig())
     newTempConfig[field] = value
-    this.props.setTemporaryConfig(this.name, newTempConfig)
+    this.props.setTemporaryConfig(this.props.uuid, newTempConfig)
   }
 
   setTempConfigArrayIndexValue (arrayName, index, field, value) {
@@ -186,7 +186,8 @@ Widget.propTypes = {
   }),
   commitTempConfig: PropTypes.func.isRequired,
   removeService: PropTypes.func.isRequired,
-  setTemporaryConfig: PropTypes.func.isRequired
+  setTemporaryConfig: PropTypes.func.isRequired,
+  uuid: PropTypes.string.isRequired
 }
 
 export default Widget

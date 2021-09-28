@@ -18,10 +18,10 @@ class IFrame extends Widget {
   }
 
   componentWillReceiveProps (newProps) {
-    const iframeService = newProps.services.services.find((service) => service.name === 'iframe')
+    const iframeService = newProps.services.services.find((service) => service.uuid === this.props.uuid)
     if (iframeService) {
       this.setState({
-        title: iframeService.config.title
+        title: iframeService.config ? iframeService.config.title : 'iFrame'
       })
     }
   }

@@ -72,7 +72,7 @@ class Dashboard extends Component {
   layoutChanged (layout, layouts) {
     const newLayouts = layout.map((serviceLayout) => {
       return {
-        name: serviceLayout.i,
+        uuid: serviceLayout.i,
         layout: {
           x: serviceLayout.x,
           y: serviceLayout.y,
@@ -100,7 +100,7 @@ class Dashboard extends Component {
               this.props.services.services.map((service, i) => {
                 const defaultProps = this.getServiceProps(service)
                 const layout = {
-                  i: service.name,
+                  i: service.uuid,
                   x: service.config && service.config.layout ? (service.config.layout.x || 0) : 0,
                   y: service.config && service.config.layout ? (service.config.layout.y || 0) : 0,
                   w: service.config && service.config.layout ? (service.config.layout.w || 1) : 1,
@@ -108,7 +108,7 @@ class Dashboard extends Component {
                   isResizable: defaultProps.isResizable
                 }
                 return (
-                  <div key={service.name} data-grid={layout}>
+                  <div key={service.uuid} data-grid={layout}>
                     { this.renderWidget(service) }
                   </div>
                 )
@@ -136,21 +136,24 @@ class Dashboard extends Component {
   }
 
   renderWidget (service) {
+    if (!service.uuid) {
+      return null
+    }
     switch (service.name) {
       case 'rss':
-        return (<RSS key={service} />)
+        return (<RSS key={service.uuid} uuid={service.uuid} />)
       case 'twitter':
-        return (<Twitter key={service} />)
+        return (<Twitter key={service.uuid} uuid={service.uuid} />)
       case 'calendar':
-        return (<Calendar key={service} />)
+        return (<Calendar key={service.uuid} uuid={service.uuid} />)
       case 'email':
-        return (<Email key={service} />)
+        return (<Email key={service.uuid} uuid={service.uuid} />)
       case 'tasks':
-        return (<Tasks key={service} />)
+        return (<Tasks key={service.uuid} uuid={service.uuid} />)
       case 'weather':
-        return (<Weather key={service} />)
+        return (<Weather key={service.uuid} uuid={service.uuid} />)
       case 'iframe':
-        return (<IFrame key={service} />)
+        return (<IFrame key={service.uuid} uuid={service.uuid} />)
       default:
         return null
     }

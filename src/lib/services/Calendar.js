@@ -6,9 +6,13 @@ const ews = require('ews-javascript-api')
 const EWSFactory = require('../util/EWSFactory')
 
 class Calendar extends Service {
-  constructor (config) {
-    super('calendar', config)
+  constructor (uuid, config) {
+    super(uuid, config)
     this.intervalDelay = 300000
+  }
+
+  getName () {
+    return 'calendar'
   }
 
   exec () {
@@ -35,7 +39,8 @@ class Calendar extends Service {
         return a.start.getTime() - b.start.getTime()
       })
       return {
-        'name': 'calendar',
+        'uuid': this.uuid,
+        'name': this.getName(),
         'data': allEvents
       }
     })

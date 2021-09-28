@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
+import { v4 as uuidv4 } from 'uuid'
 import './AddWidget.css'
 import PropTypes from 'prop-types'
 import {
@@ -47,23 +48,20 @@ class AddWidget extends Component {
   }
 
   addService (name) {
-    this.props.setServiceConfig(name, null)
+    this.props.setServiceConfig(name, uuidv4(), null)
     this.setState({showing: false})
   }
 
   render () {
-    const servicesToShow = services.filter((service) => {
-      return this.props.services.services.findIndex((_service) => _service.name === service.name) < 0
-    })
     return (
       <div>
         <div className={'add-widget-wrapper' + (this.state.showing ? ' active' : '')}>
-          <div className='add-widget' style={{width: ((servicesToShow.length * 140) + 10)}}>
+          <div className='add-widget' style={{width: ((services.length * 140) + 10)}}>
             <div className='add-widget-title'>
               Choose a Card
             </div>
             {
-              servicesToShow
+              services
                 .map((service) => {
                   return (
                     <div className='add-widget-service-option' key={service.name}>
@@ -75,7 +73,7 @@ class AddWidget extends Component {
             <button className='add-widget-close-button' onClick={() => this.setState({showing: false})}>&times;</button>
           </div>
         </div>
-        {servicesToShow.length > 0 && !this.state.showing ? (<button className='add-widget-button' onClick={() => this.setState({showing: true})}>+</button>) : null}
+        {services.length > 0 && !this.state.showing ? (<button className='add-widget-button' onClick={() => this.setState({showing: true})}>+</button>) : null}
       </div>
     )
   }
@@ -94,9 +92,6 @@ const dispatchToProps = (dispatch) => {
 }
 
 AddWidget.propTypes = {
-  services: PropTypes.shape({
-    services: PropTypes.array
-  }),
   setServiceConfig: PropTypes.func.isRequired
 }
 

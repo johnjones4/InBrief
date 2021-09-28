@@ -1,5 +1,4 @@
 const services = require('../services')
-const _ = require('lodash')
 const settings = require('electron-settings')
 const fs = require('fs-extra')
 
@@ -33,9 +32,8 @@ class ServiceManager {
         service.clearListeners()
       })
     }
-    const config = this.getServiceConfig() || {}
-    this.services = _.keys(config).map((name) => {
-      const serviceObject = this.instantiateServiceByName(name, config[name])
+    this.services = (this.getServiceConfig() || []).map(({name, uuid, config}) => {
+      const serviceObject = this.instantiateServiceByName(name, uuid, config)
       serviceObject.begin()
       return serviceObject
     })
@@ -43,21 +41,21 @@ class ServiceManager {
     return Promise.resolve(this.services)
   }
 
-  getServiceByName (name) {
-    return this.services.find((service) => service.name === name)
+  getServiceByUUID (uuid) {
+    return this.services.find((service) => service.uuid === uuid)
   }
 
-  updateServiceLayout (name, layout) {
-    const service = this.getServiceByName(name)
+  updateServiceLayout (uuid, layout) {
+    const service = this.getServiceByUUID(uuid)
     if (service && service.config) {
       service.config.layout = layout
       this.commitServiceConfigs()
     }
   }
 
-  updateServiceConfig (name, config) {
-    const serviceIndex = this.services.findIndex((service) => service.name === name)
-    let newService = this.instantiateServiceByName(name, config)
+  updateServiceConfig (name, uuid, config) {
+    const serviceIndex = this.services.findIndex((service) => service.uuid === uuid)
+    let newService = this.instantiateServiceByName(name, uuid, config)
     if (serviceIndex >= 0) {
       this.services[serviceIndex].end()
       this.services[serviceIndex].clearListeners()
@@ -70,8 +68,8 @@ class ServiceManager {
     return newService
   }
 
-  removeService (name) {
-    const serviceIndex = this.services.findIndex((service) => service.name === name)
+  removeService (uuid) {
+    const serviceIndex = this.services.findIndex((service) => service.uuid === uuid)
     if (serviceIndex >= 0) {
       this.services[serviceIndex].end()
       this.services[serviceIndex].clearListeners()
@@ -81,9 +79,12 @@ class ServiceManager {
   }
 
   commitServiceConfigs () {
-    const serviceConfig = {}
-    this.services.forEach((service) => {
-      serviceConfig[service.name] = service.config
+    const serviceConfig = this.services.map((service) => {
+      return {
+        name: service.getName(),
+        uuid: service.uuid,
+        config: service.config
+      }
     })
     if (this.usesLocalConfig()) {
       settings.set('serviceConfig', serviceConfig)
@@ -100,22 +101,22 @@ class ServiceManager {
     }
   }
 
-  instantiateServiceByName (name, config) {
+  instantiateServiceByName (name, uuid, config) {
     switch (name) {
       case 'calendar':
-        return new services.Calendar(config || services.Calendar.defaultConfig)
+        return new services.Calendar(uuid, config || services.Calendar.defaultConfig)
       case 'email':
-        return new services.Email(config || services.Email.defaultConfig)
+        return new services.Email(uuid, config || services.Email.defaultConfig)
       case 'rss':
-        return new services.RSS(config || services.RSS.defaultConfig)
+        return new services.RSS(uuid, config || services.RSS.defaultConfig)
       case 'tasks':
-        return new services.Tasks(config || services.Tasks.defaultConfig)
+        return new services.Tasks(uuid, config || services.Tasks.defaultConfig)
       case 'twitter':
-        return new services.Twitter(config || services.Twitter.defaultConfig)
+        return new services.Twitter(uuid, config || services.Twitter.defaultConfig)
       case 'weather':
-        return new services.Weather(config || services.Weather.defaultConfig)
+        return new services.Weather(uuid, config || services.Weather.defaultConfig)
       case 'iframe':
-        return new services.IFrame(config || services.IFrame.defaultConfig)
+        return new services.IFrame(uuid, config || services.IFrame.defaultConfig)
       default:
         return null
     }

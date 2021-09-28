@@ -5,9 +5,13 @@ const url = require('url')
 const Queue = require('promise-queue')
 
 class RSS extends Service {
-  constructor (config) {
-    super('rss', config)
+  constructor (uuid, config) {
+    super(uuid, config)
     this.requestQueue = new Queue(5, Infinity)
+  }
+
+  getName () {
+    return 'rss'
   }
 
   exec (dataEmitter) {
@@ -20,7 +24,8 @@ class RSS extends Service {
             if (items) {
               outputData[index] = this.processRSSItems(set, items)
               dataEmitter({
-                'name': 'rss',
+                'uuid': this.uuid,
+                'name': this.getName(),
                 'data': outputData
               })
             }
@@ -33,7 +38,8 @@ class RSS extends Service {
     return fetchNextFeedSet(0)
       .then(() => {
         return {
-          'name': 'rss',
+          'uuid': this.uuid,
+          'name': this.getName(),
           'data': outputData
         }
       })

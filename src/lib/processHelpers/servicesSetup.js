@@ -5,15 +5,16 @@ module.exports = (mainWindow, manager) => {
     console.log('Sending services list')
     mainWindow.webContents.send('services', manager.services.map((service) => {
       return {
-        name: service.name,
-        config: service.config
+        uuid: service.uuid,
+        config: service.config,
+        name: service.getName()
       }
     }))
   }
 
   const setupServiceDataListeners = (service) => {
     service.addDataListener((data) => {
-      console.log('Sending servicedata for ' + service.name)
+      console.log('Sending servicedata for ' + service.uuid)
       mainWindow.webContents.send('servicedata', data)
     })
     service.addErrorListener((error) => {
@@ -21,7 +22,7 @@ module.exports = (mainWindow, manager) => {
       console.log('Sending error ' + errorStr)
       mainWindow.webContents.send('serviceerror', {
         error: errorStr,
-        type: service.name
+        type: service.uuid
       })
     })
     if (service.getData()) {
@@ -53,22 +54,22 @@ module.exports = (mainWindow, manager) => {
       })
     })
 
-    ipcMain.on('serviceconfig', (event, {name, config}) => {
-      const service = manager.updateServiceConfig(name, config)
+    ipcMain.on('serviceconfig', (event, {name, uuid, config}) => {
+      const service = manager.updateServiceConfig(name, uuid, config)
       sendServices()
       setupServiceDataListeners(service)
     })
 
-    ipcMain.on('removeService', (event, name) => {
-      console.log('Will remove ' + name)
-      manager.removeService(name)
+    ipcMain.on('removeService', (event, uuid) => {
+      console.log('Will remove ' + uuid)
+      manager.removeService(uuid)
       sendServices()
     })
 
     ipcMain.on('layouts', (event, layouts) => {
       console.log('Updating layouts')
-      layouts.forEach(({name, layout}) => {
-        manager.updateServiceLayout(name, layout)
+      layouts.forEach(({uuid, layout}) => {
+        manager.updateServiceLayout(uuid, layout)
       })
     })
 

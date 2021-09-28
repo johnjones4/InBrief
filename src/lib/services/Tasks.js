@@ -4,9 +4,13 @@ const asana = require('asana')
 const oauthFactory = require('../util/oauthFactory')
 
 class Tasks extends Service {
-  constructor (config) {
-    super('tasks', config)
+  constructor (uuid, config) {
+    super(uuid, config)
     this.intervalDelay = 60000
+  }
+
+  getName () {
+    return 'tasks'
   }
 
   exec () {
@@ -34,7 +38,8 @@ class Tasks extends Service {
         if (item && item.endOfWeek) totals.endOfWeek += item.endOfWeek
       })
       return {
-        'name': 'tasks',
+        'uuid': this.uuid,
+        'name': this.getName(),
         'data': totals
       }
     })

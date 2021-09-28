@@ -30,6 +30,7 @@
     "request": "^2.83.0",
     "request-promise-native": "^1.0.5",
     "twitter": "^1.7.1",
+    "uuid": "^3.3.2",
     "zipcodes": "^8.0.0"
   },
   "devDependencies": {

@@ -1,12 +1,16 @@
 class Service {
-  constructor (name, config) {
-    this.name = name
+  constructor (uuid, config) {
+    this.uuid = uuid
     this.config = config
     this.intervalDelay = 60000
     this.cachedResponse = null
     this.dataListeners = []
     this.errorListeners = []
     this.executing = false
+  }
+
+  getName () {
+    throw new Error('Must override!')
   }
 
   addDataListener (fn) {
@@ -33,7 +37,7 @@ class Service {
   runExec () {
     if (!this.executing) {
       this.executing = true
-      console.log('Fetching updates for ' + this.name)
+      console.log('Fetching updates for ' + this.uuid)
       const publishData = (response) => {
         if (response) {
           this.cachedResponse = response
@@ -50,7 +54,7 @@ class Service {
           this.handleExecError(err)
         })
     } else {
-      console.log(this.name + ' is not done running yet.')
+      console.log(this.uuid + ' is not done running yet.')
     }
   }
 

@@ -4,9 +4,13 @@ const Service = require('./Service')
 const Imap = require('imap')
 
 class Email extends Service {
-  constructor (config) {
-    super('email', config)
+  constructor (uuid, config) {
+    super(uuid, config)
     this.intervalDelay = 300000
+  }
+
+  getName () {
+    return 'email'
   }
 
   exec () {
@@ -25,7 +29,8 @@ class Email extends Service {
         if (item && item.flagged) totals.flagged += item.flagged
       })
       return {
-        'name': 'email',
+        'uuid': this.uuid,
+        'name': this.getName(),
         'data': totals
       }
     })

@@ -16,6 +16,7 @@ class Weather extends Widget {
   constructor (props) {
     super('Weather', 'weather', props)
     this.state = {
+      title: 'Weather',
       selectedIndex: 0
     }
   }
